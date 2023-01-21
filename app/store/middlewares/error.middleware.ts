@@ -1,13 +1,17 @@
 import { isRejectedWithValue } from '@reduxjs/toolkit'
+import Toast from 'react-native-toast-message'
 import { Middleware, MiddlewareAPI } from 'redux'
 
-import { toastError } from '@/utils/api.utils'
 
 export const rtkQueryErrorLogger: Middleware =
 	(api: MiddlewareAPI) => next => action => {
 		if (isRejectedWithValue(action)) {
-			toastError(action.error, 'RTK error')
+			Toast.show({
+				text1: 'RTK error',
+				text2: action.error,
+				type: 'error'
+			})
 		}
-
+		
 		return next(action)
 	}

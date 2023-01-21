@@ -1,10 +1,13 @@
-import Card from "../components/screens/Cart/Cart";
-import Catalog from "../components/screens/Catalog/Catalog";
-import Favorites from "../components/screens/Favorites/Favorites";
-import Home from "../components/screens/Home/Home";
-import Product from "../components/screens/Product/Product";
-import Search from "../components/screens/Search/Search";
-import {iRoutes} from "./navigationTypes";
+import Auth from '../components/screens/Auth/Auth'
+import AutorProfile from '../components/screens/AutorProfile/AutorProfile'
+import Favorite from '../components/screens/Favorite/Favorite'
+import Home from '../components/screens/Home/Home'
+import ReadPage from '../components/screens/ReadPage/ReadPage'
+import Search from '../components/screens/Search/Search'
+import Settings from '../components/screens/Settings/Settings'
+import SingleBookPage from '../components/screens/SingleBookPage/SingleBookPage'
+import userProfile from '../components/screens/userProfile/userProfile'
+import { iRoutes } from './navigationTypes'
 
 export const userRoutes: iRoutes[] = [
 	{
@@ -12,24 +15,38 @@ export const userRoutes: iRoutes[] = [
 		component: Home
 	},
 	{
-		name: 'Cart',
-		component: Card
+		name: 'Settings',
+		component: Settings
 	},
 	{
-		name: 'Catalog',
-		component: Catalog
+		name: 'AutorProfile',
+		component: AutorProfile
 	},
 	{
-		name: 'Product',
-		component: Product
+		name: 'ReadPage',
+		component: ReadPage
+	},
+	{
+		name: 'Favorite',
+		component: Favorite
+	},
+	{
+		name: 'UserProfile',
+		component: userProfile
+	},
+	{
+		name: 'Auth',
+		component: Auth
+	},
+	
+	{
+		name: 'BookPage',
+		component: SingleBookPage
 	},
 	{
 		name: 'Search',
 		component: Search
-	},
-	{
-		name: 'Favorites',
-		component: Favorites
-	},
+	}
+
 
 ]

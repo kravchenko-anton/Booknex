@@ -1,13 +1,20 @@
-import {ComponentType} from "react";
+import { ComponentType } from 'react'
 
 export type TypeRootStackParamList = {
-	Favorites: undefined
-	Catalog: undefined
+	Favorite: undefined
 	Home: undefined
-	Cart: undefined
 	Search: undefined
-	Product: {
+	BookPage: {
 		id: number | string
+	}
+	Auth: undefined
+	UserProfile: undefined
+	Settings: undefined
+	AutorProfile: {
+		uid: string | number
+	}
+	ReadPage: {
+		epub: string | number
 	}
 	
 }

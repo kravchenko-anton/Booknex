@@ -8,7 +8,7 @@ export interface IMenuItem {
 
 export const menuItems: IMenuItem[] = [
 	{
-		iconName: 'compass',
+		iconName: 'home',
 		path: 'Home'
 	},
 	{
@@ -16,12 +16,12 @@ export const menuItems: IMenuItem[] = [
 		path: "Search"
 	},
 	{
-		iconName: 'shopping-cart',
-		path: "Cart"
+		iconName: 'heart',
+		path: "Favorite"
 	},
 	{
-		iconName: 'heart',
-		path: "Favorites"
+		iconName: 'user',
+		path: "UserProfile"
 	},
 
 

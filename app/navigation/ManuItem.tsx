@@ -17,7 +17,7 @@ const ManuItem:FC<IMenuItemProps> = ({nav, item,currentRoute}) => {
 		<Feather
 			name={item.iconName}
 			size={26}
-			color={isActive ? '#FFC604' : '#8C8C8C'}
+			color={isActive ? 'white' : '#949494'}
 		/>
 	</Pressable>
 }

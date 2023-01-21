@@ -1,3 +1,4 @@
+import {BlurView} from "expo-blur";
 import {FC} from "react";
 import {View} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
@@ -11,7 +12,7 @@ const BottomMenu: FC<{ currentRoute: string | undefined }> = ({currentRoute}) =>
 	
 	
 	return <View style={{paddingBottom: bottom + 5}}
-	             className='flex-row h-[60px] pt-0  items-center pl-10 pr-10 w-full  justify-between'>
+	             className='flex-row bg-[#181818]  h-[60px] pt-0  items-center pl-10 pr-10 w-full  justify-between'>
 		{menuItems.map(item => (
 			<ManuItem item={item} key={item.path} nav={navigate} currentRoute={currentRoute}/>
 		))}
