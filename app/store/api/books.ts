@@ -1,10 +1,10 @@
-import { arrayRemove, arrayUnion,  collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
+import { arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
 import Toast from 'react-native-toast-message'
 import { db } from '../../utils/firebase'
 import { api } from './api'
 import { BookTypes } from './api.types'
 
-const  bookApi = api.injectEndpoints({
+const bookApi = api.injectEndpoints({
 	endpoints: (build) => ({
 		
 		// Fetch all book
@@ -19,7 +19,12 @@ const  bookApi = api.injectEndpoints({
 						books.push({ id: doc.id, ...doc.data() })
 					})
 					return { data: books }
-				} catch (error) {
+				} catch (error: any) {
+					Toast.show({
+						text1: 'Book not loaded!',
+						text2: error.message,
+						type: 'error'
+					})
 					return { error }
 				}
 			},
@@ -34,7 +39,12 @@ const  bookApi = api.injectEndpoints({
 					const docRef = doc(db, 'book', id)
 					const snapshot = await getDoc(docRef)
 					return { data: { id, ...snapshot.data() } as BookTypes }
-				} catch (error) {
+				} catch (error: any) {
+					Toast.show({
+						text1: 'You book not loaded!',
+						text2: error.message,
+						type: 'error'
+					})
 					return { error }
 				}
 			},
@@ -54,9 +64,10 @@ const  bookApi = api.injectEndpoints({
 						type: 'success'
 					})
 					return { data: 'ok' }
-				} catch (error) {
+				} catch (error: any) {
 					Toast.show({
-						text1: 'Yo book not added to favorites!',
+						text1: 'You book not added to favorites!',
+						text2: error.message,
 						type: 'error'
 					})
 					return { error }
@@ -68,20 +79,22 @@ const  bookApi = api.injectEndpoints({
 		
 		// add userBook
 		addUserBook: build.mutation({
-			async queryFn({ UserId, BookData }) {
+			async queryFn({ UserId, book }) {
 				try {
 					const reference = doc(db, 'users', UserId)
 					await updateDoc(reference, {
-						BookData: arrayUnion(BookData)
+						userBooks: arrayUnion(book)
 					})
 					Toast.show({
-						text1: 'You add book to favorites!',
+						text1: 'You book add!',
 						type: 'success'
 					})
 					return { data: 'ok' }
-				} catch (error) {
+				} catch (error: any) {
+					console.log(error)
 					Toast.show({
-						text1: 'Yo book not added to favorites!',
+						text1: 'You book not add!',
+						text2: error.message,
 						type: 'error'
 					})
 					return { error }
@@ -103,9 +116,10 @@ const  bookApi = api.injectEndpoints({
 						type: 'success'
 					})
 					return { data: 'ok' }
-				} catch (error) {
+				} catch (error: any) {
 					Toast.show({
 						text1: 'You  book not remove from favorites!',
+						text2: error.message,
 						type: 'error'
 					})
 					return { error }
@@ -120,6 +134,7 @@ const  bookApi = api.injectEndpoints({
 export const {
 	useDeleteBookFromFavoriteMutation,
 	useFetchSingleBookQuery,
+	useAddUserBookMutation,
 	useAddBookToFavoriteMutation,
 	useFetchBooksQuery
 } = bookApi

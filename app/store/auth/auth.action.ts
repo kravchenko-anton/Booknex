@@ -9,7 +9,6 @@ import { IAuthFields } from './auth.interface'
 export const register = createAsyncThunk<any, IAuthFields>(
 	'auth/register', async ({ email, password }, thunkAPI) => {
 		try {
-			// TODO: Сделать загрузку юзера в стор ток с нужными полями в setDoc
 			const user = await createUserWithEmailAndPassword(auth, email, password)
 			Toast.show({
 				text1: 'Success!',

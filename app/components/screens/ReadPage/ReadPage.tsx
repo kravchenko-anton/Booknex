@@ -15,7 +15,6 @@ const ReadPage = ({ route }:any) => {
 	const { width, height } = useWindowDimensions()
 	const [theme, setTheme] = useState(light)
 	const [isVisible, setIsVisible] = useState(false)
-	const Read = useReader()
 	return <SafeAreaProvider>
 		<SafeAreaView>
 	
@@ -32,7 +31,7 @@ const ReadPage = ({ route }:any) => {
 					height={height}
 				/>
 			</ReaderProvider>
-				<ModalPopup isVisible={isVisible} setIsVisible={setIsVisible} title={'Settings '}>
+				<ModalPopup height={200} isVisible={isVisible} setIsVisible={setIsVisible} title={'Settings '}>
 					<View className='flex-row justify-between items-center'>
 						<Text onPress={() => console.log('10px')} className='font-bold text-xl text-blue'>Color scheme:</Text>
 						<View className={'flex-row flex-wrap items-center'}>

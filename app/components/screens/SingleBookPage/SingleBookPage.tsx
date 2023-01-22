@@ -12,8 +12,10 @@ import {
 import { useFetchMyProfileQuery } from '../../../store/api/user'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
+import ModalPopup from '../../ui/modal'
 import CommentElement from '../../ui/ratingElement'
 import Statistics from '../../ui/statistics'
+import { dark, light, sepia } from '../ReadPage/Theme'
 
 const SingleBookPage = ({ route }: any) => {
 	const { id } = route.params
@@ -29,7 +31,8 @@ const SingleBookPage = ({ route }: any) => {
 	const isFavorite = Profile?.favoritesBook?.some(item => item.id === id)
 	return <Layout>
 		<View className='h-full'>
-		
+
+			
 		{visibleButton ?
 			<Pressable onPress={() => navigate('ReadPage', {
 				epub: book.epubDoc
