@@ -1,4 +1,4 @@
-import { arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
+import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
 import Toast from 'react-native-toast-message'
 import { db } from '../../utils/firebase'
 import { api } from './api'
@@ -7,11 +7,11 @@ import { BookTypes } from './api.types'
 const bookApi = api.injectEndpoints({
 	endpoints: (build) => ({
 		
-		// Fetch all book
+		// Fetch appBooks book
 		fetchBooks: build.query({
 			async queryFn() {
 				try {
-					const blogRef = collection(db, 'book')
+					const blogRef = collection(db, 'books')
 					const querySnaphot = await getDocs(blogRef)
 					let books: BookTypes[] = []
 					querySnaphot?.forEach((doc) => {
@@ -32,13 +32,13 @@ const bookApi = api.injectEndpoints({
 		}),
 		
 		
-		//Fetch sungle book
+		//Fetch single book
 		fetchSingleBook: build.query({
 			async queryFn(id) {
 				try {
-					const docRef = doc(db, 'book', id)
+					const docRef = doc(db, 'books', id)
 					const snapshot = await getDoc(docRef)
-					return { data: { id, ...snapshot.data() } as BookTypes }
+					return { data: { id: id, ...snapshot.data() } as BookTypes }
 				} catch (error: any) {
 					Toast.show({
 						text1: 'You book not loaded!',
@@ -82,6 +82,10 @@ const bookApi = api.injectEndpoints({
 			async queryFn({ UserId, book }) {
 				try {
 					const reference = doc(db, 'users', UserId)
+					
+					await addDoc(collection(db, 'userBook'), {
+						book
+					})
 					await updateDoc(reference, {
 						userBooks: arrayUnion(book)
 					})

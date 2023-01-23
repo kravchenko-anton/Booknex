@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Image, Pressable, ScrollView, Text, View } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker'
+import { v4 as uuidv4 } from 'uuid'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
 import { useAddUserBookMutation } from '../../../store/api/books'
@@ -60,11 +61,13 @@ const UserProfilePages = () => {
 		const image = await UploadFile(ImageBlob, data.Name)
 		const book = {
 			Image: image,
+			id: uuidv4(),
 			Name: data.Name,
 			description: data.Description,
 			epubDoc: epub,
 			genre: value,
-			autor: CurrentUser.email.split('@')[0],
+			comments: [],
+			autor: [CurrentUser.email.split('@')[0]],
 			bookLanguage: data.bookLanguage,
 			antalSider: data.antalSider,
 			penData: data.penData
