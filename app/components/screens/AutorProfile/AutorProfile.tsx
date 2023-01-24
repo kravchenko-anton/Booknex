@@ -35,7 +35,7 @@ const SingleUserPage = ({ route }: any) => {
 					<ClearUserLogo letter={user.email} width={150} height={150} />}
 				
 				<Text
-					className='text-white font-bold text-2xl mt-2'>{user.name ? user.name : user.email.split('@')[0]}</Text>
+					className='text-white font-bold text-2xl mt-2'>{user.name}</Text>
 				<Text
 					className='text-gray text-md'>{user.email}</Text>
 			</View>
@@ -50,7 +50,7 @@ const SingleUserPage = ({ route }: any) => {
 			<View className='mb-2 flex-1'>
 				{user.userBooks.length ? user.userBooks.map(books => (
 					<View>
-						<BookItems genre={['SADDSA', 'adsdsasad']}
+						<BookItems id={books.id} genre={['SADDSA', 'adsdsasad']}
 						           image={'https://www.onthisday.com/images/people/sylvester-stallone-medium.jpg'} name={'ADSAS'}
 						           autor={'DSA'} rating={4} />
 					</View>

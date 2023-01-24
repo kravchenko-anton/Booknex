@@ -17,7 +17,7 @@ const Favorite = () => {
 		<ScrollView showsHorizontalScrollIndicator={false} className='mt-4' horizontal={true}>
 			
 			{
-				CurrentUser.favoritesUser.length && CurrentUser.favoritesUser.map(item => (
+				CurrentUser.favoritesUser.length ? CurrentUser.favoritesUser.map(item => (
 					<Pressable onPress={() => navigate('AutorProfile', { uid: item.uid })} key={item.uid}
 					           className='items-center justify-center  mr-4'>
 						{item.photoURL ? <Image source={{ uri: item.photoURL }} className='w-[100px] h-[100px] rounded-full' />
@@ -25,16 +25,17 @@ const Favorite = () => {
 							<ClearUserLogo height={100} width={100} letter={item.email} />
 						}
 						<Text
-							className='text-gray text-md font-bold mt-2'>{item.name ? item.name : item.email.split('@')[0]}</Text>
+							className='text-gray text-md font-bold mt-2'>{item.name}</Text>
 					</Pressable>
-				))}
+				)) : null}
 		</ScrollView>
 		<Text className='mt-4 text-whiteGray font-bold text-xl'>You favorite books</Text>
-		{CurrentUser.favoritesBook && CurrentUser.favoritesBook.map((item) => (
-			<BookItems key={item.Name} genre={item.genre} rating={item.comments.reduce((t, { rating }) => t + rating, 0)}
+		{CurrentUser.favoritesBook.length ? CurrentUser.favoritesBook.map((item) => (
+			<BookItems id={item.id} key={item.id} genre={item.genre}
+			           rating={item.comments.reduce((t, { rating }) => t + rating, 0)}
 			           image={item.Image}
 			           name={item.Name} autor={item.autor.toString()} />
-		))}
+		)) : null}
 	</Layout>
 }
 

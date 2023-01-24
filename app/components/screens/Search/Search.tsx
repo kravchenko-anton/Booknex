@@ -42,7 +42,7 @@ const Search = () => {
 							<ClearUserLogo height={100} width={100} letter={item.email} />
 						}
 						<Text
-							className='text-gray text-md font-bold mt-2'>{item.name ? item.name : item.email.split('@')[0]}</Text>
+							className='text-gray text-md font-bold mt-2'>{item.name}</Text>
 					</Pressable>
 				))}
 		</ScrollView>

@@ -14,7 +14,7 @@ const CommentElement: FC<Comment> = (props) => {
 			<View className='flex-1'>
 				<View className='flex-row justify-between items-center'>
 					<Text numberOfLines={1}
-					      className='text-white font-bold text-xl flex-wrap max-w-[190px] whitespace-normal'>{props.user.name ? props.user.name : props.user.email.split('@')[0]}</Text>
+					      className='text-white font-bold text-xl flex-wrap max-w-[190px] whitespace-normal'>{props.user.name}</Text>
 					
 					<View className='justify-between gap-2 items-center flex-row'>
 						<FontAwesome name='star' size={20} color='#702DF5' />

@@ -5,8 +5,11 @@ export type TypeRootStackParamList = {
 	Home: undefined
 	Search: undefined
 	BookPage: {
-		id: number | string
+		id?: number | string,
+		uid?: number | string
 	}
+	
+	
 	Auth: undefined
 	UserProfile: undefined
 	Settings: undefined

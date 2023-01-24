@@ -18,7 +18,7 @@ export const register = createAsyncThunk<any, IAuthFields>(
 			await setDoc(doc(db, 'users', user.user.uid), {
 				uid: user.user.uid,
 				email: user.user.email,
-				name: user.user.displayName,
+				name: user.user.email?.split('@')[0],
 				photoURL: user.user.photoURL,
 				createAt: user.user.metadata.lastSignInTime,
 				booksCount: 0,

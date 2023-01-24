@@ -4,7 +4,6 @@ import { Image, Pressable, ScrollView, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useFetchBooksQuery } from '../../../store/api/books'
 import { useFetchUserQuery } from '../../../store/api/user'
-import BookItems from '../../ui/BookItems/BookItems'
 import ClearUserLogo from '../../ui/clearUserLogo'
 import Layout from '../../ui/Layout/Layout'
 
@@ -46,15 +45,14 @@ const Home = () => {
 								<ClearUserLogo height={100} width={100} letter={item.email} />
 							}
 							<Text
-								className='text-gray text-md font-bold mt-2'>{item.name ? item.name : item.email.split('@')[0]}</Text>
+								className='text-gray text-md font-bold mt-2'>{item.name}</Text>
 						</Pressable>
 					))}
 			</ScrollView>
 			
-			<Text className='mt-8 text-white font-bold text-2xl '>Popular book</Text>
-			<BookItems genre={['aasasdSADDSA', 'adsdsdasad']} rating={3}
-			           image={'https://2books.su/assets/img/covers/twilight-4-breaking-dawn-stephenie-meyer.jpg'}
-			           name={'Summercs'} autor={'DavidPark'} />
+			<Text className='mt-8 text-white font-bold text-2xl '>Popular User book</Text>
+			{/*Here user books*/}
+			<Text>Books</Text>
 		</ScrollView>
 	</Layout>
 }

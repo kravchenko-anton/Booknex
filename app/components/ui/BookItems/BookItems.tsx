@@ -9,19 +9,18 @@ export interface BookItem {
 	autor: string | string[],
 	rating: number
 	genre: any,
-	id: string
+	id?: string
 }
 
 const BookItems: FC<BookItem> = (props) => {
 	const { navigate } = useTypedNavigation()
-	return <Pressable onPress={() => navigate('BookPage', {
-		id: props.id
-	})} className='flex-row mt-4 mb-4'>
+	return <Pressable onPress={() => navigate('BookPage', { id: props.id })} className='flex-row mt-4 mb-4'>
 		
 		<Image source={{ uri: props.image }}
 		       className='w-[100px] object-contain h-[150px] rounded-lg ' />
-		<View className='pl-4'>
-			<Text className='text-white mt-2 text-2xl  font-bold' numberOfLines={1}>{props.name}</Text>
+		<View className='pl-4 flex-1'>
+			<Text className='text-white overflow-ellipsis mt-2 text-2xl  font-bold'
+			      numberOfLines={1}>{props.name}</Text>
 			<Text numberOfLines={1} className='text-gray text-lg w-5/6 mb-1'>{props.autor}</Text>
 			<View className='flex-row gap-1 items-center'>
 				<Rating

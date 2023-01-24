@@ -43,6 +43,8 @@ export const userRoutes: iRoutes[] = [
 		name: 'BookPage',
 		component: SingleBookPage
 	},
+	
+	
 	{
 		name: 'Search',
 		component: Search

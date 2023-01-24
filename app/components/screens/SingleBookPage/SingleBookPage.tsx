@@ -24,10 +24,9 @@ const SingleBookPage = ({ route }: any) => {
 	const { data: Profile } = useFetchMyProfileQuery(StateUser?.uid)
 	const [removeFromFavorite] = useDeleteBookFromFavoriteMutation()
 	const [visibleButton, setVisibleButton] = useState(true)
-	console.log(book)
 	if (!book || !Profile) return <Loader />
 	const total = Object.values(book.comments).reduce((t, { rating }) => t + rating, 0) / book.comments.constructor.length
-	const isFavorite = Profile?.favoritesBook?.some(item => item.id === id)
+	const isFavorite = Profile?.favoritesBook?.some(item => item.id === book.id)
 	return <Layout>
 		<View className='h-full'>
 			
