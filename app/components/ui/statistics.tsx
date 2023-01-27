@@ -6,7 +6,7 @@ export interface Istatistics {
 	FirstDescription: string
 	SecondHeading: string
 	SecondDescription: string
-	ThirdHeading: string
+	ThirdHeading: string | number | undefined
 	ThirdDescription: string
 }
 

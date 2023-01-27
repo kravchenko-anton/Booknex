@@ -1,26 +1,28 @@
 import type { Theme } from '@epubjs-react-native/core'
 
-
 export const light: Theme = {
 	'body': {
 		background: '#fff'
 	},
+	'text': {
+		color: '#fff !important'
+	},
 	'span': {
-		color: '#000 !important',
+		color: '#000 !important'
 	},
 	'p': {
-		color: '#000 !important',
+		color: '#000 !important'
 	},
 	'li': {
-		color: '#000 !important',
+		color: '#000 !important'
 	},
 	'h1': {
-		color: '#000 !important',
+		color: '#000 !important'
 	},
 	'a': {
 		'color': '#000 !important',
 		'pointer-events': 'auto',
-		'cursor': 'pointer',
+		'cursor': 'pointer'
 	},
 	'::selection': {
 		background: 'lightskyblue'
@@ -53,10 +55,12 @@ export const sepia: Theme = {
 		background: 'lightskyblue'
 	}
 }
+
 export const dark: Theme = {
 	'body': {
 		background: '#121212'
 	},
+	
 	'span': {
 		color: '#fff !important'
 	},

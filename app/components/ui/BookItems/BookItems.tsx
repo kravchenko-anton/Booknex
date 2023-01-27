@@ -1,15 +1,15 @@
 import { FC } from 'react'
 import { Image, Pressable, Text, View } from 'react-native'
-import { Rating } from 'react-native-ratings'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 
 export interface BookItem {
 	image: string,
 	name: string,
 	autor: string | string[],
-	rating: number
 	genre: any,
 	id?: string
+	description?: string
+	
 }
 
 const BookItems: FC<BookItem> = (props) => {
@@ -21,17 +21,11 @@ const BookItems: FC<BookItem> = (props) => {
 		<View className='pl-4 flex-1'>
 			<Text className='text-white overflow-ellipsis mt-2 text-2xl  font-bold'
 			      numberOfLines={1}>{props.name}</Text>
-			<Text numberOfLines={1} className='text-gray text-lg w-5/6 mb-1'>{props.autor}</Text>
+			<Text numberOfLines={1} className='text-whiteGray text-lg w-5/6 mb-1'>{props.autor}</Text>
 			<View className='flex-row gap-1 items-center'>
-				<Rating
-					ratingCount={5}
-					tintColor='#121212'
-					startingValue={props.rating}
-					showRating={false}
-					imageSize={24}
-					readonly={true}
-				/>
-				<Text className='text-white text-lg font-bold'>/5</Text>
+				
+				<Text className='text-gray w-[80%] text-md' numberOfLines={2}>
+					{props.description}</Text>
 			</View>
 			<View className='mt-2 flex-wrap flex-row'>
 				{props.genre.map((item: any) => (

@@ -12,12 +12,16 @@ export type TypeRootStackParamList = {
 	
 	Auth: undefined
 	UserProfile: undefined
-	Settings: undefined
+	Settings: {
+		uid: number | string
+	}
 	AutorProfile: {
 		uid: string | number
 	}
 	ReadPage: {
-		epub: string | number
+		epub: string | number,
+		LastReadPage: string | number,
+		
 	}
 	
 }

@@ -23,7 +23,6 @@ export const register = createAsyncThunk<any, IAuthFields>(
 				createAt: user.user.metadata.lastSignInTime,
 				booksCount: 0,
 				revieCount: 0,
-				userBooks: [],
 				favoritesBook: [],
 				favoritesUser: []
 			})

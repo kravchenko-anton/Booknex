@@ -1,7 +1,7 @@
 import { Reader, ReaderProvider } from '@epubjs-react-native/core'
-// @ts-ignore
 import { useFileSystem } from '@epubjs-react-native/expo-file-system'
 import { Feather } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useState } from 'react'
 import { Pressable, Text, useWindowDimensions, View } from 'react-native'
 import 'react-native-gesture-handler'
@@ -11,19 +11,32 @@ import ModalPopup from '../../ui/modal'
 import { dark, light, sepia } from './Theme'
 
 const ReadPage = ({ route }: any) => {
-	const { epub } = route.params
+	const { epub, LastReadPage } = route.params
 	const { width, height } = useWindowDimensions()
 	const [theme, setTheme] = useState(light)
 	const [isVisible, setIsVisible] = useState(false)
+	const [TotalLocation, setTotalLocation] = useState(0)
 	return <SafeAreaProvider>
 		<SafeAreaView>
 			
 			
 			<ReaderProvider>
+				
 				<Reader
+					initialLocation={LastReadPage}
 					src={epub + '.epub'}
 					fileSystem={useFileSystem}
 					width={width}
+					onNavigationLoaded={toc => {
+						// console.log(toc.toc)
+					}}
+					
+					onLocationChange={async (totalLocations, currentLocation) => {
+					 	// @ts-ignore, end exist and current work but library types not know about it
+						await AsyncStorage.setItem(epub, currentLocation.end.cfi)
+						// @ts-ignore
+						setTotalLocation(currentLocation.end.percentage)
+					}}
 					renderLoadingFileComponent={() => <Loader />}
 					enableSelection={true}
 					enableSwipe={true}
@@ -51,34 +64,37 @@ const ReadPage = ({ route }: any) => {
 				</View>
 				
 				
-				<Text className='text-xd font-bold text-primary mt-2'>Developer dont do any for comfort usage, wait updates, im
-					sory. (any orther library not work in expo) 😥</Text>
-				
 				{/*<View className='flex-row mt-2 justify-between items-center'>*/}
 				{/*	<Text className='font-bold text-xl text-blue'>Font:</Text>*/}
 				{/*	<View className={'flex-row flex-wrap items-end'}>*/}
-				{/*		<Pressable onPress={() => console.log(16)} className='bg-[#949494] p-3 mr-3 justify-center items-center rounded-lg'>*/}
-				{/*		*/}
-				{/*		<FontAwesome name="font" size={18} color="white" />*/}
+				{/*		<Pressable onPress={() => console.log('font16px')}*/}
+				{/*		           className='bg-[#949494] p-3 mr-3 justify-center items-center rounded-lg'>*/}
+				{/*			*/}
+				{/*			<FontAwesome name='font' size={18} color='white' />*/}
 				{/*		</Pressable>*/}
 				{/*		*/}
-				{/*		<Pressable  onPress={() => console.log("26px")} className='bg-[#1E212C] p-3  mr-3  justify-center items-center rounded-lg'>*/}
+				{/*		<Pressable onPress={() => console.log('26px')}*/}
+				{/*		           className='bg-[#1E212C] p-3  mr-3  justify-center items-center rounded-lg'>*/}
 				{/*			*/}
-				{/*			<FontAwesome name="font" size={26} color="white" />*/}
+				{/*			<FontAwesome name='font' size={26} color='white' />*/}
 				{/*		</Pressable>*/}
-				{/*		<Pressable onPress={() => console.log("36px")} className='bg-[#121212] p-3 justify-center items-center rounded-lg'>*/}
+				{/*		<Pressable onPress={() => console.log('36px')}*/}
+				{/*		           className='bg-[#121212] p-3 justify-center items-center rounded-lg'>*/}
 				{/*			*/}
-				{/*			<FontAwesome name="font" size={36} color="white" />*/}
+				{/*			<FontAwesome name='font' size={36} color='white' />*/}
 				{/*		</Pressable>*/}
 				{/*	</View>*/}
 				{/*</View>*/}
 			</ModalPopup>
-			
-			<Pressable onPress={() => setIsVisible(true)}
-			           className='bottom-0 z-50 bg-blue left-0 absolute p-1 rounded-tr-lg'>
-				<Feather name='settings'
-				         size={16}
-				         color='white' /></Pressable>
+			<View className='flex-row justify-between items-center'>
+				<Pressable onPress={() => setIsVisible(true)}
+				           className='bottom-0 z-50 bg-blue left-0 absolute p-1 rounded-tr-lg'>
+					<Feather name='settings'
+					         size={16}
+					         color='white' /></Pressable>
+				<Text
+					className='bottom-0 right-0 z-50 absolute p-1 text-gray text-md'>{TotalLocation.toString().charAt(0)}%</Text>
+			</View>
 		</SafeAreaView>
 	</SafeAreaProvider>
 }

@@ -42,6 +42,7 @@ const bookApi = api.injectEndpoints({
 			providesTags: ['book']
 		}),
 		
+		
 		// Fetch CurrentUserBooks
 		fetchCurrentUserBooks: build.query({
 			async queryFn(AutorName) {
@@ -68,14 +69,86 @@ const bookApi = api.injectEndpoints({
 		}),
 		
 		
-		// Fetch AllUserBooks
-		fetchAllUserBooks: build.query({
+		//Fetch horror  book
+		fetchHorrorBooks: build.query({
 			async queryFn() {
 				try {
-					const blogRef = collection(db, 'userBook')
-					const querySnaphot = await getDocs(blogRef)
+					const userBookRef = collection(db, 'userBook')
+					const uq = query(userBookRef, where('genre', 'array-contains', 'Horror'))
+					const booksRef = collection(db, 'books')
+					const bq = query(booksRef, where('genre', 'array-contains', 'Horror'))
+					const UserquerySnaphot = await getDocs(uq)
+					const BooksquerySnaphot = await getDocs(bq)
 					let books: BookTypes[] = []
-					querySnaphot?.forEach((doc) => {
+					UserquerySnaphot?.forEach((doc) => {
+						// @ts-ignore
+						books.push({ id: doc.id, ...doc.data() })
+					})
+					BooksquerySnaphot?.forEach((doc) => {
+						// @ts-ignore
+						books.push({ id: doc.id, ...doc.data() })
+					})
+					return { data: books }
+				} catch (error: any) {
+					Toast.show({
+						text1: 'Book not loaded!',
+						text2: error.message,
+						type: 'error'
+					})
+					return { error }
+				}
+			},
+			providesTags: ['book']
+		}),
+		
+		
+		//Fetch Action  book
+		fetchActionBooks: build.query({
+			async queryFn() {
+				try {
+					const userBookRef = collection(db, 'userBook')
+					const uq = query(userBookRef, where('genre', 'array-contains', 'Action'))
+					const booksRef = collection(db, 'books')
+					const bq = query(booksRef, where('genre', 'array-contains', 'Action'))
+					const UserquerySnaphot = await getDocs(uq)
+					const BooksquerySnaphot = await getDocs(bq)
+					let books: BookTypes[] = []
+					UserquerySnaphot?.forEach((doc) => {
+						// @ts-ignore
+						books.push({ id: doc.id, ...doc.data() })
+					})
+					BooksquerySnaphot?.forEach((doc) => {
+						// @ts-ignore
+						books.push({ id: doc.id, ...doc.data() })
+					})
+					return { data: books }
+				} catch (error: any) {
+					Toast.show({
+						text1: 'Book not loaded!',
+						text2: error.message,
+						type: 'error'
+					})
+					return { error }
+				}
+			},
+			providesTags: ['book']
+		}),
+		
+		
+		// Fetch AllBooks
+		fetchAllBooks: build.query({
+			async queryFn() {
+				try {
+					const userBookRef = collection(db, 'userBook')
+					const booksRef = collection(db, 'books')
+					const UserquerySnaphot = await getDocs(userBookRef)
+					const BooksquerySnaphot = await getDocs(booksRef)
+					let books: BookTypes[] = []
+					UserquerySnaphot?.forEach((doc) => {
+						// @ts-ignore
+						books.push({ id: doc.id, ...doc.data() })
+					})
+					BooksquerySnaphot?.forEach((doc) => {
 						// @ts-ignore
 						books.push({ id: doc.id, ...doc.data() })
 					})
@@ -115,24 +188,38 @@ const bookApi = api.injectEndpoints({
 		}),
 		
 		
-		//Fetch single user book
-		fetchSingleUserBook: build.query({
-			async queryFn(id) {
+		// add Book Review
+		addBookReview: build.mutation({
+			async queryFn({ id, rating, profile }) {
 				try {
-					const docRef = doc(db, 'userBook', id)
-					const snapshot = await getDoc(docRef)
-					return { data: { id: id, ...snapshot.data() } as BookTypes }
+					const docRef = doc(db, 'books', id)
+					const docUserRef = doc(db, 'userBook', id)
+					const bookGetRef = await getDoc(docRef)
+					const UserRef = doc(db, 'users', profile.uid)
+					const CurrentRef = bookGetRef.exists() ? docRef : docUserRef
+					await updateDoc(CurrentRef, {
+						comments: arrayUnion(rating)
+					})
+					await updateDoc(UserRef, {
+						revieCount: +1
+					})
+					Toast.show({
+						text1: 'You add book review!',
+						type: 'success'
+					})
+					return { data: 'ok' }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'You book not loaded!',
+						text1: 'You  not added book review!',
 						text2: error.message,
 						type: 'error'
 					})
 					return { error }
 				}
 			},
-			providesTags: ['book']
+			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
+		
 		
 		// add Book to Favorite
 		addBookToFavorite: build.mutation({
@@ -167,9 +254,7 @@ const bookApi = api.injectEndpoints({
 					const reference = doc(db, 'users', UserId)
 					
 					await addDoc(collection(db, 'userBook'), book)
-					await updateDoc(reference, {
-						userBooks: arrayUnion(book)
-					})
+					
 					Toast.show({
 						text1: 'You book add!',
 						type: 'success'
@@ -218,9 +303,11 @@ const bookApi = api.injectEndpoints({
 
 export const {
 	useDeleteBookFromFavoriteMutation,
+	useFetchHorrorBooksQuery,
+	useFetchActionBooksQuery,
 	useFetchCurrentUserBooksQuery,
-	useFetchSingleUserBookQuery,
-	useFetchAllUserBooksQuery,
+	useAddBookReviewMutation,
+	useFetchAllBooksQuery,
 	useFetchSingleBookQuery,
 	useAddUserBookMutation,
 	useAddBookToFavoriteMutation,

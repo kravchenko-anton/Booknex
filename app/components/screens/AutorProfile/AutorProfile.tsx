@@ -1,8 +1,14 @@
-import { Feather } from '@expo/vector-icons'
+import { AntDesign, Feather } from '@expo/vector-icons'
 import { Image, ScrollView, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import { useAddUserToFavoriteMutation, useFetchMyProfileQuery, useFetchSingleUserQuery } from '../../../store/api/user'
+import { useFetchCurrentUserBooksQuery } from '../../../store/api/books'
+import {
+	useAddUserToFavoriteMutation,
+	useFetchMyProfileQuery,
+	useFetchSingleUserQuery,
+	useRemoveUserToFavoriteMutation
+} from '../../../store/api/user'
 import BookItems from '../../ui/BookItems/BookItems'
 import ClearUserLogo from '../../ui/clearUserLogo'
 import Layout from '../../ui/Layout/Layout'
@@ -13,18 +19,30 @@ const SingleUserPage = ({ route }: any) => {
 	const { uid } = route.params
 	const { goBack } = useTypedNavigation()
 	const [addToFavorite] = useAddUserToFavoriteMutation()
+	const [removeFavorite] = useRemoveUserToFavoriteMutation()
 	const { user: StateUser } = useTypedSelector(state => state.auth)
 	const { data: user } = useFetchSingleUserQuery(uid)
 	const { data: Profile } = useFetchMyProfileQuery(StateUser?.uid)
-	const isFavorite = Profile?.favoritesUser.some(item => item.uid === user?.uid) || uid !== StateUser?.uid
+	const userFavoriteData = {
+		uid: user?.uid
+	}
+	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(Profile?.name, {
+		skip: !Profile
+	})
+	const isFavorite = Profile?.favoritesUser.some(item => item.uid === user?.uid)
 	if (!user) return <Loader />
 	return <Layout>
 		<ScrollView showsVerticalScrollIndicator={false}>
 			<View className='flex-row justify-between mt-4 '>
 				<Feather onPress={() => goBack()} name='arrow-left' size={24} color='white' />
-				{!isFavorite ?
-					<Feather onPress={() => addToFavorite({ currentUserUID: StateUser?.uid, favoriteUser: user })} name='heart'
-					         size={24} color='white' /> : null}
+				{(uid !== StateUser?.uid) ? !isFavorite ?
+					<Feather onPress={() => addToFavorite({ currentUserUID: StateUser?.uid, favoriteUser: userFavoriteData })}
+					         name='heart'
+					         size={24} color='white' /> :
+					<AntDesign onPress={() => removeFavorite({ currentUserUID: StateUser?.uid, favoriteUser: userFavoriteData })}
+					           name='delete'
+					           size={24}
+					           color='white' /> : null}
 			
 			</View>
 			
@@ -39,20 +57,21 @@ const SingleUserPage = ({ route }: any) => {
 				<Text
 					className='text-gray text-md'>{user.email}</Text>
 			</View>
-			<Statistics FirstDescription={'Read'} FirstHeading={user.booksCount.toString()}
+			<Statistics FirstDescription={'Favorite'}
+			            FirstHeading={user.favoritesBook.length.toString() ? user.favoritesBook.length.toString() : '0'}
 			            SecondHeading={user.revieCount.toString()}
-			            SecondDescription={'Review'} ThirdHeading={Object.values(user.userBooks).length.toString()}
+			            SecondDescription={'Review'} ThirdHeading={CurrentUserBook?.length}
 			            ThirdDescription={'Books'} />
 			
 			
 			<Text className='text-white  font-bold  text-2xl mt-6'>Books</Text>
 			
 			<View className='mb-2 flex-1'>
-				{user.userBooks.length ? user.userBooks.map(books => (
-					<View>
-						<BookItems id={books.id} genre={['SADDSA', 'adsdsasad']}
-						           image={'https://www.onthisday.com/images/people/sylvester-stallone-medium.jpg'} name={'ADSAS'}
-						           autor={'DSA'} rating={4} />
+				{CurrentUserBook?.length ? CurrentUserBook.map(books => (
+					<View key={books.id}>
+						<BookItems id={books.id} genre={books.genre}
+						           image={books.Image} name={books.Name}
+						           autor={books.autor} description={books.description} />
 					</View>
 				)) : <Text className='text-gray text-xl'>None Books!</Text>}
 			</View>

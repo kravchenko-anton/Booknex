@@ -20,7 +20,6 @@ export interface Iuser {
 	createAt: string
 	revieCount: number
 	booksCount: number
-	userBooks: BookTypes[]
 	favoritesBook: BookTypes[]
 	favoritesUser: Iuser[]
 }
@@ -30,12 +29,7 @@ export interface Comment {
 	BookId: string
 	create_At: string
 	message: string
-	user: {
-		id: string
-		photoUrl: string
-		email: string
-		name: string
-	}
+	userUid: string | number
 }
 
 
