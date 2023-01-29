@@ -1,91 +1,71 @@
-import { Feather } from '@expo/vector-icons'
-import { useForm } from 'react-hook-form'
-import { Image, Pressable, ScrollView, Text, View } from 'react-native'
+import React from 'react'
+import { Animated, Image, Pressable, Text, useWindowDimensions, View } from 'react-native'
+import { Rating } from 'react-native-ratings'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
-import {
-	useFetchActionBooksQuery,
-	useFetchAllBooksQuery,
-	useFetchBooksQuery,
-	useFetchHorrorBooksQuery
-} from '../../../store/api/books'
-import { useFetchUserQuery } from '../../../store/api/user'
+import { BookTypes } from '../../../store/api/api.types'
+import { useFetchBooksQuery } from '../../../store/api/books'
 import Layout from '../../ui/Layout/Layout'
 
 const Home = () => {
-	const { data, isLoading, error } = useFetchBooksQuery(null)
-	const { data: Users } = useFetchUserQuery(null)
-	const { control } = useForm()
+	const { data: book, isLoading, error } = useFetchBooksQuery(null)
+	const CarouselBook = [{ key: 'spacer' }, ...(book ? book : []), { key: 'rightSpacer' }] as BookTypes[]
+	const scrollX = React.useRef(new Animated.Value(0)).current
+	const { width, height } = useWindowDimensions()
+	const Item_Width = width * 0.75
 	const { navigate } = useTypedNavigation()
-	const { data: Books } = useFetchAllBooksQuery(null)
-	const { data: actionBook } = useFetchActionBooksQuery(null)
-	const { data: horrorBooks } = useFetchHorrorBooksQuery(null)
+	const SPACING = 2
+	const EMPTY_ITEM_SIZE = (Item_Width) / 10
 	return <Layout>
-		<ScrollView showsVerticalScrollIndicator={false}>
-			<View className='flex-row flex-1 justify-between items-center'>
-				<Image source={require('../../../assets/icon.png')}
-				       style={{ width: 210, height: 55, resizeMode: 'contain' }} />
-				<View className='bg-blue p-2 items-center rounded-full'>
-					<Feather onPress={() => navigate('Search')} name='search' size={24} color='white' />
-				</View>
-			</View>
-			<Text className='mt-4 text-white font-bold text-2xl mb-4'>Maybe you like</Text>
-			<ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-				{Books && Books.map(item => (
-					<Pressable onPress={() => navigate('BookPage', {
-						id: item.id
-					})} className='w-[150px] mr-3 h-[250px] ' key={item.id}>
-						<Image source={{ uri: item.Image }}
-						       className='w-[150px h-[250px] rounded-xl' />
-					</Pressable>
-				))}
-			</ScrollView>
-			
-			
-			{/*<Text className='mt-4 text-white font-bold text-2xl mb-4'>Top Autors</Text>*/}
-			{/*<ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>*/}
-			{/*	*/}
-			{/*	{// TODO: Сделать проверку на популярность*/}
-			{/*		Users && Users.filter(Users => Users.booksCount >= 0).map(item => (*/}
-			{/*			<Pressable onPress={() => navigate('AutorProfile', { uid: item.uid })} key={item.uid}*/}
-			{/*			           className='items-center justify-center  mr-4'>*/}
-			{/*				{item.photoURL ? <Image source={{ uri: item.photoURL }} className='w-[100px] h-[100px] rounded-full' />*/}
-			{/*					:*/}
-			{/*					<ClearUserLogo height={100} width={100} letter={item.email} />*/}
-			{/*				}*/}
-			{/*				<Text*/}
-			{/*					className='text-gray text-md font-bold mt-2'>{item.name}</Text>*/}
-			{/*			</Pressable>*/}
-			{/*		))}*/}
-			{/*</ScrollView>*/}
-			
-			<Text className='mt-8 text-white font-bold text-2xl mb-4'>Action books</Text>
-			
-			<ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-				{actionBook && actionBook.map(item => (
-					<Pressable onPress={() => navigate('BookPage', {
-						id: item.id
-					})} className='w-[150px] mr-3 h-[250px] ' key={item.id}>
-						<Image source={{ uri: item.Image }}
-						       className='w-[150px h-[250px] rounded-xl' />
-					</Pressable>
-				))}
-			</ScrollView>
-			
-			<Text className='mt-8 text-white font-bold text-2xl mb-4'>Horror book</Text>
-			
-			<ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-				{horrorBooks && horrorBooks.map(item => (
-					<Pressable onPress={() => navigate('BookPage', {
-						id: item.id
-					})} className='w-[150px] mr-3 h-[250px] ' key={item.id}>
-						<Image source={{ uri: item.Image }}
-						       className='w-[150px h-[250px] rounded-xl' />
-					</Pressable>
-				))}
-			</ScrollView>
-		
-		
-		</ScrollView>
+		<View className='h-full'>
+			<Animated.FlatList bounces={false} decelerationRate={0} showsHorizontalScrollIndicator={false}
+			                   snapToInterval={Item_Width + SPACING}
+			                   scrollEventThrottle={16}
+			                   renderToHardwareTextureAndroid={true}
+			                   contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+			                   horizontal
+			                   data={CarouselBook}
+			                   onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], { useNativeDriver: false })}
+			                   renderItem={({ item, index }) => {
+				                   if (!item.Name) return <View style={{ width: EMPTY_ITEM_SIZE }} />
+				                   const inputRange = [
+					                   (index - 2) * Item_Width,
+					                   (index - 1) * Item_Width,
+					                   index * Item_Width
+				                   ]
+				                   const TranslateY = scrollX.interpolate({
+					                   inputRange,
+					                   outputRange: [0, 50, 0],
+					                   extrapolate: 'clamp'
+				                   })
+				                   return <Animated.View key={item.id} style={{
+					                   width: Item_Width, transform: [{ translateY: TranslateY }], marginHorizontal: SPACING,
+					                   padding: SPACING * 2,
+					                   alignItems: 'center'
+				                   }}>
+					                   <Pressable className='w-full' onPress={event => navigate('BookPage', {
+						                   id: item.id
+					                   })}>
+						                   <Image source={{ uri: item.Image }}
+						                          className='w-full rounded-xl' style={{ height: Item_Width * 1.6 }} />
+					                   </Pressable>
+					                   <Text numberOfLines={1} className='text-white text-3xl font-bold mt-2'>{item.Name}</Text>
+					                   <View className='flex-row gap-1 items-center'>
+						                   <Rating
+							                   ratingCount={5} tintColor='#121212' startingValue={4} showRating={false} imageSize={18}
+							                   readonly={true}
+							                   jumpValue={1}
+						                   />
+						                   <Text className='text-white text-xl font-bold'>/ 4</Text>
+					                   </View>
+					                   <View className='mt-2 flex-wrap flex-row'>
+						                   {item.genre.map((item: string) => (
+							                   <Text key={item}
+							                         className='text-white text-md bg-blue rounded-lg mr-1 p-2 mb-2'>{item}</Text>
+						                   ))}
+					                   </View>
+				                   </Animated.View>
+			                   }} />
+		</View>
 	</Layout>
 }
 

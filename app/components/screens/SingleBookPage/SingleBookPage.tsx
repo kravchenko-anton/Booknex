@@ -4,7 +4,9 @@ import { useFocusEffect } from '@react-navigation/native'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Image, Pressable, ScrollView, Text, View } from 'react-native'
+import * as Animatable from 'react-native-animatable'
 import { AirbnbRating, Rating } from 'react-native-ratings'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
 import {
@@ -14,6 +16,8 @@ import {
 	useFetchSingleBookQuery
 } from '../../../store/api/books'
 import { useFetchMyProfileQuery } from '../../../store/api/user'
+import { animation, BottomAnimation, BottomAnimationEndToStart } from '../../../utils/TextAnimation'
+import { useScaleOnMount } from '../../../utils/useBounces'
 import Field from '../../ui/field/field'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
@@ -22,7 +26,7 @@ import CommentElement from '../../ui/ratingElement'
 import Statistics from '../../ui/statistics'
 
 const SingleBookPage = ({ route }: any) => {
-	//TODO: small component
+	//TODO: small component, add all logic in oher component
 	const { id } = route.params
 	const { goBack, navigate } = useTypedNavigation()
 	const { user: StateUser } = useTypedSelector(state => state.auth)
@@ -36,17 +40,20 @@ const SingleBookPage = ({ route }: any) => {
 	const [RatingCount, setRatingCount] = useState(0)
 	const [addBookReview] = useAddBookReviewMutation()
 	const [lastReadPage, setLastReadPage] = useState('')
+	const { styleAnimation } = useScaleOnMount()
+	
 	useFocusEffect(() => {
-			const parseLastPage = async () => {
-		try {
-			const value = await AsyncStorage.getItem(book.epubDoc)
-			if (value !== null) {
-				setLastReadPage(value)
+		const parseLastPage = async () => {
+			try {
+				// @ts-ignore, if using after !book i see error 'more rerenders'
+				const value = await AsyncStorage.getItem(book.epubDoc)
+				if (value !== null) {
+					setLastReadPage(value)
+				}
+			} catch (e) {
 			}
-		} catch (e) {
 		}
-			}
-			parseLastPage()
+		parseLastPage()
 	})
 	if (!book || !Profile) return <Loader />
 	const total = Object.values(book.comments).reduce((t, { rating }) => t + rating, 0) / (book.comments.length ? book.comments.length : book.comments.constructor.length)
@@ -92,21 +99,24 @@ const SingleBookPage = ({ route }: any) => {
 						}
 					}} />
 					<Pressable onPress={handleSubmit(SubmitReview)}
-					           className='bg-primary p-2 rounded-lg flex  mt-2 w-[200px]'><Text
+					           className='bg-primary p-2  rounded-lg flex  mt-2 w-[200px]'><Text
 						className='text-white font-bold text-2xl text-center'>Send
 						Review</Text></Pressable>
 				</View>
 			</ModalPopup>
 			
-			{visibleButton ?
-				<Pressable onPress={() => navigate('ReadPage', {
-					epub: book.epubDoc,
-					LastReadPage: lastReadPage
-				})}
-				           className=' absolute z-10 bottom-3 flex-row  left-24 right-24 items-center justify-center bg-primary rounded-lg p-4'>
-					<FontAwesome5 name='book-reader' size={24} color='white' />
-					<Text className=' ml-5 text-white text-xl font-bold'>Go Read</Text></Pressable> : null}
 			
+			<Animatable.View className=' absolute z-50 bottom-3 flex-row left-28 right-28 items-center justify-between'
+			                 animation={visibleButton ? BottomAnimation : BottomAnimationEndToStart}>
+				<Pressable
+					className=' bg-primary rounded-lg p-4 flex-row justify-between w-full'
+					onPress={() => navigate('ReadPage', {
+						epub: book.epubDoc, LastReadPage: lastReadPage
+					})}>
+					<Text className=' text-white text-xl font-bold'>Go Read</Text>
+					<FontAwesome5 name='book-reader' size={24} color='white' />
+				</Pressable>
+			</Animatable.View>
 			<ScrollView onTouchEndCapture={() => setVisibleButton(!visibleButton)}
 			            showsVerticalScrollIndicator={false}>
 				
@@ -123,8 +133,10 @@ const SingleBookPage = ({ route }: any) => {
 				</View>
 				
 				<View className='flex-row  justify-between mt-8'>
-					<Image source={{ uri: book.Image }} className='w-[150px] mr-3 h-[250px] rounded-xl' />
-					<View className='flex-1'>
+					<Animated.View entering={FadeInDown} style={styleAnimation}>
+						<Image source={{ uri: book.Image }} className='w-[150px] mr-3 h-[250px] rounded-xl' />
+					</Animated.View>
+					<Animatable.View animation={animation} className='flex-1'>
 						<Text
 							className='text-white font-bold text-2xl mt-6'>{book.Name}</Text>
 						<Text
@@ -145,14 +157,15 @@ const SingleBookPage = ({ route }: any) => {
 								<Text key={item} className='text-white text-md bg-blue rounded-lg mr-1 p-2 mb-2'>{item}</Text>
 							))}
 						</View>
-					</View>
+					</Animatable.View>
 				</View>
 				<Statistics FirstDescription={'Years'} FirstHeading={book.penData} SecondHeading={book.antalSider.toString()}
 				            SecondDescription={'Pages'} ThirdHeading={Object.values(book.comments).length.toString()}
 				            ThirdDescription={'Reviews'} />
 				<View>
 					<Text className='text-white  font-bold  text-2xl mt-6'>Description</Text>
-					<Text numberOfLines={4} className='text-gray text-[16px] mt-2'>{book.description}</Text>
+					<Animatable.Text animation={animation} numberOfLines={4}
+					                 className='text-gray text-[16px] mt-2'>{book.description}</Animatable.Text>
 				</View>
 				
 				<View className='flex-row justify-between
@@ -161,13 +174,13 @@ const SingleBookPage = ({ route }: any) => {
 					<Text onPress={() => setIsVisible(true)} className='text-gray text-lg mt-6'>Add</Text>
 				
 				</View>
-				<View className='mb-2 flex-1'>
+				<Animatable.View animation={animation} className='mb-2 flex-1'>
 					{book.comments.length ? book.comments.map(comments => (
 						<CommentElement key={comments.create_At} rating={comments.rating} BookId={comments.BookId}
 						                create_At={comments.create_At}
 						                message={comments.message} userUid={comments.userUid} />
 					)) : <Text className='text-gray text-xl'>None review!</Text>}
-				</View>
+				</Animatable.View>
 			
 			</ScrollView>
 		</View>

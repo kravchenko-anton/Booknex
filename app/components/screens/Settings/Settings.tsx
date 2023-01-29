@@ -5,7 +5,6 @@ import { Image, Pressable, Text, View } from 'react-native'
 import { useFetchMyProfileQuery } from '../../../store/api/user'
 import ClearUserLogo from '../../ui/clearUserLogo'
 import Field from '../../ui/field/field'
-import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 
 const Settings = ({ route }: any) => {
@@ -24,23 +23,21 @@ const Settings = ({ route }: any) => {
 		}
 	}
 	if (!user) return <Loader />
-	return <Layout>
-		<View className='items-center h-full justify-center'>
+	return <View className=' justify-center items-center flex-1 h-full'>
+		{user?.photoURL ?
+			<Image source={{ uri: user.photoURL }}
+			       className='w-[200px] h-[200px] rounded-full' /> :
+			<ClearUserLogo height={200} width={200} letter={user.name} />}
+		<View className='mt-4 w-5/6'>
+			<Field control={control} name={'Name'} placeholder={'Name'} className='text-white' />
+			<Field control={control} name={'Email'} placeholder={'Email'} />
+			<Field control={control} name={'password'} placeholder={'Password change'} />
 			
-			{user.photoURL ?
-				<Image source={{ uri: user.photoURL }}
-				       className='w-[200px] h-[200px] rounded-full' /> :
-				<ClearUserLogo height={200} width={200} letter={user.name} />}
-			<View className='mt-4 w-5/6'>
-				<Field control={control} name={'Name'} placeholder={'Name'} className='text-white' />
-				<Field control={control} name={'Email'} placeholder={'Email'} />
-				<Field control={control} name={'password'} placeholder={'Password change'} />
-				
-				<Pressable className='bg-primary p-2 w-[150px] ml-auto mt-4 rounded-lg items-center justify-end flex '><Text
-					className='text-white text-2xl font-bold'>Upload</Text></Pressable>
-			</View>
+			<Pressable className='bg-primary p-2 w-[150px] ml-auto mt-4 rounded-lg items-center justify-end flex '><Text
+				className='text-white text-2xl font-bold'>Upload</Text></Pressable>
 		</View>
-	</Layout>
+	
+	</View>
 }
 
 export default Settings
