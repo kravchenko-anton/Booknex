@@ -12,9 +12,7 @@ export type TypeRootStackParamList = {
 	
 	Auth: undefined
 	UserProfile: undefined
-	Settings: {
-		uid: number | string
-	}
+	
 	AutorProfile: {
 		uid: string | number
 	}

@@ -62,7 +62,7 @@ export const login = createAsyncThunk<any, IAuthFields>(
 )
 
 
-export const logout = createAsyncThunk<any, IAuthFields>(
+export const logout = createAsyncThunk<any, null>(
 	'auth/logout',
 	async (_, thunkAPI) => {
 		try {

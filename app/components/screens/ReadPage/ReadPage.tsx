@@ -1,6 +1,6 @@
 import { Reader, ReaderProvider } from '@epubjs-react-native/core'
 import { useFileSystem } from '@epubjs-react-native/expo-file-system'
-import { Feather, FontAwesome } from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRef, useState } from 'react'
 import { Pressable, Text, useWindowDimensions, View } from 'react-native'
@@ -45,7 +45,7 @@ const ReadPage = ({ route }: any) => {
 		</SafeAreaView>
 		
 		
-		<ModalPopup height={200} isVisible={isVisible} setIsVisible={setIsVisible} title={'Settings '}>
+		<ModalPopup height={150} isVisible={isVisible} setIsVisible={setIsVisible} title={'Settings '}>
 			<View className='flex-row justify-between items-center'>
 				<Text onPress={() => console.log('10px')} className='font-bold text-xl text-blue'>Color scheme:</Text>
 				<View className={'flex-row flex-wrap items-center'}>
@@ -60,29 +60,6 @@ const ReadPage = ({ route }: any) => {
 					<Pressable style={{ borderWidth: (theme == sepia ? 3 : 0) }} onPress={() => setTheme(sepia)}
 					           className='bg-[#e8dcb8] p-3  justify-center border-primary items-center rounded-lg'>
 						<Text className='text-blue text-xl font-bold'>Sepia</Text>
-					</Pressable>
-				</View>
-			</View>
-			
-			
-			<View className='flex-row mt-2 justify-between items-center'>
-				<Text className='font-bold text-xl text-blue'>Font:</Text>
-				<View className={'flex-row flex-wrap items-end'}>
-					<Pressable onPress={() => console.log('font16px')}
-					           className='bg-[#949494] p-3 mr-3 justify-center items-center rounded-lg'>
-						
-						<FontAwesome name='font' size={18} color='white' />
-					</Pressable>
-					
-					<Pressable onPress={() => console.log('26px')}
-					           className='bg-[#1E212C] p-3  mr-3  justify-center items-center rounded-lg'>
-						
-						<FontAwesome name='font' size={26} color='white' />
-					</Pressable>
-					<Pressable onPress={() => console.log('36px')}
-					           className='bg-[#121212] p-3 justify-center items-center rounded-lg'>
-						
-						<FontAwesome name='font' size={36} color='white' />
 					</Pressable>
 				</View>
 			</View>

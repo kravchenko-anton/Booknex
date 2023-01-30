@@ -1,9 +1,10 @@
-import { Feather } from '@expo/vector-icons'
+import { Feather, MaterialIcons } from '@expo/vector-icons'
 import * as DocumentPicker from 'expo-document-picker'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Image, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
+import { useAction } from '../../../hook/useAction'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
 import { useAddUserBookMutation, useFetchCurrentUserBooksQuery } from '../../../store/api/books'
@@ -34,6 +35,7 @@ const UserProfilePages = () => {
 	const [EpubUrlPatch, setEpubUrlPatch] = useState(undefined)
 	const [addUserBook] = useAddUserBookMutation()
 	const { styleAnimation } = useScaleOnMount()
+	const { logout } = useAction()
 	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(CurrentUser?.name, {
 		skip: !CurrentUser
 	})
@@ -90,9 +92,7 @@ const UserProfilePages = () => {
 			
 			<View className='flex-row justify-between mt-4 '>
 				<Feather onPress={() => goBack()} name='arrow-left' size={24} color='white' />
-				<Feather name='settings' onPress={() => navigate('Settings', {
-					uid: user?.uid
-				})} size={24} color='white' />
+				<MaterialIcons onPress={() => logout(null)} name='logout' size={24} color='white' />
 			</View>
 			
 			<View className=' items-center mt-2'>

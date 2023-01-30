@@ -4,7 +4,6 @@ import Favorite from '../components/screens/Favorite/Favorite'
 import Home from '../components/screens/Home/Home'
 import ReadPage from '../components/screens/ReadPage/ReadPage'
 import Search from '../components/screens/Search/Search'
-import Settings from '../components/screens/Settings/Settings'
 import SingleBookPage from '../components/screens/SingleBookPage/SingleBookPage'
 import userProfile from '../components/screens/userProfile/userProfile'
 import { iRoutes } from './navigationTypes'
@@ -14,10 +13,7 @@ export const userRoutes: iRoutes[] = [
 		name: 'Home',
 		component: Home
 	},
-	{
-		name: 'Settings',
-		component: Settings
-	},
+	
 	{
 		name: 'AutorProfile',
 		component: AutorProfile

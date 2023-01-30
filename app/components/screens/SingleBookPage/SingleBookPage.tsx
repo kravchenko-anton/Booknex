@@ -31,7 +31,7 @@ const SingleBookPage = ({ route }: any) => {
 	const { goBack, navigate } = useTypedNavigation()
 	const { user: StateUser } = useTypedSelector(state => state.auth)
 	const { control, reset, handleSubmit } = useForm()
-	const { data: book, isLoading, error } = useFetchSingleBookQuery(id)
+	const { data: book } = useFetchSingleBookQuery(id)
 	const [addBook] = useAddBookToFavoriteMutation()
 	const { data: Profile } = useFetchMyProfileQuery(StateUser?.uid)
 	const [removeFromFavorite] = useDeleteBookFromFavoriteMutation()
@@ -41,7 +41,6 @@ const SingleBookPage = ({ route }: any) => {
 	const [addBookReview] = useAddBookReviewMutation()
 	const [lastReadPage, setLastReadPage] = useState('')
 	const { styleAnimation } = useScaleOnMount()
-	
 	useFocusEffect(() => {
 		const parseLastPage = async () => {
 			try {
@@ -51,6 +50,7 @@ const SingleBookPage = ({ route }: any) => {
 					setLastReadPage(value)
 				}
 			} catch (e) {
+				console.log(e)
 			}
 		}
 		parseLastPage()
@@ -58,8 +58,6 @@ const SingleBookPage = ({ route }: any) => {
 	if (!book || !Profile) return <Loader />
 	const total = Object.values(book.comments).reduce((t, { rating }) => t + rating, 0) / (book.comments.length ? book.comments.length : book.comments.constructor.length)
 	const isFavorite = Profile?.favoritesBook?.some(item => item.id === book.id)
-	
-	
 	const Favoritedata = {
 		Image: book.Image,
 		Name: book.Name,
@@ -68,7 +66,6 @@ const SingleBookPage = ({ route }: any) => {
 		description: book.description,
 		id: book.id
 	}
-	
 	const SubmitReview = (data: any) => {
 		const RevieStructire = {
 			message: data.message,
@@ -162,17 +159,13 @@ const SingleBookPage = ({ route }: any) => {
 				<Statistics FirstDescription={'Years'} FirstHeading={book.penData} SecondHeading={book.antalSider.toString()}
 				            SecondDescription={'Pages'} ThirdHeading={Object.values(book.comments).length.toString()}
 				            ThirdDescription={'Reviews'} />
-				<View>
-					<Text className='text-white  font-bold  text-2xl mt-6'>Description</Text>
-					<Animatable.Text animation={animation} numberOfLines={4}
-					                 className='text-gray text-[16px] mt-2'>{book.description}</Animatable.Text>
-				</View>
-				
+				<Text className='text-white  font-bold  text-2xl mt-6'>Description</Text>
+				<Animatable.Text animation={animation} numberOfLines={4}
+				                 className='text-gray text-[16px] mt-2'>{book.description}</Animatable.Text>
 				<View className='flex-row justify-between
 			items-center'>
 					<Text className='text-white  font-bold  text-2xl mt-6'>Review</Text>
 					<Text onPress={() => setIsVisible(true)} className='text-gray text-lg mt-6'>Add</Text>
-				
 				</View>
 				<Animatable.View animation={animation} className='mb-2 flex-1'>
 					{book.comments.length ? book.comments.map(comments => (

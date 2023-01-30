@@ -1,5 +1,5 @@
 import { AntDesign, Feather } from '@expo/vector-icons'
-import { Image, ScrollView, Text, View } from 'react-native'
+import { Image, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
 import { useFetchCurrentUserBooksQuery } from '../../../store/api/books'
@@ -9,7 +9,7 @@ import {
 	useFetchSingleUserQuery,
 	useRemoveUserToFavoriteMutation
 } from '../../../store/api/user'
-import BookItems from '../../ui/BookItems/BookItems'
+import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
 import ClearUserLogo from '../../ui/clearUserLogo'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
@@ -26,13 +26,11 @@ const SingleUserPage = ({ route }: any) => {
 	const userFavoriteData = {
 		uid: user?.uid
 	}
-	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(Profile?.name, {
-		skip: !Profile
-	})
+	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(user)
 	const isFavorite = Profile?.favoritesUser.some(item => item.uid === user?.uid)
 	if (!user) return <Loader />
 	return <Layout>
-		<ScrollView showsVerticalScrollIndicator={false}>
+		<View className='h-full'>
 			<View className='flex-row justify-between mt-4 '>
 				<Feather onPress={() => goBack()} name='arrow-left' size={24} color='white' />
 				{(uid !== StateUser?.uid) ? !isFavorite ?
@@ -66,17 +64,11 @@ const SingleUserPage = ({ route }: any) => {
 			
 			<Text className='text-white  font-bold  text-2xl mt-6'>Books</Text>
 			
-			<View className='mb-2 flex-1'>
-				{CurrentUserBook?.length ? CurrentUserBook.map(books => (
-					<View key={books.id}>
-						<BookItems id={books.id} genre={books.genre}
-						           image={books.Image} name={books.Name}
-						           autor={books.autor} description={books.description} />
-					</View>
-				)) : <Text className='text-gray text-xl'>None Books!</Text>}
-			</View>
+			
+			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []} />
 		
-		</ScrollView>
+		
+		</View>
 	</Layout>
 }
 
