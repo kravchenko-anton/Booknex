@@ -2,6 +2,7 @@ import { Reader, ReaderProvider } from '@epubjs-react-native/core'
 import { useFileSystem } from '@epubjs-react-native/expo-file-system'
 import { Feather } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { StatusBar } from 'expo-status-bar'
 import { useRef, useState } from 'react'
 import { Pressable, Text, useWindowDimensions, View } from 'react-native'
 import 'react-native-gesture-handler'
@@ -17,9 +18,8 @@ const ReadPage = ({ route }: any) => {
 	const [isVisible, setIsVisible] = useState(false)
 	const [TotalLocation, setTotalLocation] = useState(0)
 	const bottomSheetModalRef = useRef(null)
-	return <SafeAreaProvider>
-		<SafeAreaView>
-			
+	return <View>
+			<StatusBar hidden={true}/>
 			<ReaderProvider>
 				<Reader
 					initialLocation={LastReadPage}
@@ -35,6 +35,7 @@ const ReadPage = ({ route }: any) => {
 						// @ts-ignore
 						setTotalLocation(currentLocation.end.percentage)
 					}}
+					onDoublePress={() => setIsVisible(!isVisible)}
 					renderLoadingFileComponent={() => <Loader />}
 					enableSwipe={true}
 					defaultTheme={theme}
@@ -42,10 +43,9 @@ const ReadPage = ({ route }: any) => {
 				
 				/>
 			</ReaderProvider>
-		</SafeAreaView>
 		
 		
-		<ModalPopup height={150} isVisible={isVisible} setIsVisible={setIsVisible} title={'Settings '}>
+		<ModalPopup height={150} isVisible={isVisible} setIsVisible={setIsVisible} title={'Settings'}>
 			<View className='flex-row justify-between items-center'>
 				<Text onPress={() => console.log('10px')} className='font-bold text-xl text-blue'>Color scheme:</Text>
 				<View className={'flex-row flex-wrap items-center'}>
@@ -65,15 +65,11 @@ const ReadPage = ({ route }: any) => {
 			</View>
 		</ModalPopup>
 		<View className='flex-row justify-between items-center'>
-			<Pressable onPress={() => setIsVisible(true)}
-			           className='bottom-0 z-50 bg-blue left-0 absolute p-1 rounded-tr-lg'>
-				<Feather name='settings'
-				         size={16}
-				         color='white' /></Pressable>
+
 			<Text
-				className='bottom-0 right-0 z-50 absolute p-1 text-gray text-md'>{TotalLocation.toString().charAt(0)}%</Text>
+				className='bottom-0 right-1  z-50 absolute p-1 text-gray text-md'>{TotalLocation.toString().substring(0,4)}%</Text>
 		</View>
-	</SafeAreaProvider>
+	</View>
 }
 
 export default ReadPage

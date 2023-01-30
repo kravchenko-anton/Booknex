@@ -23,12 +23,12 @@ const SingleUserPage = ({ route }: any) => {
 	const { user: StateUser } = useTypedSelector(state => state.auth)
 	const { data: user } = useFetchSingleUserQuery(uid)
 	const { data: Profile } = useFetchMyProfileQuery(StateUser?.uid)
+	const isFavorite = Profile?.favoritesUser.some(item => item.uid === user?.uid)
+	if (!user) return <Loader />
+	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(user.name)
 	const userFavoriteData = {
 		uid: user?.uid
 	}
-	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(user)
-	const isFavorite = Profile?.favoritesUser.some(item => item.uid === user?.uid)
-	if (!user) return <Loader />
 	return <Layout>
 		<View className='h-full'>
 			<View className='flex-row justify-between mt-4 '>
