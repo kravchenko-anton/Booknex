@@ -57,11 +57,6 @@ const bookApi = api.injectEndpoints({
 					return { data: books }
 				} catch (error: any) {
 					console.log(error)
-					Toast.show({
-						text1: 'Book not loaded!',
-						text2: error.message,
-						type: 'error'
-					})
 					return { error }
 				}
 			},

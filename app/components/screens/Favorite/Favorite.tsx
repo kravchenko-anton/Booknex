@@ -11,7 +11,7 @@ const Favorite = () => {
 	const { data: CurrentUser, isLoading, error } = useFetchSingleUserQuery(user?.uid)
 	if (!CurrentUser || !user) return <Loader />
 	return <Layout>
-		<View className='h-full'>
+		<View className='h-full '>
 			<ScrollView horizontal={true} className='h-[160px] mt-1' showsHorizontalScrollIndicator={false}>
 				{CurrentUser.favoritesUser.map(userUid => (
 					<UserMapElement key={userUid.uid} userUId={userUid.uid} />

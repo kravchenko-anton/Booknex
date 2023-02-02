@@ -1,6 +1,6 @@
 import React from 'react'
 import { Animated, Image, Pressable, Text, useWindowDimensions, View } from 'react-native'
-import { Rating } from 'react-native-ratings'
+import { AirbnbRating } from 'react-native-ratings'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
 import { useFetchBooksQuery } from '../../../store/api/books'
@@ -8,11 +8,11 @@ import Layout from '../../ui/Layout/Layout'
 
 const Home = () => {
 	const { data: book, isLoading, error } = useFetchBooksQuery(null)
+	const { navigate } = useTypedNavigation()
 	const CarouselBook = [{ key: 'spacer' }, ...(book ? book : []), { key: 'rightSpacer' }] as BookTypes[]
 	const scrollX = React.useRef(new Animated.Value(0)).current
 	const { width, height } = useWindowDimensions()
 	const Item_Width = width * 0.75
-	const { navigate } = useTypedNavigation()
 	const SPACING = 2
 	const EMPTY_ITEM_SIZE = (Item_Width) / 10
 	return <Layout>
@@ -47,13 +47,13 @@ const Home = () => {
 							       className='w-full rounded-xl' style={{ height: Item_Width * 1.6 }} />
 						</Pressable>
 						<Text numberOfLines={1} className='text-white text-3xl font-bold mt-2'>{item.Name}</Text>
-						<View className='flex-row gap-1 items-center'>
-							<Rating
-								ratingCount={5} tintColor='#121212'
-								startingValue={Object.values(item.comments).reduce((t, { rating }) => t + rating, 0) / (item.comments.length ? item.comments.length : item.comments.constructor.length)}
-								showRating={false} imageSize={18}
-								readonly={true}
-								jumpValue={1}
+						<View className='flex-row items-center'>
+							<AirbnbRating
+								size={18}
+								defaultRating={Object.values(item.comments).reduce((t, { rating }) => t + rating, 0) / (item.comments.length ? item.comments.length : item.comments.constructor.length)}
+								count={5}
+								showRating={false}
+								isDisabled={true}
 							/>
 							<Text className='text-white text-xl font-bold'>/ 4</Text>
 						</View>

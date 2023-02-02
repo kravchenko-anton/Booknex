@@ -1,50 +1,39 @@
-import { AntDesign, Feather, FontAwesome5 } from '@expo/vector-icons'
+import { Feather, FontAwesome5 } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { Image, Pressable, ScrollView, Text, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
-import { AirbnbRating, Rating } from 'react-native-ratings'
+import { AirbnbRating } from 'react-native-ratings'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import {
-	useAddBookReviewMutation,
-	useAddBookToFavoriteMutation,
-	useDeleteBookFromFavoriteMutation,
-	useFetchSingleBookQuery
-} from '../../../store/api/books'
+import { useFetchSingleBookQuery } from '../../../store/api/books'
 import { useFetchMyProfileQuery } from '../../../store/api/user'
 import { animation, BottomAnimation, BottomAnimationEndToStart } from '../../../utils/TextAnimation'
 import { useScaleOnMount } from '../../../utils/useBounces'
-import Field from '../../ui/field/field'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import ModalPopup from '../../ui/modal'
 import CommentElement from '../../ui/ratingElement'
 import Statistics from '../../ui/statistics'
+import AddBookRating from './AddBookRating'
+import BookFavoritesButton from './BookFavoritesButton'
 
 const SingleBookPage = ({ route }: any) => {
-	//TODO: small component, add all logic in oher component
 	const { id } = route.params
 	const { goBack, navigate } = useTypedNavigation()
 	const { user: StateUser } = useTypedSelector(state => state.auth)
-	const { control, reset, handleSubmit } = useForm()
-	const { data: book } = useFetchSingleBookQuery(id)
-	const [addBook] = useAddBookToFavoriteMutation()
+	const { data: book, isLoading } = useFetchSingleBookQuery(id)
 	const { data: Profile } = useFetchMyProfileQuery(StateUser?.uid)
-	const [removeFromFavorite] = useDeleteBookFromFavoriteMutation()
 	const [isVisible, setIsVisible] = useState(false)
 	const [visibleButton, setVisibleButton] = useState(true)
-	const [RatingCount, setRatingCount] = useState(0)
-	const [addBookReview] = useAddBookReviewMutation()
 	const [lastReadPage, setLastReadPage] = useState('')
 	const { styleAnimation } = useScaleOnMount()
 	useFocusEffect(() => {
 		const parseLastPage = async () => {
 			try {
-				// @ts-ignore, if using after !book i see error 'more rerenders'
+				// @ts-ignore
 				const value = await AsyncStorage.getItem(book.epubDoc)
 				if (value !== null) {
 					setLastReadPage(value)
@@ -55,54 +44,13 @@ const SingleBookPage = ({ route }: any) => {
 		}
 		parseLastPage()
 	})
-	if (!book || !Profile) return <Loader />
+	if (!book || !Profile || isLoading) return <Loader />
 	const total = Object.values(book.comments).reduce((t, { rating }) => t + rating, 0) / (book.comments.length ? book.comments.length : book.comments.constructor.length)
-	const isFavorite = Profile?.favoritesBook?.some(item => item.id === book.id)
-	const Favoritedata = {
-		Image: book.Image,
-		Name: book.Name,
-		genre: book.genre,
-		autor: book.autor,
-		description: book.description,
-		id: book.id
-	}
-	const SubmitReview = (data: any) => {
-		const RevieStructire = {
-			message: data.message,
-			rating: (RatingCount !== 0) ? RatingCount : 3,
-			create_At: new Date(),
-			userUid: Profile.uid
-		}
-		addBookReview({ id, rating: RevieStructire, profile: Profile })
-		reset()
-	}
 	return <Layout>
 		<View className='h-full'>
 			<ModalPopup height={300} isVisible={isVisible} setIsVisible={setIsVisible} title={'Add review'}>
-				<AirbnbRating
-					size={40}
-					defaultRating={3}
-					
-					count={5}
-					onFinishRating={(raitingCount) => setRatingCount(raitingCount)}
-				/>
-				<View className='h-full items-end'>
-					<Field control={control} name={'message'} placeholder={'Stay Message'}
-					       className=' text-start' rules={{
-						required: 'Please, stay message!',
-						minLength: {
-							value: 20,
-							message: 'You text must be a minimum 20 letter!'
-						}
-					}} />
-					<Pressable onPress={handleSubmit(SubmitReview)}
-					           className='bg-primary p-2  rounded-lg flex  mt-2 w-[200px]'><Text
-						className='text-white font-bold text-2xl text-center'>Send
-						Review</Text></Pressable>
-				</View>
+				<AddBookRating id={id} Profile={Profile} />
 			</ModalPopup>
-			
-			
 			<Animatable.View className=' absolute z-50 bottom-3 flex-row left-28 right-28 items-center justify-between'
 			                 animation={visibleButton ? BottomAnimation : BottomAnimationEndToStart}>
 				<Pressable
@@ -119,16 +67,8 @@ const SingleBookPage = ({ route }: any) => {
 				
 				<View className='flex-row justify-between mt-4 '>
 					<Feather onPress={() => goBack()} name='arrow-left' size={24} color='white' />
-					{!isFavorite ?
-						<Feather onPress={() => addBook({ currentUserUID: StateUser?.uid, book: Favoritedata })} name='heart'
-						         size={24}
-						         color='white' /> :
-						<AntDesign onPress={() => removeFromFavorite({ currentUserUID: StateUser?.uid, book: Favoritedata })}
-						           name='delete'
-						           size={24}
-						           color='white' />}
+					<BookFavoritesButton book={book} Profile={Profile} StateUser={StateUser} />
 				</View>
-				
 				<View className='flex-row  justify-between mt-8'>
 					<Animated.View entering={FadeInDown} style={styleAnimation}>
 						<Image source={{ uri: book.Image }} className='w-[150px] mr-3 h-[250px] rounded-xl' />
@@ -139,11 +79,13 @@ const SingleBookPage = ({ route }: any) => {
 						<Text
 							className='text-gray  text-lg mt-2 font-semibold mb-2'>{book.autor.join(', ')}</Text>
 						
-						<View className='flex-row gap-1 items-center mb-2'>
-							<Rating
-								ratingCount={5} tintColor='#121212' startingValue={total} showRating={false} imageSize={24}
-								readonly={true}
-								jumpValue={1}
+						<View className='flex-row items-center mb-2'>
+							<AirbnbRating
+								size={20}
+								defaultRating={total}
+								count={5}
+								showRating={false}
+								isDisabled={true}
 							/>
 							<Text className='text-white text-lg font-bold'>/ ({Object.values(book.comments).length})</Text>
 						</View>

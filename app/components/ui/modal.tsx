@@ -11,9 +11,9 @@ export interface IModal {
 
 const ModalPopup: FC<PropsWithChildren<IModal>> = ({ isVisible, setIsVisible, children, title, height }) => {
 	return <View>
-		<Modal hardwareAccelerated={true} animationType='slide' transparent={true} visible={isVisible}>
+		<Modal hardwareAccelerated={true}  animationType='slide' transparent={true} visible={isVisible}>
 			<View style={{ height: height }} className=' absolute z-50 bottom-0 w-full'>
-				<View className='flex-row p-3 rounded-t-xl items-center justify-between bg-blue'>
+				<View className='flex-row p-3  items-center justify-between bg-blue'>
 					<Text className='text-white font-bold text-lg'>{title}</Text>
 					<Pressable onPress={() => setIsVisible(!isVisible)}>
 						<MaterialIcons name='close' color='#fff' size={22} />

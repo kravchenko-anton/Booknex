@@ -10,7 +10,7 @@ export interface IAFlatList {
 const AnimatedFlatList: FC<IAFlatList> = (props) => {
 	const { navigate } = useTypedNavigation()
 	const scrollY = useRef(new Animated.Value(0)).current
-	return <FlatList horizontal={false} renderToHardwareTextureAndroid={true}
+	return <FlatList renderToHardwareTextureAndroid={true}
 	                 data={props.data}
 	                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: false })}
 	                 renderItem={({ item, index }) => {
