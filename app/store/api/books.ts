@@ -1,3 +1,4 @@
+import firebase from 'firebase/compat'
 import {
 	addDoc,
 	arrayRemove,
@@ -196,7 +197,7 @@ const bookApi = api.injectEndpoints({
 						comments: arrayUnion(rating)
 					})
 					await updateDoc(UserRef, {
-						revieCount: +1
+						revieCount: firebase.firestore.FieldValue.increment(1)
 					})
 					Toast.show({
 						text1: 'You add book review!',

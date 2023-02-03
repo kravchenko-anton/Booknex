@@ -55,7 +55,7 @@ const Home = () => {
 								showRating={false}
 								isDisabled={true}
 							/>
-							<Text className='text-white text-xl font-bold'>/ 4</Text>
+							<Text className='text-white text-xl font-bold'>/ 5</Text>
 						</View>
 						<View className='mt-2 flex-wrap flex-row'>
 							{item.genre.map((item: string) => (

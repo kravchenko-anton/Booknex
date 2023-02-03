@@ -1,33 +1,41 @@
 {
-  "expo": {
-    "name": "NtBook",
-    "slug": "NtBook",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+	"expo": {
+		"name": "BOOKNEX",
+		"slug": "booknex",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./app/assets/icon.png",
+		"userInterfaceStyle": "dark",
+		"splash": {
+			"image": "./app/assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#121212"
+		},
+		"updates": {
+			"fallbackToCacheTimeout": 0
+		},
+		"assetBundlePatterns": [
+			"**/*"
+		],
+		"ios": {
+			"supportsTablet": true,
+			"requireFullScreen": true,
+			"bundleIdentifier": "com.maxzbs.redflix"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./app/assets/adaptive-icon.png",
+				"backgroundColor": "#121212"
+			},
+			"package": "com.maxzbs.redflix"
+		},
+		"web": {
+			"favicon": "./app/assets/favicon.png"
+		},
+		"extra": {
+			"eas": {
+				"projectId": "6b58d1cf-c30d-4ab1-9f27-f19a05eb3fb5"
+			}
+		}
+	}
 }

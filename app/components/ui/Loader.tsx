@@ -1,14 +1,10 @@
-import { FC } from 'react'
-import { ActivityIndicator } from 'react-native'
+import { ActivityIndicator, ActivityIndicatorProps } from 'react-native'
 
-export interface ILoader {
-	rest?: any
-}
 
-const Loader: FC<ILoader> = ({ rest }) => {
-	return <ActivityIndicator color='#702DF5' style={{ height: "100%" }}
-	                          className='justify-center items-center' {...rest}
-	                          size={'large'} />
+const Loader = ({ ...rest }: ActivityIndicatorProps) => {
+	return <ActivityIndicator color='#702DF5' style={{ height: '100%' }}
+	                          className='justify-center items-center'
+	                          size={'large'} {...rest} />
 }
 
 export default Loader

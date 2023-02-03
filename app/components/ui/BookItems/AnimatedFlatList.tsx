@@ -12,13 +12,14 @@ const AnimatedFlatList: FC<IAFlatList> = (props) => {
 	const scrollY = useRef(new Animated.Value(0)).current
 	return <FlatList renderToHardwareTextureAndroid={true}
 	                 data={props.data}
+	                 contentContainerStyle={{ flexGrow: 1 }}
 	                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], { useNativeDriver: false })}
 	                 renderItem={({ item, index }) => {
 		                 const inputRange = [
 			                 -1,
 			                 0,
 			                 150 * index,
-			                 150 * (index + 2)
+			                 150 * (index + 5)
 		                 ]
 		                 const scale = scrollY.interpolate({ inputRange, outputRange: [1, 1, 1, 0], extrapolate: 'clamp' })
 		                 return <Animated.View key={item.id} style={{ transform: [{ scale: scale }], marginVertical: 8 }}>
