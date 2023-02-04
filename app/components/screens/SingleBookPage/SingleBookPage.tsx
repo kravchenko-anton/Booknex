@@ -10,7 +10,11 @@ import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
 import { useFetchSingleBookQuery } from '../../../store/api/books'
 import { useFetchMyProfileQuery } from '../../../store/api/user'
-import { animation, BottomAnimation, BottomAnimationEndToStart } from '../../../utils/TextAnimation'
+import {
+	animation,
+	BottomAnimation,
+	BottomAnimationEndToStart
+} from '../../../utils/TextAnimation'
 import { useScaleOnMount } from '../../../utils/useBounces'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
@@ -45,81 +49,142 @@ const SingleBookPage = ({ route }: any) => {
 		parseLastPage()
 	})
 	if (!book || !Profile || isLoading) return <Loader />
-	const total = Object.values(book.comments).reduce((t, { rating }) => t + rating, 0) / (book.comments.length ? book.comments.length : book.comments.constructor.length)
-	return <Layout>
-		<View className='h-full'>
-			<ModalPopup height={300} isVisible={isVisible} setIsVisible={setIsVisible} title={'Add review'}>
-				<AddBookRating id={id} Profile={Profile} />
-			</ModalPopup>
-			<Animatable.View className=' absolute z-50 bottom-3 flex-row left-28 right-28 items-center justify-between'
-			                 animation={visibleButton ? BottomAnimation : BottomAnimationEndToStart}>
-				<Pressable
-					className=' bg-primary rounded-lg p-4 flex-row justify-between w-full'
-					onPress={() => navigate('ReadPage', {
-						epub: book.epubDoc, LastReadPage: lastReadPage
-					})}>
-					<Text className=' text-white text-xl font-bold'>Go Read</Text>
-					<FontAwesome5 name='book-reader' size={24} color='white' />
-				</Pressable>
-			</Animatable.View>
-			<ScrollView onTouchEndCapture={() => setVisibleButton(!visibleButton)}
-			            showsVerticalScrollIndicator={false}>
-				
-				<View className='flex-row justify-between mt-4 '>
-					<Feather onPress={() => goBack()} name='arrow-left' size={24} color='white' />
-					<BookFavoritesButton book={book} Profile={Profile} StateUser={StateUser} />
-				</View>
-				<View className='flex-row  justify-between mt-8'>
-					<Animated.View entering={FadeInDown} style={styleAnimation}>
-						<Image source={{ uri: book.Image }} className='w-[150px] mr-3 h-[250px] rounded-xl' />
-					</Animated.View>
-					<Animatable.View animation={animation} className='flex-1'>
-						<Text
-							className='text-white font-bold text-2xl mt-6'>{book.Name}</Text>
-						<Text
-							className='text-gray  text-lg mt-2 font-semibold mb-2'>{book.autor.join(', ')}</Text>
-						
-						<View className='flex-row items-center mb-2'>
-							<AirbnbRating
-								size={20}
-								defaultRating={total}
-								count={5}
-								showRating={false}
-								isDisabled={true}
-							/>
-							<Text className='text-white text-lg font-bold'>/ ({Object.values(book.comments).length})</Text>
-						</View>
-						<Text
-							className='text-gray text-lg'>{book.bookLanguage}</Text>
-						<View className='mt-2 flex-wrap flex-row'>
-							{book.genre.map(item => (
-								<Text key={item} className='text-white text-md bg-blue rounded-lg mr-1 p-2 mb-2'>{item}</Text>
-							))}
-						</View>
-					</Animatable.View>
-				</View>
-				<Statistics FirstDescription={'Years'} FirstHeading={book.penData} SecondHeading={book.antalSider.toString()}
-				            SecondDescription={'Pages'} ThirdHeading={Object.values(book.comments).length.toString()}
-				            ThirdDescription={'Reviews'} />
-				<Text className='text-white  font-bold  text-2xl mt-6'>Description</Text>
-				<Animatable.Text animation={animation} numberOfLines={4}
-				                 className='text-gray text-[16px] mt-2'>{book.description}</Animatable.Text>
-				<View className='flex-row justify-between
-			items-center'>
-					<Text className='text-white  font-bold  text-2xl mt-6'>Review</Text>
-					<Text onPress={() => setIsVisible(true)} className='text-gray text-lg mt-6'>Add</Text>
-				</View>
-				<Animatable.View animation={animation} className='mb-2 flex-1'>
-					{book.comments.length ? book.comments.map(comments => (
-						<CommentElement key={comments.create_At} rating={comments.rating} BookId={comments.BookId}
-						                create_At={comments.create_At}
-						                message={comments.message} userUid={comments.userUid} />
-					)) : <Text className='text-gray text-xl'>None review!</Text>}
+	const total =
+		Object.values(book.comments).reduce((t, { rating }) => t + rating, 0) /
+		(book.comments.length
+			? book.comments.length
+			: book.comments.constructor.length)
+	return (
+		<Layout>
+			<View className='h-full'>
+				<ModalPopup
+					height={300}
+					isVisible={isVisible}
+					setIsVisible={setIsVisible}
+					title={'Add review'}
+				>
+					<AddBookRating id={id} Profile={Profile} />
+				</ModalPopup>
+				<Animatable.View
+					className=' absolute z-50 bottom-3 flex-row left-28 right-28 items-center justify-between'
+					animation={visibleButton ? BottomAnimation : BottomAnimationEndToStart}
+				>
+					<Pressable
+						className=' bg-primary rounded-lg p-4 flex-row justify-between w-full'
+						onPress={() =>
+							navigate('ReadPage', {
+								epub: book.epubDoc,
+								LastReadPage: lastReadPage
+							})
+						}
+					>
+						<Text className=' text-white text-xl font-bold'>Go Read</Text>
+						<FontAwesome5 name='book-reader' size={24} color='white' />
+					</Pressable>
 				</Animatable.View>
-			
-			</ScrollView>
-		</View>
-	</Layout>
+				<ScrollView
+					onTouchEndCapture={() => setVisibleButton(!visibleButton)}
+					showsVerticalScrollIndicator={false}
+				>
+					<View className='flex-row justify-between mt-4 '>
+						<Feather
+							onPress={() => goBack()}
+							name='arrow-left'
+							size={24}
+							color='white'
+						/>
+						<BookFavoritesButton
+							book={book}
+							Profile={Profile}
+							StateUser={StateUser}
+						/>
+					</View>
+					<View className='flex-row  justify-between mt-8'>
+						<Animated.View entering={FadeInDown} style={styleAnimation}>
+							<Image
+								source={{ uri: book.Image }}
+								className='w-[150px] mr-3 h-[250px] rounded-xl'
+							/>
+						</Animated.View>
+						<Animatable.View animation={animation} className='flex-1'>
+							<Text className='text-white font-bold text-2xl mt-6'>{book.Name}</Text>
+							<Text className='text-gray  text-lg mt-2 font-semibold mb-2'>
+								{book.autor.join(', ')}
+							</Text>
+
+							<View className='flex-row items-center mb-2'>
+								<AirbnbRating
+									size={20}
+									defaultRating={total}
+									count={5}
+									showRating={false}
+									isDisabled={true}
+								/>
+								<Text className='text-white text-lg font-bold'>
+									/ ({Object.values(book.comments).length})
+								</Text>
+							</View>
+							<Text className='text-gray text-lg'>{book.bookLanguage}</Text>
+							<View className='mt-2 flex-wrap flex-row'>
+								{book.genre.map(item => (
+									<Text
+										key={item}
+										className='text-white text-md bg-blue rounded-lg mr-1 p-2 mb-2'
+									>
+										{item}
+									</Text>
+								))}
+							</View>
+						</Animatable.View>
+					</View>
+					<Statistics
+						FirstDescription={'Years'}
+						FirstHeading={book.penData}
+						SecondHeading={book.antalSider.toString()}
+						SecondDescription={'Pages'}
+						ThirdHeading={Object.values(book.comments).length.toString()}
+						ThirdDescription={'Reviews'}
+					/>
+					<Text className='text-white  font-bold  text-2xl mt-6'>Description</Text>
+					<Animatable.Text
+						animation={animation}
+						numberOfLines={4}
+						className='text-gray text-[16px] mt-2'
+					>
+						{book.description}
+					</Animatable.Text>
+					<View
+						className='flex-row justify-between
+			items-center'
+					>
+						<Text className='text-white  font-bold  text-2xl mt-6'>Review</Text>
+						<Text
+							onPress={() => setIsVisible(true)}
+							className='text-gray text-lg mt-6'
+						>
+							Add
+						</Text>
+					</View>
+					<Animatable.View animation={animation} className='mb-2 flex-1'>
+						{book.comments.length ? (
+							book.comments.map(comments => (
+								<CommentElement
+									key={comments.create_At}
+									rating={comments.rating}
+									BookId={comments.BookId}
+									create_At={comments.create_At}
+									message={comments.message}
+									userUid={comments.userUid}
+								/>
+							))
+						) : (
+							<Text className='text-gray text-xl'>None review!</Text>
+						)}
+					</Animatable.View>
+				</ScrollView>
+			</View>
+		</Layout>
+	)
 }
 
 export default SingleBookPage

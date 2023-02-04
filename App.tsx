@@ -21,8 +21,5 @@ export default function App() {
 				</SafeAreaProvider>
 			</PersistGate>
 		</Provider>
-	
 	)
 }
-
-

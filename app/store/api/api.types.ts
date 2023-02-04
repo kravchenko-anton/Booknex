@@ -31,5 +31,3 @@ export interface Comment {
 	message: string
 	userUid: string | number
 }
-
-

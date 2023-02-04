@@ -6,9 +6,10 @@ export const UploadFile = (blobFile: any, fileName: any): Promise<string> => {
 	const sotrageRef = ref(storage, fileName)
 	const uploadTask = uploadBytesResumable(sotrageRef, blobFile)
 	return new Promise((resolve, reject) => {
-		uploadTask.on('state_changed',
+		uploadTask.on(
+			'state_changed',
 			null,
-			(error) => reject(error),
+			error => reject(error),
 			async () => {
 				const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
 				resolve(downloadURL)

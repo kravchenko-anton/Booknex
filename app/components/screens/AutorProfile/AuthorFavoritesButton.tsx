@@ -16,17 +16,38 @@ const AuthorFavoritesButton: FC<{ user: Iuser }> = ({ user }) => {
 	const [removeFavorite] = useRemoveUserToFavoriteMutation()
 	const userFavoriteData = { uid: user.uid }
 	const isFavorite = Profile?.favoritesUser.some(item => item.uid === user.uid)
-	
-	return <View>
-		{(user.uid !== StateUser?.uid) ? !isFavorite ?
-			<Feather onPress={() => addToFavorite({ currentUserUID: StateUser?.uid, favoriteUser: userFavoriteData })}
-			         name='heart'
-			         size={24} color='white' /> :
-			<AntDesign onPress={() => removeFavorite({ currentUserUID: StateUser?.uid, favoriteUser: userFavoriteData })}
-			           name='delete'
-			           size={24}
-			           color='white' /> : null}
-	</View>
+
+	return (
+		<View>
+			{user.uid !== StateUser?.uid ? (
+				!isFavorite ? (
+					<Feather
+						onPress={() =>
+							addToFavorite({
+								currentUserUID: StateUser?.uid,
+								favoriteUser: userFavoriteData
+							})
+						}
+						name='heart'
+						size={24}
+						color='white'
+					/>
+				) : (
+					<AntDesign
+						onPress={() =>
+							removeFavorite({
+								currentUserUID: StateUser?.uid,
+								favoriteUser: userFavoriteData
+							})
+						}
+						name='delete'
+						size={24}
+						color='white'
+					/>
+				)
+			) : null}
+		</View>
+	)
 }
 
 export default AuthorFavoritesButton

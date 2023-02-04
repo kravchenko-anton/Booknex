@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import { login, logout, register } from './auth.action'
 import { IAuthInitialState } from './auth.interface'
 
-
 const initialState: IAuthInitialState = {
 	user: null,
 	isLoading: false

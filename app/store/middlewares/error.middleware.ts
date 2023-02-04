@@ -2,7 +2,6 @@ import { isRejectedWithValue } from '@reduxjs/toolkit'
 import Toast from 'react-native-toast-message'
 import { Middleware, MiddlewareAPI } from 'redux'
 
-
 export const rtkQueryErrorLogger: Middleware =
 	(api: MiddlewareAPI) => next => action => {
 		if (isRejectedWithValue(action)) {
@@ -12,6 +11,6 @@ export const rtkQueryErrorLogger: Middleware =
 				type: 'error'
 			})
 		}
-		
+
 		return next(action)
 	}

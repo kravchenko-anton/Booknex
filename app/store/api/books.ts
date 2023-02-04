@@ -17,8 +17,7 @@ import { api } from './api'
 import { BookTypes } from './api.types'
 
 const bookApi = api.injectEndpoints({
-	endpoints: (build) => ({
-		
+	endpoints: build => ({
 		// Fetch appBooks book
 		fetchBooks: build.query({
 			async queryFn() {
@@ -26,7 +25,7 @@ const bookApi = api.injectEndpoints({
 					const blogRef = collection(db, 'books')
 					const querySnaphot = await getDocs(blogRef)
 					let books: BookTypes[] = []
-					querySnaphot?.forEach((doc) => {
+					querySnaphot?.forEach(doc => {
 						// @ts-ignore
 						books.push({ id: doc.id, ...doc.data() })
 					})
@@ -42,16 +41,18 @@ const bookApi = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
-		
+
 		// Fetch CurrentUserBooks
 		fetchCurrentUserBooks: build.query({
 			async queryFn(AutorName) {
 				try {
-					const q = query(collection(db, 'userBook'), where('autor', 'array-contains', AutorName))
+					const q = query(
+						collection(db, 'userBook'),
+						where('autor', 'array-contains', AutorName)
+					)
 					const querySnaphot = await getDocs(q)
 					let books: BookTypes[] = []
-					querySnaphot?.forEach((doc) => {
+					querySnaphot?.forEach(doc => {
 						// @ts-ignore
 						books.push({ id: doc.id, ...doc.data() })
 					})
@@ -63,8 +64,7 @@ const bookApi = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
-		
+
 		//Fetch horror  book
 		fetchHorrorBooks: build.query({
 			async queryFn() {
@@ -76,11 +76,11 @@ const bookApi = api.injectEndpoints({
 					const UserquerySnaphot = await getDocs(uq)
 					const BooksquerySnaphot = await getDocs(bq)
 					let books: BookTypes[] = []
-					UserquerySnaphot?.forEach((doc) => {
+					UserquerySnaphot?.forEach(doc => {
 						// @ts-ignore
 						books.push({ id: doc.id, ...doc.data() })
 					})
-					BooksquerySnaphot?.forEach((doc) => {
+					BooksquerySnaphot?.forEach(doc => {
 						// @ts-ignore
 						books.push({ id: doc.id, ...doc.data() })
 					})
@@ -96,8 +96,7 @@ const bookApi = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
-		
+
 		//Fetch Action  book
 		fetchActionBooks: build.query({
 			async queryFn() {
@@ -109,11 +108,11 @@ const bookApi = api.injectEndpoints({
 					const UserquerySnaphot = await getDocs(uq)
 					const BooksquerySnaphot = await getDocs(bq)
 					let books: BookTypes[] = []
-					UserquerySnaphot?.forEach((doc) => {
+					UserquerySnaphot?.forEach(doc => {
 						// @ts-ignore
 						books.push({ id: doc.id, ...doc.data() })
 					})
-					BooksquerySnaphot?.forEach((doc) => {
+					BooksquerySnaphot?.forEach(doc => {
 						// @ts-ignore
 						books.push({ id: doc.id, ...doc.data() })
 					})
@@ -129,8 +128,7 @@ const bookApi = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
-		
+
 		// Fetch AllBooks
 		fetchAllBooks: build.query({
 			async queryFn() {
@@ -140,11 +138,11 @@ const bookApi = api.injectEndpoints({
 					const UserquerySnaphot = await getDocs(userBookRef)
 					const BooksquerySnaphot = await getDocs(booksRef)
 					let books: BookTypes[] = []
-					UserquerySnaphot?.forEach((doc) => {
+					UserquerySnaphot?.forEach(doc => {
 						// @ts-ignore
 						books.push({ id: doc.id, ...doc.data() })
 					})
-					BooksquerySnaphot?.forEach((doc) => {
+					BooksquerySnaphot?.forEach(doc => {
 						// @ts-ignore
 						books.push({ id: doc.id, ...doc.data() })
 					})
@@ -160,7 +158,7 @@ const bookApi = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
+
 		//Fetch single book
 		fetchSingleBook: build.query({
 			async queryFn(id) {
@@ -182,8 +180,7 @@ const bookApi = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
-		
+
 		// add Book Review
 		addBookReview: build.mutation({
 			async queryFn({ id, rating, profile }) {
@@ -215,8 +212,7 @@ const bookApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
-		
+
 		// add Book to Favorite
 		addBookToFavorite: build.mutation({
 			async queryFn({ currentUserUID, book }) {
@@ -241,16 +237,15 @@ const bookApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
-		
+
 		// add userBook
 		addUserBook: build.mutation({
 			async queryFn({ UserId, book }) {
 				try {
 					const reference = doc(db, 'users', UserId)
-					
+
 					await addDoc(collection(db, 'userBook'), book)
-					
+
 					Toast.show({
 						text1: 'You book add!',
 						type: 'success'
@@ -268,7 +263,7 @@ const bookApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
+
 		// delete favorite book
 		deleteBookFromFavorite: build.mutation({
 			async queryFn({ currentUserUID, book }) {
@@ -293,7 +288,6 @@ const bookApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		})
-		
 	})
 })
 

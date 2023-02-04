@@ -5,23 +5,20 @@ export type TypeRootStackParamList = {
 	Home: undefined
 	Search: undefined
 	BookPage: {
-		id?: number | string,
+		id?: number | string
 		uid?: number | string
 	}
-	
-	
+
 	Auth: undefined
 	UserProfile: undefined
-	
+
 	AutorProfile: {
 		uid: string | number
 	}
 	ReadPage: {
-		epub: string | number,
-		LastReadPage: string | number,
-		
+		epub: string | number
+		LastReadPage: string | number
 	}
-	
 }
 
 export interface iRoutes {

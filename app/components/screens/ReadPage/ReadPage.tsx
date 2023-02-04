@@ -5,9 +5,11 @@ import ReaderComponent from './ReaderComponent'
 const ReadPage = ({ route }: any) => {
 	const { epub, LastReadPage } = route.params
 	if (!epub) return <Loader />
-	return <ReaderProvider>
-		<ReaderComponent LastReadPage={LastReadPage} epub={epub} />
-	</ReaderProvider>
+	return (
+		<ReaderProvider>
+			<ReaderComponent LastReadPage={LastReadPage} epub={epub} />
+		</ReaderProvider>
+	)
 }
 
 export default ReadPage

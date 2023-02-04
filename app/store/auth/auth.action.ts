@@ -1,13 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import {
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+	signOut
+} from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import Toast from 'react-native-toast-message'
 import { auth, db } from '../../utils/firebase'
 import { IAuthFields } from './auth.interface'
 
-
 export const register = createAsyncThunk<any, IAuthFields>(
-	'auth/register', async ({ email, password }, thunkAPI) => {
+	'auth/register',
+	async ({ email, password }, thunkAPI) => {
 		try {
 			const user = await createUserWithEmailAndPassword(auth, email, password)
 			Toast.show({
@@ -48,7 +52,7 @@ export const login = createAsyncThunk<any, IAuthFields>(
 				text2: 'You login success!',
 				type: 'success'
 			})
-			
+
 			return { user }
 		} catch (error: any) {
 			Toast.show({
@@ -60,7 +64,6 @@ export const login = createAsyncThunk<any, IAuthFields>(
 		}
 	}
 )
-
 
 export const logout = createAsyncThunk<any, null>(
 	'auth/logout',

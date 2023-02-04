@@ -1,5 +1,4 @@
-import {TypeRootStackParamList} from "./navigationTypes";
-
+import { TypeRootStackParamList } from './navigationTypes'
 
 export interface IMenuItem {
 	iconName: string
@@ -13,16 +12,14 @@ export const menuItems: IMenuItem[] = [
 	},
 	{
 		iconName: 'search',
-		path: "Search"
+		path: 'Search'
 	},
 	{
 		iconName: 'heart',
-		path: "Favorite"
+		path: 'Favorite'
 	},
 	{
 		iconName: 'user',
-		path: "UserProfile"
-	},
-
-
+		path: 'UserProfile'
+	}
 ]

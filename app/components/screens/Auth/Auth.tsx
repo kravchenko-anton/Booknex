@@ -22,25 +22,36 @@ const Auth = () => {
 			navigate('Home')
 		}
 	}, [user])
-	return <Layout>
-		<View className='h-full justify-center'>
-			<View className='items-center'>
-				<Text
-					className='text-white font-bold text-4xl mb-4'>{isReg ? 'Register' : 'Login'}</Text>
-				<View className='w-5/6'>
-					<Field control={control} name={'email'} placeholder={'Email'} />
-					<Field control={control} name={'password'} placeholder={'Password'} />
+	return (
+		<Layout>
+			<View className='h-full justify-center'>
+				<View className='items-center'>
+					<Text className='text-white font-bold text-4xl mb-4'>
+						{isReg ? 'Register' : 'Login'}
+					</Text>
+					<View className='w-5/6'>
+						<Field control={control} name={'email'} placeholder={'Email'} />
+						<Field control={control} name={'password'} placeholder={'Password'} />
+					</View>
+					<Pressable
+						className='bg-primary rounded-md mt-4 pb-3 pt-3 pl-14 pr-14'
+						onPress={handleSubmit(onSubmit)}
+					>
+						<Text className='text-white text-xl font-bold'>
+							{isReg ? 'Register' : 'Login'}
+						</Text>
+					</Pressable>
 				</View>
-				<Pressable className='bg-primary rounded-md mt-4 pb-3 pt-3 pl-14 pr-14'
-				           onPress={handleSubmit(onSubmit)}><Text
-					className='text-white text-xl font-bold'>{isReg ? 'Register' : 'Login'}</Text></Pressable>
+
+				<Text
+					onPress={() => setIsReg(!isReg)}
+					className='text-gray text-right mt-4 text-lg'
+				>
+					{!isReg ? 'Register' : 'Login'}
+				</Text>
 			</View>
-			
-			<Text onPress={() => setIsReg(!isReg)}
-			      className='text-gray text-right mt-4 text-lg'>{!isReg ? 'Register' : 'Login'}</Text>
-		
-		</View>
-	</Layout>
+		</Layout>
+	)
 }
 
 export default Auth

@@ -13,7 +13,7 @@ export const userRoutes: iRoutes[] = [
 		name: 'Home',
 		component: Home
 	},
-	
+
 	{
 		name: 'AutorProfile',
 		component: AutorProfile
@@ -34,17 +34,14 @@ export const userRoutes: iRoutes[] = [
 		name: 'Auth',
 		component: Auth
 	},
-	
+
 	{
 		name: 'BookPage',
 		component: SingleBookPage
 	},
-	
-	
+
 	{
 		name: 'Search',
 		component: Search
 	}
-
-
 ]

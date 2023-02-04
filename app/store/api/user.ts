@@ -1,19 +1,26 @@
-import { arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
+import {
+	arrayRemove,
+	arrayUnion,
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	updateDoc
+} from 'firebase/firestore'
 import Toast from 'react-native-toast-message'
 import { db } from '../../utils/firebase'
 import { api } from './api'
 import { Iuser } from './api.types'
 
 const userApi = api.injectEndpoints({
-	endpoints: (build) => ({
-		
+	endpoints: build => ({
 		fetchUser: build.query({
 			async queryFn() {
 				try {
 					const blogRef = collection(db, 'users')
 					const querySnaphot = await getDocs(blogRef)
 					let user: Iuser[] = []
-					querySnaphot?.forEach((doc) => {
+					querySnaphot?.forEach(doc => {
 						// @ts-ignore
 						user.push({ uid: doc.id, ...doc.data() })
 					})
@@ -24,8 +31,7 @@ const userApi = api.injectEndpoints({
 			},
 			providesTags: ['user']
 		}),
-		
-		
+
 		fetchSingleUser: build.query({
 			async queryFn(uid) {
 				try {
@@ -38,7 +44,7 @@ const userApi = api.injectEndpoints({
 			},
 			providesTags: ['user']
 		}),
-		
+
 		fetchMyProfile: build.query({
 			async queryFn(uid) {
 				try {
@@ -51,7 +57,7 @@ const userApi = api.injectEndpoints({
 			},
 			providesTags: ['user']
 		}),
-		
+
 		removeUserToFavorite: build.mutation({
 			async queryFn({ currentUserUID, favoriteUser }) {
 				try {
@@ -74,8 +80,7 @@ const userApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
-		
+
 		addUserToFavorite: build.mutation({
 			async queryFn({ currentUserUID, favoriteUser }) {
 				try {
@@ -98,9 +103,7 @@ const userApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		})
-		
 	})
-	
 })
 
 export const {
