@@ -1,3 +1,5 @@
+
+
 import { ScrollView, View } from 'react-native'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
 import { useFetchSingleUserQuery } from '../../../store/api/user'
@@ -16,21 +18,18 @@ const Favorite = () => {
 	} = useFetchSingleUserQuery(user?.uid)
 	if (!CurrentUser || !user) return <Loader />
 	return (
-		<Layout>
-			<View className='h-full'>
+		<Layout className='h-full'>
+				<AnimatedFlatList data={CurrentUser.favoritesBook} >
 				<ScrollView
 					horizontal={true}
-					className='h-[160px] w-full mt-1'
+					className='h-[130px] w-full mt-1'
 					showsHorizontalScrollIndicator={false}
 				>
 					{CurrentUser.favoritesUser.map(userUid => (
 						<UserMapElement key={userUid.uid} userUId={userUid.uid} />
 					))}
 				</ScrollView>
-				<AnimatedFlatList data={CurrentUser.favoritesBook} />
-			</View>
-		
-		
+				</AnimatedFlatList>
 		</Layout>
 	)
 }

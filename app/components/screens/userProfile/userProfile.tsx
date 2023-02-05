@@ -31,8 +31,8 @@ const UserProfilePages = () => {
 	)
 	if (!CurrentUser || !user) return <Loader />
 	return (
-		<Layout>
-			<View className='h-full'>
+		<Layout className='h-full'>
+				<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : null}>
 				<ModalPopup
 					height={'80%'}
 					isVisible={isVisible}
@@ -101,8 +101,8 @@ const UserProfilePages = () => {
 					</Text>
 				</View>
 
-				<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : null} />
-			</View>
+				
+				</AnimatedFlatList>
 		</Layout>
 	)
 }

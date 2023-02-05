@@ -16,14 +16,15 @@ const Search = () => {
 	const { data: Users } = useFetchUserQuery(null)
 	if (!book || !Users) return <Loader />
 	return (
-		<Layout>
+		<Layout className='h-full'>
 			<Field control={control} name={'Search'} placeholder={'Type something...'} />
-			{watch('Search') !== '' ? (
-				<View className='h-full'>
-					{Users.filter(user => user.name.includes(watch('Search'))).length > 0 ? (
+					<AnimatedFlatList
+						data={book.filter(item => item.Name.includes(watch('Search')))}>
+				<View className=''>
+					{watch('Search') != '' && Users.filter(user => user.name.includes(watch('Search'))).length > 0 ? (
 						<ScrollView
 							horizontal={true}
-							className='h-[160px] mt-1'
+							className='h-[130px] mt-1'
 							showsHorizontalScrollIndicator={false}
 						>
 							{Users.filter((user: { name: string }) =>
@@ -49,11 +50,8 @@ const Search = () => {
 							))}
 						</ScrollView>
 					) : null}
-					<AnimatedFlatList
-						data={book.filter(item => item.Name.includes(watch('Search')))}
-					/>
 				</View>
-			) : null}
+					</AnimatedFlatList>
 		</Layout>
 	)
 }
