@@ -7,6 +7,7 @@ import {
 	doc,
 	getDoc,
 	getDocs,
+	deleteDoc,
 	query,
 	updateDoc,
 	where
@@ -64,7 +65,35 @@ const bookApi = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-
+		
+		
+		
+		RemoveUserBook: build.mutation({
+			async queryFn({ id }) {
+				try {
+					const userBookRef = doc(db, 'userBook', id)
+					deleteDoc(userBookRef).then(() => {
+					Toast.show({
+						text1: 'You delete book!',
+						type: 'success'
+					})
+					})
+					return { data: 'Ok' }
+				} catch (error: any) {
+					console.log(error)
+					Toast.show({
+						text1: 'You  not delete book!',
+						text2: error.message,
+						type: 'error'
+					})
+					return { error }
+				}
+			},
+			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
+		}),
+		
+		
+		
 		//Fetch horror  book
 		fetchHorrorBooks: build.query({
 			async queryFn() {
@@ -295,6 +324,7 @@ export const {
 	useDeleteBookFromFavoriteMutation,
 	useFetchHorrorBooksQuery,
 	useFetchActionBooksQuery,
+	useRemoveUserBookMutation,
 	useFetchCurrentUserBooksQuery,
 	useAddBookReviewMutation,
 	useFetchAllBooksQuery,

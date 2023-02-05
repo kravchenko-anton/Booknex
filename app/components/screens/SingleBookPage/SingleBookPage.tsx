@@ -1,14 +1,14 @@
-import { Feather, FontAwesome5 } from '@expo/vector-icons'
+import { Feather, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 import { useState } from 'react'
-import { Image, Pressable, ScrollView, Text, View } from 'react-native'
+import { Image, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { AirbnbRating } from 'react-native-ratings'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import { useFetchSingleBookQuery } from '../../../store/api/books'
+import { useFetchSingleBookQuery, useRemoveUserBookMutation } from '../../../store/api/books'
 import { useFetchMyProfileQuery } from '../../../store/api/user'
 import {
 	animation,
@@ -33,6 +33,7 @@ const SingleBookPage = ({ route }: any) => {
 	const [isVisible, setIsVisible] = useState(false)
 	const [visibleButton, setVisibleButton] = useState(true)
 	const [lastReadPage, setLastReadPage] = useState('')
+	const [remove] = useRemoveUserBookMutation()
 	const { styleAnimation } = useScaleOnMount()
 	useFocusEffect(() => {
 		const parseLastPage = async () => {
@@ -86,13 +87,22 @@ const SingleBookPage = ({ route }: any) => {
 					onTouchEndCapture={() => setVisibleButton(!visibleButton)}
 					showsVerticalScrollIndicator={false}
 				>
-					<View className='flex-row justify-between mt-4 '>
+					<View className='flex-row justify-between items-center mt-4 '>
 						<Feather
 							onPress={() => goBack()}
 							name='arrow-left'
 							size={24}
 							color='white'
 						/>
+						{book.autor.includes(Profile.name) ?
+							<TouchableOpacity onPress={() => {
+								remove({id: book.id}).then(() => navigate('UserProfile')
+								)
+							}} className='flex-row gap-3 items-center'>
+								<MaterialCommunityIcons name="book-remove" size={26} color="#FF0000" />
+								<Text className='text-[#FF0000] text-lg font-bold'>Delete book</Text>
+							</TouchableOpacity> : null}
+						
 						<BookFavoritesButton
 							book={book}
 							Profile={Profile}

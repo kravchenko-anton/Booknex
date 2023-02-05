@@ -3,12 +3,10 @@ import { Animated, Image, Pressable, Text, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
+import { useRemoveUserBookMutation } from '../../../store/api/books'
 
-export interface IAFlatList {
-	data: BookTypes[] | null
-}
 
-const AnimatedFlatList: FC<PropsWithChildren<IAFlatList>> = ({children, data}) => {
+const AnimatedFlatList: FC<PropsWithChildren<{ data:BookTypes[], id?: string }>> = ({children, data}) => {
 	const { navigate } = useTypedNavigation()
 	const scrollY = useRef(new Animated.Value(0)).current
 	
