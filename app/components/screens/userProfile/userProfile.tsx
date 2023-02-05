@@ -5,7 +5,10 @@ import Animated from 'react-native-reanimated'
 import { useAction } from '../../../hook/useAction'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import { useFetchCurrentUserBooksQuery, useRemoveUserBookMutation } from '../../../store/api/books'
+import {
+	useFetchCurrentUserBooksQuery,
+	useRemoveUserBookMutation
+} from '../../../store/api/books'
 import { useFetchSingleUserQuery } from '../../../store/api/user'
 import { useScaleOnMount } from '../../../utils/useBounces'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
@@ -32,7 +35,7 @@ const UserProfilePages = () => {
 	if (!CurrentUser || !user) return <Loader />
 	return (
 		<Layout className='h-full'>
-				<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook :[]}>
+			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
 				<ModalPopup
 					height={'80%'}
 					isVisible={isVisible}
@@ -76,7 +79,7 @@ const UserProfilePages = () => {
 					<Text className='text-white font-bold text-2xl mt-2'>
 						{CurrentUser.name}
 					</Text>
-					<Text  className='text-gray text-md'>{CurrentUser.email}</Text>
+					<Text className='text-gray text-md'>{CurrentUser.email}</Text>
 				</View>
 				<Statistics
 					FirstDescription={'Favorite'}
@@ -100,9 +103,7 @@ const UserProfilePages = () => {
 						Add books
 					</Text>
 				</View>
-
-				
-				</AnimatedFlatList>
+			</AnimatedFlatList>
 		</Layout>
 	)
 }

@@ -4,11 +4,11 @@ import { Text, TextInput, View } from 'react-native'
 import { IField } from './field.interface'
 
 const Field = <T extends Record<string, any>>({
-	                                              control,
-	                                              rules,
-	                                              name,
-	                                              ...rest
-                                              }: IField<T>): JSX.Element => {
+	control,
+	rules,
+	name,
+	...rest
+}: IField<T>): JSX.Element => {
 	return (
 		<Controller
 			control={control}

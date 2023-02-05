@@ -54,7 +54,9 @@ const ReaderComponent = (props: { LastReadPage: string; epub: string }) => {
 				style={theme.body.background === '#121212' ? 'light' : 'dark'}
 				// @ts-ignore
 				backgroundColor={
-					(theme.body.background === '#fff' ? '#fff' : (theme.body.background === '#121212' && '#121212')) ||
+					(theme.body.background === '#fff'
+						? '#fff'
+						: theme.body.background === '#121212' && '#121212') ||
 					(theme.body.background === '#e8dcb8' && '#e8dcb8')
 				}
 			/>
@@ -107,11 +109,25 @@ const ReaderComponent = (props: { LastReadPage: string; epub: string }) => {
 					/>
 				</SafeAreaView>
 			</View>
-			<Settings toc={toc} isVisible={isVisible} setIsVisible={setIsVisible} search={search} goBack={goBack}
-			          searchResults={searchResults} changeTheme={changeTheme} setTheme={setTheme} theme={theme}
-			          currentLocation={currentLocation} goToLocation={goToLocation} changeFontSize={changeFontSize}
-			          changeFontFamily={changeFontFamily} fontFamiles={fontFamiles} fontSize={fontSize}
-			          setFontFamiles={setFontFamiles} setFontSize={setFontSize} />
+			<Settings
+				toc={toc}
+				isVisible={isVisible}
+				setIsVisible={setIsVisible}
+				search={search}
+				goBack={goBack}
+				searchResults={searchResults}
+				changeTheme={changeTheme}
+				setTheme={setTheme}
+				theme={theme}
+				currentLocation={currentLocation}
+				goToLocation={goToLocation}
+				changeFontSize={changeFontSize}
+				changeFontFamily={changeFontFamily}
+				fontFamiles={fontFamiles}
+				fontSize={fontSize}
+				setFontFamiles={setFontFamiles}
+				setFontSize={setFontSize}
+			/>
 			<Text className='bottom-0 right-1 z-[10] absolute p-1 text-gray text-md'>
 				{currentLocation?.end.percentage
 					? (currentLocation.end.percentage * 100).toString().slice(0, 4) + '%'

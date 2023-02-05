@@ -59,7 +59,7 @@ export const dark: Theme = {
 		background: '#121212',
 		color: '#fff !important'
 	},
-	
+
 	span: {
 		color: '#fff !important'
 	},

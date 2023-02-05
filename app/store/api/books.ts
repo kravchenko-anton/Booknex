@@ -65,18 +65,16 @@ const bookApi = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
-		
-		
+
 		RemoveUserBook: build.mutation({
 			async queryFn({ id }) {
 				try {
 					const userBookRef = doc(db, 'userBook', id)
 					deleteDoc(userBookRef).then(() => {
-					Toast.show({
-						text1: 'You delete book!',
-						type: 'success'
-					})
+						Toast.show({
+							text1: 'You delete book!',
+							type: 'success'
+						})
 					})
 					return { data: 'Ok' }
 				} catch (error: any) {
@@ -91,9 +89,7 @@ const bookApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
-		
-		
+
 		//Fetch horror  book
 		fetchHorrorBooks: build.query({
 			async queryFn() {

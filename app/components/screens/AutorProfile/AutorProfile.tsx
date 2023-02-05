@@ -19,7 +19,7 @@ const SingleUserPage = ({ route }: any) => {
 	if (!user) return <Loader />
 	return (
 		<Layout className='h-full'>
-				<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []} >
+			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
 				<View className='flex-row justify-between mt-4 '>
 					<Feather
 						onPress={() => goBack()}
@@ -54,7 +54,7 @@ const SingleUserPage = ({ route }: any) => {
 					ThirdDescription={'Books'}
 				/>
 				<Text className='text-white  font-bold  text-2xl mt-6'>Books</Text>
-				</AnimatedFlatList>
+			</AnimatedFlatList>
 		</Layout>
 	)
 }

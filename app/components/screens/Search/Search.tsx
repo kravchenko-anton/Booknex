@@ -18,10 +18,12 @@ const Search = () => {
 	return (
 		<Layout className='h-full'>
 			<Field control={control} name={'Search'} placeholder={'Type something...'} />
-					<AnimatedFlatList
-						data={book.filter(item => item.Name.includes(watch('Search')))}>
-				<View className=''>
-					{watch('Search') != '' && Users.filter(user => user.name.includes(watch('Search'))).length > 0 ? (
+			<AnimatedFlatList
+				data={book.filter(item => item.Name.includes(watch('Search')))}
+			>
+				<View>
+					{watch('Search') != '' &&
+					Users.filter(user => user.name.includes(watch('Search'))).length > 0 ? (
 						<ScrollView
 							horizontal={true}
 							className='h-[130px] mt-1'
@@ -51,7 +53,7 @@ const Search = () => {
 						</ScrollView>
 					) : null}
 				</View>
-					</AnimatedFlatList>
+			</AnimatedFlatList>
 		</Layout>
 	)
 }

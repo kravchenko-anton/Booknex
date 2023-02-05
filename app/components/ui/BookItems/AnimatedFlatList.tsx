@@ -5,11 +5,12 @@ import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
 import { useRemoveUserBookMutation } from '../../../store/api/books'
 
-
-const AnimatedFlatList: FC<PropsWithChildren<{ data:BookTypes[], id?: string }>> = ({children, data}) => {
+const AnimatedFlatList: FC<
+	PropsWithChildren<{ data: BookTypes[]; id?: string }>
+> = ({ children, data }) => {
 	const { navigate } = useTypedNavigation()
 	const scrollY = useRef(new Animated.Value(0)).current
-	
+
 	return (
 		<FlatList
 			renderToHardwareTextureAndroid={true}

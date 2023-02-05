@@ -5,7 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 const Layout: FC<PropsWithChildren<ViewProps>> = ({ children, ...rest }) => {
 	return (
 		<SafeAreaView>
-			<View className={'p-3 bg-[#121212]'} {...rest}>{children}</View>
+			<View className={'p-3 bg-[#121212]'} {...rest}>
+				{children}
+			</View>
 		</SafeAreaView>
 	)
 }
