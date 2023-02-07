@@ -17,7 +17,7 @@ import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import ModalPopup from '../../ui/modal'
 import Statistics from '../../ui/statistics'
-import AddVideoPopup from './AddVideoPopup'
+import AddBookPopup from './AddBookPopup'
 
 const UserProfilePages = () => {
 	const { goBack } = useTypedNavigation()
@@ -42,7 +42,7 @@ const UserProfilePages = () => {
 					setIsVisible={setIsVisible}
 					title={'Add book'}
 				>
-					<AddVideoPopup
+					<AddBookPopup
 						user={user}
 						CurrentUser={CurrentUser}
 						setIsVisible={setIsVisible}

@@ -23,20 +23,20 @@ const Home = () => {
 	] as BookTypes[]
 	const scrollX = React.useRef(new Animated.Value(0)).current
 	const { width, height } = useWindowDimensions()
-	const Item_Width = width * 0.75
-	const SPACING = 2
-	const EMPTY_ITEM_SIZE = Item_Width / 10
+	const Item_Width = width * 0.755
+	const SPACING = 3
 	return (
 		<Layout>
 			<View className='h-full'>
 				<Animated.FlatList
 					bounces={false}
-					decelerationRate={0}
+					decelerationRate={0.2}
 					showsHorizontalScrollIndicator={false}
-					snapToInterval={Item_Width + SPACING}
+					snapToInterval={Item_Width}
+					snapToAlignment='start'
 					scrollEventThrottle={16}
 					renderToHardwareTextureAndroid={true}
-					contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+					contentContainerStyle={{  alignItems: 'center' }}
 					horizontal
 					data={CarouselBook}
 					onScroll={Animated.event(
@@ -44,11 +44,11 @@ const Home = () => {
 						{ useNativeDriver: false }
 					)}
 					renderItem={({ item, index }) => {
-						if (!item.Name) return <View style={{ width: EMPTY_ITEM_SIZE }} />
+						if (!item.Name) return <View style={{ width: Item_Width / 9 }} />
 						const inputRange = [
-							(index - 2) * Item_Width,
-							(index - 1) * Item_Width,
-							index * Item_Width
+							(index - 2) * Item_Width ,
+							(index - 1) *  Item_Width,
+							(index) * Item_Width
 						]
 						const TranslateY = scrollX.interpolate({
 							inputRange,
@@ -56,10 +56,10 @@ const Home = () => {
 							extrapolate: 'clamp'
 						})
 						return (
+							<View style={{ width: Item_Width }}>
 							<Animated.View
 								key={item.id}
 								style={{
-									width: Item_Width,
 									transform: [{ translateY: TranslateY }],
 									marginHorizontal: SPACING,
 									padding: SPACING * 2,
@@ -112,6 +112,7 @@ const Home = () => {
 									))}
 								</View>
 							</Animated.View>
+							</View>
 						)
 					}}
 				/>

@@ -5,20 +5,21 @@ import { Pressable, Text, View } from 'react-native'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { useAddUserBookMutation } from '../../../store/api/books'
 import Field from '../../ui/field/field'
-import { IaddVideo } from './addVideoPopup.interface'
+import { IaddBook } from './addBookPopup.interface'
 import { DropdownElement } from './DropdownElement'
 import { UploadFile } from './uploadFile'
 
-const AddVideoPopup: FC<IaddVideo> = ({ user, setIsVisible, CurrentUser }) => {
+const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 	const [ImageBlob, setImageBlob] = useState<Blob>()
 	const [EpubBlob, setEpubBlob] = useState<Blob>()
 	const [addUserBook] = useAddUserBookMutation()
-	const { control, handleSubmit, reset } = useForm()
+		const { control, handleSubmit, reset } = useForm()
 	const [open, setOpen] = useState(false)
 	const [value, setValue] = useState(null)
 	const [items, setItems] = useState(DropdownElement)
 	const [ImageUrlPatch, setImageUrlPatch] = useState(undefined)
 	const [EpubUrlPatch, setEpubUrlPatch] = useState(undefined)
+	const [UploadLoading, setUploadLoading] = useState(false)
 	const pickEpub = async () => {
 		const result: any = await DocumentPicker.getDocumentAsync({
 			type: 'application/epub+zip'
@@ -41,6 +42,7 @@ const AddVideoPopup: FC<IaddVideo> = ({ user, setIsVisible, CurrentUser }) => {
 	}
 
 	const UploadBook = async (data: any) => {
+		setUploadLoading(true)
 		const image = await UploadFile(ImageBlob, data.Name)
 		const epub = await UploadFile(EpubBlob, EpubUrlPatch)
 		addUserBook({
@@ -60,6 +62,7 @@ const AddVideoPopup: FC<IaddVideo> = ({ user, setIsVisible, CurrentUser }) => {
 		})
 		setIsVisible(false)
 		reset()
+		setUploadLoading(false)
 	}
 	return (
 		<View className='h-full'>
@@ -95,18 +98,22 @@ const AddVideoPopup: FC<IaddVideo> = ({ user, setIsVisible, CurrentUser }) => {
 			<View className='gap-1 mt-1 flex-row justify-between w-full items-center'>
 				<View>
 					<Field
+						keyboardType={'number-pad'}
 						control={control}
 						rules={{
-							required: 'data requered!'
+							required: 'data requered!',
+							max: {  value: 2023, message: 'Maximum 2023' },
 						}}
 						name={'penData'}
-						placeholder={'Pen data '}
+						placeholder={'Years'}
 					/>
 				</View>
 				<View>
 					<Field
+						keyboardType={'number-pad'}
 						rules={{
-							required: 'Page count requered!'
+							required: 'Page count requered!',
+							max: {  value:10000, message: 'Maximum 10000 page' },
 						}}
 						control={control}
 						name={'antalSider'}
@@ -120,7 +127,7 @@ const AddVideoPopup: FC<IaddVideo> = ({ user, setIsVisible, CurrentUser }) => {
 						}}
 						control={control}
 						name={'bookLanguage'}
-						placeholder={'Language '}
+						placeholder={'Language'}
 					/>
 				</View>
 			</View>
@@ -146,15 +153,15 @@ const AddVideoPopup: FC<IaddVideo> = ({ user, setIsVisible, CurrentUser }) => {
 			</View>
 
 			<View className='mt-4 flex items-center'>
-				<Pressable
+				<Pressable  disabled={UploadLoading} android_disableSound={UploadLoading}
 					onPress={handleSubmit(UploadBook)}
 					className='bg-blue p-4 rounded-lg'
 				>
-					<Text className='text-white font-bold text-xl'>Add book 📩</Text>
+					<Text className='text-white font-bold text-xl'>{!UploadLoading ? 'Add book 📩' : 'Loading book!'}</Text>
 				</Pressable>
 			</View>
 		</View>
 	)
 }
 
-export default AddVideoPopup
+export default AddBookPopup

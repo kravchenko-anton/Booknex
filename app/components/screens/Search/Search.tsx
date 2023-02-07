@@ -19,7 +19,7 @@ const Search = () => {
 		<Layout className='h-full'>
 			<Field control={control} name={'Search'} placeholder={'Type something...'} />
 			<AnimatedFlatList
-				data={book.filter(item => item.Name.includes(watch('Search')))}
+				data={book.filter(item => watch('Search') ? item.Name.includes(watch('Search')) : item)}
 			>
 				<View>
 					{watch('Search') != '' &&

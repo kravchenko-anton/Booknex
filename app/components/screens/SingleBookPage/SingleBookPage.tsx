@@ -134,7 +134,7 @@ const SingleBookPage = ({ route }: any) => {
 							/>
 						</Animated.View>
 						<Animatable.View animation={animation} className='flex-1'>
-							<Text className='text-white font-bold text-2xl mt-6'>{book.Name}</Text>
+							<Text numberOfLines={2} className='text-white font-bold text-2xl mt-6'>{book.Name}</Text>
 							<Text className='text-gray  text-lg mt-2 font-semibold mb-2'>
 								{book.autor.join(', ')}
 							</Text>

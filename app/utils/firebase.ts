@@ -9,13 +9,7 @@ import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 
 const firebaseConfig = {
-	apiKey: 'XXXXXXXX',
-	authDomain: 'XXXXXXXX',
-	projectId: 'XXXXXXXX',
-	storageBucket: 'XXXXXXXX',
-	messagingSenderId: 'XXXXXXXX',
-	appId: '1:XXXXXXXX:web:XXXXXXXX',
-	measurementId: 'G-XXXXXXXX'
+
 }
 
 const app = initializeApp(firebaseConfig)
