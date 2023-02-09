@@ -1,7 +1,7 @@
 import React from 'react'
 import {
 	Animated,
-	Image,
+	Image, Platform,
 	Pressable,
 	Text,
 	useWindowDimensions,
@@ -12,57 +12,53 @@ import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
 import { useFetchBooksQuery } from '../../../store/api/books'
 import Layout from '../../ui/Layout/Layout'
+import { EMPTY_ITEM_SIZE, ITEM_SIZE, SPACING } from './useCarousel'
 
 const Home = () => {
 	const { data: book, isLoading, error } = useFetchBooksQuery(null)
 	const { navigate } = useTypedNavigation()
 	const CarouselBook = [
-		{ key: 'spacer' },
+		{ id: 'first' } as BookTypes,
 		...(book ? book : []),
-		{ key: 'rightSpacer' }
-	] as BookTypes[]
+		{ id: 'last' } as BookTypes
+	]
 	const scrollX = React.useRef(new Animated.Value(0)).current
-	const { width, height } = useWindowDimensions()
-	const Item_Width = width * 0.755
-	const SPACING = 3
 	return (
-		<Layout>
-			<View className='h-full'>
+		<Layout className='h-full p-0 items-center justify-center'>
 				<Animated.FlatList
 					bounces={false}
-					decelerationRate={0.2}
+					keyExtractor={item => `key ${item.id}`}
+					decelerationRate={Platform.OS == "ios" ? 0 : 0.9}
 					showsHorizontalScrollIndicator={false}
-					snapToInterval={Item_Width}
+					snapToInterval={ITEM_SIZE}
 					snapToAlignment='start'
 					scrollEventThrottle={16}
-					renderToHardwareTextureAndroid={true}
-					contentContainerStyle={{  alignItems: 'center' }}
-					horizontal
+					contentContainerStyle={{alignItems: 'center'}}
+					renderToHardwareTextureAndroid horizontal
 					data={CarouselBook}
 					onScroll={Animated.event(
 						[{ nativeEvent: { contentOffset: { x: scrollX } } }],
 						{ useNativeDriver: false }
 					)}
 					renderItem={({ item, index }) => {
-						if (!item.Name) return <View style={{ width: Item_Width / 9 }} />
+						if (!item.Name) return <View style={{ width: EMPTY_ITEM_SIZE }} />
 						const inputRange = [
-							(index - 2) * Item_Width ,
-							(index - 1) *  Item_Width,
-							(index) * Item_Width
+							(index - 2) * ITEM_SIZE ,
+							(index - 1) *  ITEM_SIZE,
+							(index) * ITEM_SIZE
 						]
 						const TranslateY = scrollX.interpolate({
 							inputRange,
-							outputRange: [0, 50, 0],
+							outputRange: [100, 50, 100],
 							extrapolate: 'clamp'
 						})
 						return (
-							<View style={{ width: Item_Width }}>
+							<View style={{ width: ITEM_SIZE }}>
 							<Animated.View
 								key={item.id}
 								style={{
 									transform: [{ translateY: TranslateY }],
 									marginHorizontal: SPACING,
-									padding: SPACING * 2,
 									alignItems: 'center'
 								}}
 							>
@@ -77,10 +73,10 @@ const Home = () => {
 									<Image
 										source={{ uri: item.Image }}
 										className='w-full rounded-xl'
-										style={{ height: Item_Width * 1.6 }}
+										style={{ height: ITEM_SIZE * 1.4}}
 									/>
 								</Pressable>
-								<Text numberOfLines={1} className='text-white text-3xl font-bold mt-2'>
+								<Text numberOfLines={1} className='text-white w-full text-3xl font-bold mt-2'>
 									{item.Name}
 								</Text>
 								<View className='flex-row items-center'>
@@ -116,7 +112,6 @@ const Home = () => {
 						)
 					}}
 				/>
-			</View>
 		</Layout>
 	)
 }

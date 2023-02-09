@@ -1,4 +1,4 @@
-import { Reader, useReader } from '@epubjs-react-native/core'
+import { Reader, useReader, LoadingFileProps } from '@epubjs-react-native/core'
 import { useFileSystem } from '@epubjs-react-native/expo-file-system'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StatusBar } from 'expo-status-bar'
@@ -9,7 +9,6 @@ import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import Loader from '../../ui/Loader'
 import Settings from './ReaderUi/Settings/Settings'
 import { light } from './Theme'
-
 const ReaderComponent = (props: { LastReadPage: string; epub: string }) => {
 	const { width, height } = useWindowDimensions()
 	const [theme, setTheme] = useState(light)
@@ -27,7 +26,7 @@ const ReaderComponent = (props: { LastReadPage: string; epub: string }) => {
 		goToLocation,
 		changeFontFamily,
 		changeTheme,
-		totalLocations
+		totalLocations,
 	} = useReader()
 	if (!props) return <Loader />
 	useLayoutEffect(() => {
@@ -47,6 +46,7 @@ const ReaderComponent = (props: { LastReadPage: string; epub: string }) => {
 		}
 		parseLastPage()
 	}, [])
+
 	return (
 		<SafeAreaProvider>
 			<StatusBar
