@@ -26,7 +26,6 @@ const ReaderComponent = (props: { LastReadPage: string; epub: string }) => {
 		goToLocation,
 		changeFontFamily,
 		changeTheme,
-		totalLocations,
 	} = useReader()
 	if (!props) return <Loader />
 	useLayoutEffect(() => {

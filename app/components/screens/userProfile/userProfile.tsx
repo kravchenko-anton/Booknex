@@ -37,7 +37,7 @@ const UserProfilePages = () => {
 		<Layout className='h-full'>
 			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
 				<ModalPopup
-					height={'80%'}
+					height={550}
 					isVisible={isVisible}
 					setIsVisible={setIsVisible}
 					title={'Add book'}

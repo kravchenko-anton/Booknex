@@ -15,9 +15,9 @@ const Favorite = () => {
 	} = useFetchSingleUserQuery(user?.uid)
 	if (!CurrentUser || !user) return <Loader />
 	return (
-		<Layout className='h-full'>
+		<Layout className=''>
 			<AnimatedFlatList data={CurrentUser.favoritesBook}>
-				<ScrollView
+				{CurrentUser.favoritesUser.length ?  <ScrollView
 					horizontal={true}
 					className='h-[130px] w-full mt-1'
 					showsHorizontalScrollIndicator={false}
@@ -25,7 +25,7 @@ const Favorite = () => {
 					{CurrentUser.favoritesUser.map(userUid => (
 						<UserMapElement key={userUid.uid} userUId={userUid.uid} />
 					))}
-				</ScrollView>
+				</ScrollView> : null}
 			</AnimatedFlatList>
 		</Layout>
 	)

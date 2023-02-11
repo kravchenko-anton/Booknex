@@ -76,7 +76,7 @@ const Home = () => {
 										style={{ height: ITEM_SIZE * 1.4}}
 									/>
 								</Pressable>
-								<Text numberOfLines={1} className='text-white w-full text-3xl font-bold mt-2'>
+								<Text numberOfLines={1} className='text-center text-white w-full text-3xl font-bold mt-2'>
 									{item.Name}
 								</Text>
 								<View className='flex-row items-center'>

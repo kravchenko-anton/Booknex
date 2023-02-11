@@ -84,7 +84,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 				className='h-[40px]'
 			/>
 			<View>
-				<Text className='text-blue text-xl font-bold'>Genre</Text>
+				<Text className='text-white text-xl font-bold'>Genre</Text>
 				<DropDownPicker
 					open={open}
 					value={value}
@@ -132,7 +132,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 				</View>
 			</View>
 			<View className='mt-3  flex-row justify-between items-center'>
-				<Text numberOfLines={1} className='text-2xl w-[60%] text-blue font-bold'>
+				<Text numberOfLines={1} className='text-2xl w-[60%] text-white font-bold'>
 					{!ImageUrlPatch ? 'Select cover photo' : ImageUrlPatch}
 				</Text>
 				<Pressable
@@ -144,7 +144,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 			</View>
 
 			<View className='mt-3  flex-row justify-between items-center'>
-				<Text numberOfLines={1} className='text-2xl w-[60%] text-blue font-bold'>
+				<Text numberOfLines={1} className='text-2xl w-[60%] text-white font-bold'>
 					{!EpubUrlPatch ? 'Select epub file' : EpubUrlPatch}
 				</Text>
 				<Pressable onPress={() => pickEpub()} className='bg-primary p-2 rounded-lg'>

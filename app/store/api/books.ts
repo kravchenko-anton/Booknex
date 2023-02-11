@@ -10,7 +10,7 @@ import {
 	deleteDoc,
 	query,
 	updateDoc,
-	where
+	where, setDoc
 } from 'firebase/firestore'
 import Toast from 'react-native-toast-message'
 import { db } from '../../utils/firebase'
@@ -89,7 +89,33 @@ const bookApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-
+		
+		
+		//Add Chat to book
+		AddBookToChat: build.mutation({
+			async queryFn({ id }) {
+				try {
+					const BookRef = doc(db, 'BookChats', id)
+					const docSnap = await getDoc(BookRef);
+					if (!docSnap.exists()) {
+						setDoc(BookRef, {})
+					}
+					return { data: 'Ok' }
+				} catch (error: any) {
+					console.log(error)
+					Toast.show({
+						text1: 'You  not delete book!',
+						text2: error.message,
+						type: 'error'
+					})
+					return { error }
+				}
+			},
+			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
+		}),
+		
+		
+		
 		//Fetch horror  book
 		fetchHorrorBooks: build.query({
 			async queryFn() {

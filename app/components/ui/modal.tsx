@@ -1,6 +1,6 @@
-import { MaterialIcons } from '@expo/vector-icons'
 import { FC, PropsWithChildren } from 'react'
-import { Modal, Pressable, Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
+import Modal from "react-native-modal";
 
 export interface IModal {
 	isVisible: any
@@ -13,29 +13,28 @@ const ModalPopup: FC<PropsWithChildren<IModal>> = ({
 	isVisible,
 	setIsVisible,
 	children,
+	height,
 	title,
-	height
 }) => {
 	return (
-		<View>
-			<Modal
-				hardwareAccelerated={true}
-				animationType='slide'
-				transparent={true}
-				visible={isVisible}
-			>
-				<View style={{ height: height }} className=' absolute z-50 bottom-0 w-full'>
-					<View className='flex-row p-3  items-center justify-between bg-blue'>
-						<Text className='text-white font-bold text-lg'>{title}</Text>
-						<Pressable onPress={() => setIsVisible(!isVisible)}>
-							<MaterialIcons name='close' color='#fff' size={22} />
-						</Pressable>
+		<Modal className='m-0 p-0' style={{  justifyContent: "flex-end", flex: 1, height: 100}}
+			onBackdropPress={() => setIsVisible(false)}
+		       onBackButtonPress={() => setIsVisible(false)}
+		       isVisible={isVisible}
+		       swipeDirection="down"
+		       onSwipeComplete={() => setIsVisible(!isVisible)}
+		       animationIn="bounceInUp"
+		       animationOut="bounceOutDown"
+		       animationInTiming={900}
+		       animationOutTiming={500}
+		       backdropTransitionInTiming={1000}
+		       backdropTransitionOutTiming={500}>
+					<View style={{height}}  className='p-3 bg-[#181818] rounded-3xl'>
+			<View className='bg-[#bbb] mb-4 w-[60px] h-[5px] mx-auto rounded-md' />
+						{children}
 					</View>
-					<View className='p-3 bg-whiteGray h-full'>{children}</View>
-				</View>
-			</Modal>
-		</View>
-	)
+		</Modal>
+			)
 }
 
 export default ModalPopup

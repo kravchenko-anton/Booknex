@@ -1,5 +1,6 @@
 import Auth from '../components/screens/Auth/Auth'
 import AutorProfile from '../components/screens/AutorProfile/AutorProfile'
+import BookChat from '../components/screens/Chat/BookChat'
 import Favorite from '../components/screens/Favorite/Favorite'
 import Home from '../components/screens/Home/Home'
 import ReadPage from '../components/screens/ReadPage/ReadPage'
@@ -12,6 +13,10 @@ export const userRoutes: iRoutes[] = [
 	{
 		name: 'Home',
 		component: Home
+	},
+	{
+		name: 'Chat',
+		component: BookChat
 	},
 
 	{
