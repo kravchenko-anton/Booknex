@@ -3,11 +3,9 @@ import { FC } from 'react'
 import { View } from 'react-native'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
 import { Iuser } from '../../../store/api/api.types'
-import {
-	useAddUserToFavoriteMutation,
-	useFetchMyProfileQuery,
-	useRemoveUserToFavoriteMutation
-} from '../../../store/api/user'
+import { useAddUserToFavoriteMutation, useRemoveUserToFavoriteMutation } from '../../../store/api/user/mutation'
+import { useFetchMyProfileQuery } from '../../../store/api/user/query'
+
 
 const AuthorFavoritesButton: FC<{ user: Iuser }> = ({ user }) => {
 	const { user: StateUser } = useTypedSelector(state => state.auth)

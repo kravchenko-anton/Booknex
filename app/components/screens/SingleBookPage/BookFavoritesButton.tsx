@@ -2,10 +2,8 @@ import { AntDesign, Feather } from '@expo/vector-icons'
 import { FC } from 'react'
 import { View } from 'react-native'
 import { BookTypes, Iuser } from '../../../store/api/api.types'
-import {
-	useAddBookToFavoriteMutation,
-	useDeleteBookFromFavoriteMutation
-} from '../../../store/api/books'
+import { useAddBookToFavoriteMutation, useDeleteBookFromFavoriteMutation } from '../../../store/api/book/mutation'
+
 
 interface IFavoriteButon {
 	book: BookTypes

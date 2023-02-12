@@ -10,7 +10,7 @@ export type TypeRootStackParamList = {
 	}
 	
 	Chat: {
-		bookId: number | string
+	BookId: number | string
 	}
 	
 	Auth: undefined
@@ -22,6 +22,7 @@ export type TypeRootStackParamList = {
 	ReadPage: {
 		epub: string | number
 		LastReadPage: string | number
+		BookId: string | number
 	}
 }
 

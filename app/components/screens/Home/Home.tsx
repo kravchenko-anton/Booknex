@@ -1,16 +1,9 @@
 import React from 'react'
-import {
-	Animated,
-	Image, Platform,
-	Pressable,
-	Text,
-	useWindowDimensions,
-	View
-} from 'react-native'
+import { Animated, Image, Platform, Pressable, Text, View } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
-import { useFetchBooksQuery } from '../../../store/api/books'
+import { useFetchBooksQuery } from '../../../store/api/book/query'
 import Layout from '../../ui/Layout/Layout'
 import { EMPTY_ITEM_SIZE, ITEM_SIZE, SPACING } from './useCarousel'
 
@@ -25,35 +18,36 @@ const Home = () => {
 	const scrollX = React.useRef(new Animated.Value(0)).current
 	return (
 		<Layout className='h-full p-0 items-center justify-center'>
-				<Animated.FlatList
-					bounces={false}
-					keyExtractor={item => `key ${item.id}`}
-					decelerationRate={Platform.OS == "ios" ? 0 : 0.9}
-					showsHorizontalScrollIndicator={false}
-					snapToInterval={ITEM_SIZE}
-					snapToAlignment='start'
-					scrollEventThrottle={16}
-					contentContainerStyle={{alignItems: 'center'}}
-					renderToHardwareTextureAndroid horizontal
-					data={CarouselBook}
-					onScroll={Animated.event(
-						[{ nativeEvent: { contentOffset: { x: scrollX } } }],
-						{ useNativeDriver: false }
-					)}
-					renderItem={({ item, index }) => {
-						if (!item.Name) return <View style={{ width: EMPTY_ITEM_SIZE }} />
-						const inputRange = [
-							(index - 2) * ITEM_SIZE ,
-							(index - 1) *  ITEM_SIZE,
-							(index) * ITEM_SIZE
-						]
-						const TranslateY = scrollX.interpolate({
-							inputRange,
-							outputRange: [100, 50, 100],
-							extrapolate: 'clamp'
-						})
-						return (
-							<View style={{ width: ITEM_SIZE }}>
+			<Animated.FlatList
+				bounces={false}
+				keyExtractor={item => `key ${item.id}`}
+				decelerationRate={Platform.OS == 'ios' ? 0 : 0.9}
+				showsHorizontalScrollIndicator={false}
+				snapToInterval={ITEM_SIZE}
+				snapToAlignment='start'
+				scrollEventThrottle={16}
+				contentContainerStyle={{ alignItems: 'center' }}
+				renderToHardwareTextureAndroid
+				horizontal
+				data={CarouselBook}
+				onScroll={Animated.event(
+					[{ nativeEvent: { contentOffset: { x: scrollX } } }],
+					{ useNativeDriver: false }
+				)}
+				renderItem={({ item, index }) => {
+					if (!item.Name) return <View style={{ width: EMPTY_ITEM_SIZE }} />
+					const inputRange = [
+						(index - 2) * ITEM_SIZE,
+						(index - 1) * ITEM_SIZE,
+						index * ITEM_SIZE
+					]
+					const TranslateY = scrollX.interpolate({
+						inputRange,
+						outputRange: [100, 50, 100],
+						extrapolate: 'clamp'
+					})
+					return (
+						<View style={{ width: ITEM_SIZE }}>
 							<Animated.View
 								key={item.id}
 								style={{
@@ -73,10 +67,13 @@ const Home = () => {
 									<Image
 										source={{ uri: item.Image }}
 										className='w-full rounded-xl'
-										style={{ height: ITEM_SIZE * 1.4}}
+										style={{ height: ITEM_SIZE * 1.4 }}
 									/>
 								</Pressable>
-								<Text numberOfLines={1} className='text-center text-white w-full text-3xl font-bold mt-2'>
+								<Text
+									numberOfLines={1}
+									className='text-center text-white w-full text-3xl font-bold mt-2'
+								>
 									{item.Name}
 								</Text>
 								<View className='flex-row items-center'>
@@ -108,10 +105,10 @@ const Home = () => {
 									))}
 								</View>
 							</Animated.View>
-							</View>
-						)
-					}}
-				/>
+						</View>
+					)
+				}}
+			/>
 		</Layout>
 	)
 }

@@ -9,7 +9,7 @@ import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import Loader from '../../ui/Loader'
 import Settings from './ReaderUi/Settings/Settings'
 import { light } from './Theme'
-const ReaderComponent = (props: { LastReadPage: string; epub: string }) => {
+const ReaderComponent = (props: { LastReadPage: string; epub: string, BookId: string | number }) => {
 	const { width, height } = useWindowDimensions()
 	const [theme, setTheme] = useState(light)
 	const [isVisible, setIsVisible] = useState(false)
@@ -51,7 +51,7 @@ const ReaderComponent = (props: { LastReadPage: string; epub: string }) => {
 			<StatusBar
 				hidden={false}
 				style={theme.body.background === '#121212' ? 'light' : 'dark'}
-				// @ts-ignore
+				// @ts-ignore, its unreal fix
 				backgroundColor={
 					(theme.body.background === '#fff'
 						? '#fff'
@@ -109,6 +109,7 @@ const ReaderComponent = (props: { LastReadPage: string; epub: string }) => {
 				</SafeAreaView>
 			</View>
 			<Settings
+				BookId={props.BookId}
 				toc={toc}
 				isVisible={isVisible}
 				setIsVisible={setIsVisible}

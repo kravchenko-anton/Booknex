@@ -8,12 +8,16 @@ import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
+import { useTypedNavigation } from '../../../../../hook/useTypedNavigation'
+import { useAddBookToChatMutation } from '../../../../../store/api/book/mutation'
 import { dark, light, sepia } from '../../Theme'
 import { IReadSettings } from './types'
 
 const Settings = (props: IReadSettings) => {
 	const [searchState, setSearchState] = useState(false)
 	const [term, setTerm] = React.useState('')
+	const {navigate} = useTypedNavigation()
+	const [addChat] = useAddBookToChatMutation()
 	return (
 		<>
 			<GestureHandlerRootView
@@ -291,7 +295,22 @@ const Settings = (props: IReadSettings) => {
 					>
 						<AntDesign name='arrowleft' size={24} color='white' />
 					</TouchableOpacity>
-
+		<View>
+	<TouchableOpacity
+		style={{
+			backgroundColor:
+				props.theme.body.background === '#121212' ? 'gray' : '#121212'
+		}}
+		onPress={async () => {
+			console.log(props.BookId)
+			await addChat({ id: props.BookId }).then(() =>
+				navigate('Chat', {BookId: props.BookId})
+			)
+		}}
+		className='absolute right-16 top-10 p-3 rounded-full bg-blue z-[50]'
+	>
+		<Ionicons name="chatbubbles-outline" size={24} color="white" />
+	</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => setSearchState(!searchState)}
 						style={{
@@ -306,6 +325,7 @@ const Settings = (props: IReadSettings) => {
 							<AntDesign name='search1' size={24} color='white' />
 						)}
 					</TouchableOpacity>
+</View>
 				</View>
 			) : null}
 		</>

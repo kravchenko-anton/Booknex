@@ -3,11 +3,11 @@ import Loader from '../../ui/Loader'
 import ReaderComponent from './ReaderComponent'
 
 const ReadPage = ({ route }: any) => {
-	const { epub, LastReadPage } = route.params
+	const { epub, LastReadPage, BookId } = route.params
 	if (!epub) return <Loader />
 	return (
 		<ReaderProvider>
-			<ReaderComponent LastReadPage={LastReadPage} epub={epub} />
+			<ReaderComponent LastReadPage={LastReadPage} BookId={BookId} epub={epub} />
 		</ReaderProvider>
 	)
 }

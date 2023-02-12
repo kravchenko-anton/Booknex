@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { Image, Pressable, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../hook/useTypedNavigation'
 import { Comment } from '../../store/api/api.types'
-import { useFetchSingleUserQuery } from '../../store/api/user'
+import { useFetchSingleUserQuery } from '../../store/api/user/query'
 import ClearUserLogo from './clearUserLogo'
 
 const CommentElement: FC<Comment> = props => {

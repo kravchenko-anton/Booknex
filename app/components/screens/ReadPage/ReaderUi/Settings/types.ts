@@ -20,4 +20,5 @@ export interface IReadSettings {
 	searchResults: SearchResult[]
 
 	goBack(): void
+	BookId: string | number
 }

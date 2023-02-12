@@ -1,6 +1,6 @@
 import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
-import { useFetchSingleUserQuery } from '../../../store/api/user'
+import { useFetchSingleUserQuery } from '../../../store/api/user/query'
 import ClearUserLogo from '../../ui/clearUserLogo'
 
 const UserFavorite = (props: { id: string | number }) => {

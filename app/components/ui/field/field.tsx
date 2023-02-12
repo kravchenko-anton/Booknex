@@ -7,6 +7,7 @@ const Field = <T extends Record<string, any>>({
 	control,
 	rules,
 	name,
+	NoError,
 	...rest
 }: IField<T>): JSX.Element => {
 	return (
@@ -18,8 +19,8 @@ const Field = <T extends Record<string, any>>({
 				<>
 					<View
 						className={cn(
-							'bg-blue border w-full rounded-md pb-2.5 pt-2.5 px-4 my-1.5',
-							error ? 'border-red' : 'border-blue'
+							'bg-blue border-2 w-full rounded-md pb-2.5 pt-2.5 px-4 my-1.5',
+							error ? 'border-[#ff0000]' : 'border-white'
 						)}
 					>
 						<TextInput
@@ -32,7 +33,7 @@ const Field = <T extends Record<string, any>>({
 							{...rest}
 						/>
 					</View>
-					{error && <Text className='text-red'>{error.message}</Text>}
+					{!NoError ? error && <Text className='text-white font-bold m-0 text-md'>{error.message}</Text> : null}
 				</>
 			)}
 		/>

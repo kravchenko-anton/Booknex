@@ -5,11 +5,8 @@ import Animated from 'react-native-reanimated'
 import { useAction } from '../../../hook/useAction'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import {
-	useFetchCurrentUserBooksQuery,
-	useRemoveUserBookMutation
-} from '../../../store/api/books'
-import { useFetchSingleUserQuery } from '../../../store/api/user'
+import { useFetchCurrentUserBooksQuery } from '../../../store/api/book/query'
+import { useFetchSingleUserQuery } from '../../../store/api/user/query'
 import { useScaleOnMount } from '../../../utils/useBounces'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
 import ClearUserLogo from '../../ui/clearUserLogo'
@@ -37,7 +34,7 @@ const UserProfilePages = () => {
 		<Layout className='h-full'>
 			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
 				<ModalPopup
-					height={550}
+					height={600}
 					isVisible={isVisible}
 					setIsVisible={setIsVisible}
 					title={'Add book'}

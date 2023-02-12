@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../hook/useTypedNavigation'
-import { useFetchSingleUserQuery } from '../../store/api/user'
+import { useFetchSingleUserQuery } from '../../store/api/user/query'
 import ClearUserLogo from './clearUserLogo'
 
 const UserMapElement = ({ userUId }: { userUId: string }) => {

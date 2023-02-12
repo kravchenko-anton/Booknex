@@ -19,11 +19,10 @@ import { AirbnbRating } from 'react-native-ratings'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import {
-	useFetchSingleBookQuery,
-	useRemoveUserBookMutation
-} from '../../../store/api/books'
-import { useFetchMyProfileQuery } from '../../../store/api/user'
+import { useRemoveUserBookMutation } from '../../../store/api/book/mutation'
+import { useFetchSingleBookQuery } from '../../../store/api/book/query'
+import { useFetchMyProfileQuery } from '../../../store/api/user/query'
+
 import {
 	animation,
 	BottomAnimation,
@@ -89,7 +88,8 @@ const SingleBookPage = ({ route }: any) => {
 						onPress={() =>
 							navigate('ReadPage', {
 								epub: book.epubDoc,
-								LastReadPage: lastReadPage
+								LastReadPage: lastReadPage,
+								BookId: book.id
 							})
 						}
 					>

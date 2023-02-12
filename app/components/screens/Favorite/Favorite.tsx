@@ -1,6 +1,6 @@
 import { ScrollView, View } from 'react-native'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import { useFetchSingleUserQuery } from '../../../store/api/user'
+import { useFetchSingleUserQuery } from '../../../store/api/user/query'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
