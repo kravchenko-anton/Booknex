@@ -108,32 +108,6 @@ const bookMutation = api.injectEndpoints({
 			invalidatesTags: () => [{ type: 'chat' }]
 		}),
 
-		//Edit message
-		EditMessageFromChat: build.mutation({
-			async queryFn({ id, message, uid, timeStamp }) {
-				try {
-					const BookRef = doc(db, 'BookChats', id)
-					await setDoc(
-						BookRef,
-						{
-							comments: arrayUnion({
-								uid,
-								message,
-								timeStamp
-							})
-						},
-						{ merge: true }
-					)
-
-					return { data: 'Ok' }
-				} catch (error: any) {
-					console.log(error)
-					return { error }
-				}
-			},
-			invalidatesTags: () => [{ type: 'chat' }]
-		}),
-
 		// add Book Review
 		addBookReview: build.mutation({
 			async queryFn({ id, rating, profile }) {
@@ -248,7 +222,6 @@ export const {
 	useRemoveMessageFromChatMutation,
 	useRemoveUserBookMutation,
 	useAddMessageToChatMutation,
-	useEditMessageFromChatMutation,
 	useAddBookReviewMutation,
 	useAddUserBookMutation,
 	useAddBookToChatMutation,

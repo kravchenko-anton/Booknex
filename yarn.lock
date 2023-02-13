@@ -5640,6 +5640,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-clipboard@npm:4.0.1":
+  version: 4.0.1
+  resolution: "expo-clipboard@npm:4.0.1"
+  peerDependencies:
+    expo: "*"
+  checksum: a9e6fc4dcf8a5882f9392c529bdf79e692758513a7db00ccf4a854448aba2737b1ba76de6f50bd925d1840f6a791ce380d681a32eab9a29647c94ce135ac2201
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~14.0.0, expo-constants@npm:~14.0.2":
   version: 14.0.2
   resolution: "expo-constants@npm:14.0.2"
@@ -9191,6 +9200,7 @@ __metadata:
     dayjs: "npm:^1.11.7"
     expo: "npm:~47.0.12"
     expo-blur: "npm:~12.0.1"
+    expo-clipboard: "npm:4.0.1"
     expo-document-picker: "npm:~11.0.1"
     expo-secure-store: "npm:~12.0.0"
     expo-splash-screen: "npm:~0.17.5"
