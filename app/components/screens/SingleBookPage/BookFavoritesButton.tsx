@@ -18,8 +18,7 @@ const BookFavoritesButton: FC<IFavoriteButon> = ({
 }) => {
 	const [addBook] = useAddBookToFavoriteMutation()
 	const [removeFromFavorite] = useDeleteBookFromFavoriteMutation()
-
-	const isFavorite = Profile?.favoritesBook?.some(item => item.id === book.id)
+	const isFavorite = Profile?.favoritesBook?.some(item => item === book.id)
 	const Favoritedata = {
 		Image: book.Image,
 		Name: book.Name,

@@ -146,7 +146,7 @@ const bookMutation = api.injectEndpoints({
 				try {
 					const reference = doc(db, 'users', currentUserUID)
 					await updateDoc(reference, {
-						favoritesBook: arrayUnion(book)
+						favoritesBook: arrayUnion(book.id)
 					})
 					Toast.show({
 						text1: 'You add book to favorites!',
@@ -197,7 +197,7 @@ const bookMutation = api.injectEndpoints({
 				try {
 					const reference = doc(db, 'users', currentUserUID)
 					await updateDoc(reference, {
-						favoritesBook: arrayRemove(book)
+						favoritesBook: arrayRemove(book.id)
 					})
 					Toast.show({
 						text1: 'You book remove from favorites!',

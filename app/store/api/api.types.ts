@@ -23,7 +23,7 @@ export interface Iuser {
 	createAt: string
 	revieCount: number
 	booksCount: number
-	favoritesBook: BookTypes[]
+	favoritesBook: string[] // more id...
 	favoritesUser: Iuser[]
 }
 
