@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Pressable, Text, View } from 'react-native'
+
 import { useAction } from '../../../hook/useAction'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import Field from '../../ui/field/field'
 import Layout from '../../ui/Layout/Layout'
+import Field from '../../ui/field/field'
 
 const Auth = () => {
 	const { control, handleSubmit } = useForm()

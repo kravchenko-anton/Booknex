@@ -31,9 +31,9 @@
 		"editorOverviewRuler.warningForeground": "#0000",
 		"editorOverviewRuler.infoForeground": "#0000"
 	},
-	"workbench.colorTheme": "Default Dark+ Experimental",
-	"workbench.iconTheme": "icons",
-	"workbench.productIconTheme": "fluent-icons",
+	"workbench.colorTheme": "Kanagawa",
+	"workbench.iconTheme": "bearded-icons",
+	"workbench.productIconTheme": "Default",
 	"workbench.layoutControl.enabled": false,
 	"editor.fontSize": 18,
 	"editor.lineHeight": 25,

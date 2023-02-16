@@ -2,7 +2,7 @@ import { collection, doc, getDoc, getDocs, query, where, onSnapshot } from 'fire
 import Toast from 'react-native-toast-message'
 import { db } from '../../../utils/firebase'
 import { api } from '../api'
-import { BookTypes } from '../api.types'
+import { BookTypes, iBookwithRating } from '../api.types'
 
 const bookQuery = api.injectEndpoints({
 	endpoints: build => ({
@@ -55,14 +55,15 @@ const bookQuery = api.injectEndpoints({
 		}),
 		
 		
-		//Fetch horror  book
-		fetchHorrorBooks: build.query({
+	
+		//Fetch Action  book
+		fetchActionBooks: build.query({
 			async queryFn() {
 				try {
 					const userBookRef = collection(db, 'userBook')
-					const uq = query(userBookRef, where('genre', 'array-contains', 'Horror'))
+					const uq = query(userBookRef, where('genre', 'array-contains', 'Action'))
 					const booksRef = collection(db, 'books')
-					const bq = query(booksRef, where('genre', 'array-contains', 'Horror'))
+					const bq = query(booksRef, where('genre', 'array-contains', 'Action'))
 					const UserquerySnaphot = await getDocs(uq)
 					const BooksquerySnaphot = await getDocs(bq)
 					let books: BookTypes[] = []
@@ -87,25 +88,26 @@ const bookQuery = api.injectEndpoints({
 			providesTags: ['book']
 		}),
 		
-		//Fetch Action  book
-		fetchActionBooks: build.query({
+		
+		//Fetch Most popular book
+		fetchMostPopularBooks: build.query({
 			async queryFn() {
 				try {
 					const userBookRef = collection(db, 'userBook')
-					const uq = query(userBookRef, where('genre', 'array-contains', 'Action'))
 					const booksRef = collection(db, 'books')
-					const bq = query(booksRef, where('genre', 'array-contains', 'Action'))
-					const UserquerySnaphot = await getDocs(uq)
-					const BooksquerySnaphot = await getDocs(bq)
-					let books: BookTypes[] = []
+					const UserquerySnaphot = await getDocs(userBookRef)
+					const BooksquerySnaphot = await getDocs(booksRef)
+					let books: iBookwithRating[] = []
 					UserquerySnaphot?.forEach(doc => {
 						// @ts-ignore
-						books.push({ id: doc.id, ...doc.data() })
+						books.push({ id: doc.id, ...doc.data(), rating: doc.data().comments ? Object.values(doc.data().comments).reduce((t, values) => t + values.rating, 0) : 0})
 					})
 					BooksquerySnaphot?.forEach(doc => {
 						// @ts-ignore
-						books.push({ id: doc.id, ...doc.data() })
+						books.push({ id: doc.id, ...doc.data(), rating: doc.data().comments ? Object.values(doc.data().comments).reduce((t, values) => t + values.rating, 0) : 0})
 					})
+					
+					var res = books.sort(({rating:a}, {rating:b}) => b-a);
 					return { data: books }
 				} catch (error: any) {
 					Toast.show({
@@ -183,6 +185,7 @@ const bookQuery = api.injectEndpoints({
 export const {
 	useFetchCurrentUserBooksQuery,
 	useFetchBooksQuery,
+	useFetchMostPopularBooksQuery,
 	useFetchActionBooksQuery,
 	useFetchAllBooksQuery,
 	useFetchSingleBookQuery,

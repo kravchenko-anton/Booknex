@@ -1,25 +1,36 @@
 import { useForm } from 'react-hook-form'
 import { Pressable, ScrollView, Text, View } from 'react-native'
+import AnimatedScrollView from 'react-native-reanimated/lib/types/reanimated2/component/ScrollView'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
-import { useFetchAllBooksQuery } from '../../../store/api/book/query'
+import {
+	useFetchActionBooksQuery,
+	useFetchAllBooksQuery,
+ useFetchMostPopularBooksQuery
+} from '../../../store/api/book/query'
 import { useFetchUserQuery } from '../../../store/api/user/query'
+import AnimatedBookFlatList from '../../ui/animateList/animatedBookFlatList'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
-import ClearUserLogo from '../../ui/clearUserLogo'
-import Field from '../../ui/field/field'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
+import ClearUserLogo from '../../ui/clearUserLogo'
+import Field from '../../ui/field/field'
 
 const Search = () => {
 	const { control, watch } = useForm()
-	const { data: book } = useFetchAllBooksQuery(null)
 	const { navigate } = useTypedNavigation()
+	const { data: book } = useFetchAllBooksQuery(null)
 	const { data: Users } = useFetchUserQuery(null)
-	if (!book || !Users) return <Loader />
+	const {data: ActionBook} = useFetchActionBooksQuery(null)
+	const {data: MostPopular} = useFetchMostPopularBooksQuery(null)
+	if (!book || !Users || !ActionBook || !MostPopular) return <Loader />
 	return (
 		<Layout className='h-full'>
 			<Field control={control} name={'Search'} placeholder={'Type something...'} />
+			{watch('Search', '') !== ('') ? (
 			<AnimatedFlatList
-				data={book.filter(item => watch('Search') ? item.Name.includes(watch('Search')) : item)}
+				data={book.filter(item =>
+					item.Name.includes(watch('Search'))
+				)}
 			>
 				<View>
 					{watch('Search') != '' &&
@@ -51,9 +62,28 @@ const Search = () => {
 								</Pressable>
 							))}
 						</ScrollView>
-					) : null}
+					): null }
 				</View>
 			</AnimatedFlatList>
+			)	: (
+				<View className='flex-1'>
+				<ScrollView showsVerticalScrollIndicator={false} className='h-full flex-1'>
+					<View className='mb-6'>
+					<Text className='text-white text-3xl font-bold mt-4 mb-4'>Most popular Book 😎</Text>
+					<AnimatedBookFlatList data={MostPopular.slice(0,10)} />
+					</View>
+					<Text className='text-white text-3xl font-bold mt-4 mb-4'>Action Book 👨‍🎤</Text>
+					<AnimatedBookFlatList data={ActionBook.slice(0,10)} />
+					
+					
+					<View className='my-6'>
+						<Text className='text-white text-3xl font-bold mt-4 mb-4'>May be you like 😍</Text>
+						<AnimatedBookFlatList data={book.slice(0,10)} />
+					</View>
+
+				</ScrollView>
+				</View>
+			)}
 		</Layout>
 	)
 }

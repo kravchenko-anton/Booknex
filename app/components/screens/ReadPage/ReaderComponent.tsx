@@ -1,15 +1,20 @@
-import { Reader, useReader, LoadingFileProps } from '@epubjs-react-native/core'
+import { Reader, useReader } from '@epubjs-react-native/core'
 import { useFileSystem } from '@epubjs-react-native/expo-file-system'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StatusBar } from 'expo-status-bar'
 import React, { useLayoutEffect, useState } from 'react'
-import { Text, useWindowDimensions, View } from 'react-native'
+import { Text, View, useWindowDimensions } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
+import { Toast } from 'react-native-toast-message/lib/src/Toast'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import Loader from '../../ui/Loader'
 import Settings from './ReaderUi/Settings/Settings'
 import { light } from './Theme'
-const ReaderComponent = (props: { LastReadPage: string; epub: string, BookId: string | number }) => {
+const ReaderComponent = (props: {
+	LastReadPage: string
+	epub: string
+	BookId: string | number
+}) => {
 	const { width, height } = useWindowDimensions()
 	const [theme, setTheme] = useState(light)
 	const [isVisible, setIsVisible] = useState(false)
@@ -25,7 +30,7 @@ const ReaderComponent = (props: { LastReadPage: string; epub: string, BookId: st
 		search,
 		goToLocation,
 		changeFontFamily,
-		changeTheme,
+		changeTheme
 	} = useReader()
 	if (!props) return <Loader />
 	useLayoutEffect(() => {
@@ -71,7 +76,11 @@ const ReaderComponent = (props: { LastReadPage: string; epub: string, BookId: st
 						initialLocation={props.LastReadPage}
 						src={props.epub + '.epub'}
 						fileSystem={useFileSystem}
-						onFinish={() => navigate('Home')}
+						onFinish={async () => {
+							Toast.show({ type: 'success', text1: 'Finished!!!' })
+							navigate('Home')
+							await AsyncStorage.removeItem(props.epub)
+						}}
 						width={width}
 						onNavigationLoaded={toc => {
 							setToc(toc.toc)

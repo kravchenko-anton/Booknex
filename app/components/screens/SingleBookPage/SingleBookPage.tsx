@@ -29,6 +29,7 @@ import {
 	BottomAnimationEndToStart
 } from '../../../utils/TextAnimation'
 import { useScaleOnMount } from '../../../utils/useBounces'
+import DialogPopup from '../../ui/DialogPopup'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import ModalPopup from '../../ui/modal'
@@ -48,6 +49,7 @@ const SingleBookPage = ({ route }: any) => {
 	const [lastReadPage, setLastReadPage] = useState('')
 	const [remove] = useRemoveUserBookMutation()
 	const { styleAnimation } = useScaleOnMount()
+	const [DialogPopupVisible, setDialogPopupVisible] = useState(false)
 	useFocusEffect(() => {
 		const parseLastPage = async () => {
 			try {
@@ -79,6 +81,20 @@ const SingleBookPage = ({ route }: any) => {
 				>
 					<AddBookRating id={id} Profile={Profile} />
 				</ModalPopup>
+
+				<DialogPopup
+					type='danger'
+					OnPressOK={() => {
+						remove({ id: book.id }).then(() => navigate('UserProfile'))
+						setDialogPopupVisible(false)
+					}}
+					OnPressCancel={() => setDialogPopupVisible(false)}
+					isVisible={DialogPopupVisible}
+					setISVisible={setDialogPopupVisible}
+					title='DELETE BOOK!'
+					description='Are you sure you want to delete this book?'
+				/>
+
 				<Animatable.View
 					className=' absolute z-50 bottom-3 flex-row left-28 right-28 items-center justify-between'
 					animation={visibleButton ? BottomAnimation : BottomAnimationEndToStart}
@@ -108,11 +124,10 @@ const SingleBookPage = ({ route }: any) => {
 							size={24}
 							color='white'
 						/>
+
 						{book.autor.includes(Profile.name) ? (
 							<TouchableOpacity
-								onPress={() => {
-									remove({ id: book.id }).then(() => navigate('UserProfile'))
-								}}
+								onPress={() => setDialogPopupVisible(true)}
 								className='flex-row gap-3 items-center'
 							>
 								<MaterialCommunityIcons name='book-remove' size={26} color='#FF0000' />
@@ -134,7 +149,9 @@ const SingleBookPage = ({ route }: any) => {
 							/>
 						</Animated.View>
 						<Animatable.View animation={animation} className='flex-1'>
-							<Text numberOfLines={2} className='text-white font-bold text-2xl mt-6'>{book.Name}</Text>
+							<Text numberOfLines={2} className='text-white font-bold text-2xl mt-6'>
+								{book.Name}
+							</Text>
 							<Text className='text-gray  text-lg mt-2 font-semibold mb-2'>
 								{book.autor.join(', ')}
 							</Text>

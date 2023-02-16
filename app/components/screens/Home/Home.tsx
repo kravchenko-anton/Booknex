@@ -21,7 +21,7 @@ const Home = () => {
 			<Animated.FlatList
 				bounces={false}
 				keyExtractor={item => `key ${item.id}`}
-				decelerationRate={Platform.OS == 'ios' ? 0 : 0.9}
+				decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
 				showsHorizontalScrollIndicator={false}
 				snapToInterval={ITEM_SIZE}
 				snapToAlignment='start'
@@ -67,7 +67,7 @@ const Home = () => {
 									<Image
 										source={{ uri: item.Image }}
 										className='w-full rounded-xl'
-										style={{ height: ITEM_SIZE * 1.4 }}
+										style={{ height: ITEM_SIZE * 1.3 }}
 									/>
 								</Pressable>
 								<Text

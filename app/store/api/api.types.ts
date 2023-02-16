@@ -11,7 +11,10 @@ export interface BookTypes {
 	genre: string[]
 	penData: string
 }
-
+export interface iBookwithRating extends BookTypes {
+	key: any
+	rating: number
+}
 export interface Iuser {
 	name: string
 	photoURL: string

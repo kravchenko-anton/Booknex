@@ -9,7 +9,7 @@ export interface BookItem {
 	genre: string[]
 	id?: string
 	description?: string
-	scale: any
+	scale?: any
 }
 
 const BookItems: FC<BookItem> = props => {

@@ -6,7 +6,8 @@ import {
 } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import Toast from 'react-native-toast-message'
-import { auth, db } from '../../utils/firebase'
+import { db } from '../../utils/firebase'
+import { auth } from './../../utils/firebase'
 import { IAuthFields } from './auth.interface'
 
 export const register = createAsyncThunk<any, IAuthFields>(
@@ -25,9 +26,10 @@ export const register = createAsyncThunk<any, IAuthFields>(
 				name: user.user.email?.split('@')[0],
 				photoURL: user.user.photoURL,
 				createAt: user.user.metadata.lastSignInTime,
-				booksCount: 0,
 				revieCount: 0,
 				favoritesBook: [],
+				startReadBook: [],
+				finishedBook: [],
 				favoritesUser: []
 			})
 			return { user }

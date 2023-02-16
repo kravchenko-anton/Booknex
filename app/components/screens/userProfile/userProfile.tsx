@@ -9,9 +9,10 @@ import { useFetchCurrentUserBooksQuery } from '../../../store/api/book/query'
 import { useFetchSingleUserQuery } from '../../../store/api/user/query'
 import { useScaleOnMount } from '../../../utils/useBounces'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
-import ClearUserLogo from '../../ui/clearUserLogo'
+import DialogPopup from '../../ui/DialogPopup'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
+import ClearUserLogo from '../../ui/clearUserLogo'
 import ModalPopup from '../../ui/modal'
 import Statistics from '../../ui/statistics'
 import AddBookPopup from './AddBookPopup'
@@ -23,15 +24,30 @@ const UserProfilePages = () => {
 	const [isVisible, setIsVisible] = useState(false)
 	const { styleAnimation } = useScaleOnMount()
 	const { logout } = useAction()
+
 	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(
 		CurrentUser?.name,
 		{
 			skip: !CurrentUser
 		}
 	)
+	const [DialogPopupVisible, setDialogPopupVisible] = useState(false)
+
 	if (!CurrentUser || !user) return <Loader />
 	return (
 		<Layout className='h-full'>
+			<DialogPopup
+				type='warning'
+				OnPressOK={() => {
+					logout(null)
+					setDialogPopupVisible(false)
+				}}
+				OnPressCancel={() => setDialogPopupVisible(false)}
+				isVisible={DialogPopupVisible}
+				setISVisible={setDialogPopupVisible}
+				title='LOGOUT'
+				description='Are you sure you want to logout from your account?'
+			/>
 			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
 				<ModalPopup
 					height={600}
@@ -54,7 +70,7 @@ const UserProfilePages = () => {
 						color='white'
 					/>
 					<MaterialIcons
-						onPress={() => logout(null)}
+						onPress={() => setDialogPopupVisible(true)}
 						name='logout'
 						size={24}
 						color='white'
