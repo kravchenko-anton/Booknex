@@ -7,6 +7,8 @@ import { Text, View, useWindowDimensions } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { Toast } from 'react-native-toast-message/lib/src/Toast'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
+import { useTypedSelector } from '../../../hook/useTypedSelector'
+import { useAddBookToEndedBookMutation, useAddBookToStartReadingMutation } from '../../../store/api/book/mutation'
 import Loader from '../../ui/Loader'
 import Settings from './ReaderUi/Settings/Settings'
 import { light } from './Theme'
@@ -19,10 +21,13 @@ const ReaderComponent = (props: {
 	const [theme, setTheme] = useState(light)
 	const [isVisible, setIsVisible] = useState(false)
 	const [toc, setToc] = useState([])
+	const {user} = useTypedSelector(state => state.auth)
 	const { goBack, navigate } = useTypedNavigation()
 	const [fontSize, setFontSize] = useState(0)
 	const [LoadingfontSize, setLoadingFontSize] = useState(0)
 	const [fontFamiles, setFontFamiles] = useState('Arial')
+	const [startBookMutation] = useAddBookToStartReadingMutation()
+	const [EndBookMutation] = useAddBookToEndedBookMutation()
 	const {
 		changeFontSize,
 		currentLocation,
@@ -76,10 +81,16 @@ const ReaderComponent = (props: {
 						initialLocation={props.LastReadPage}
 						src={props.epub + '.epub'}
 						fileSystem={useFileSystem}
+						onStarted={ async () => {
+							if (!props.LastReadPage) {
+							await startBookMutation({currentUserUID: user?.uid, book: { id: props.BookId }})
+							}
+						}}
+			
 						onFinish={async () => {
-							Toast.show({ type: 'success', text1: 'Finished!!!' })
-							navigate('Home')
+							await EndBookMutation({currentUserUID: user?.uid, book: { id: props.BookId }})
 							await AsyncStorage.removeItem(props.epub)
+							navigate('Home')
 						}}
 						width={width}
 						onNavigationLoaded={toc => {

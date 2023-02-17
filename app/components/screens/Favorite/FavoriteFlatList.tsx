@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren, useRef, useState } from 'react'
-import { Animated, Image, Pressable, Text, View } from 'react-native'
+import { Animated, Image, Platform, Pressable, Text, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
@@ -9,29 +9,32 @@ const AnimatedFavoriteFlatList: FC<
 	PropsWithChildren<{ data: string[]; id?: string }>
 > = ({ children, data }) => {
 	const { navigate } = useTypedNavigation()
-	const scrollY = useRef(new Animated.Value(0)).current
+	const scrollX = useRef(new Animated.Value(0)).current
 	
 	return (
 		<FlatList
-			renderToHardwareTextureAndroid={true}
-			data={data}
+			horizontal
+			decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
+			snapToInterval={160}
+			bounces={false}
 			onScroll={Animated.event(
-				[{ nativeEvent: { contentOffset: { y: scrollY } } }],
+				[{ nativeEvent: { contentOffset: { x: scrollX } } }],
 				{ useNativeDriver: false }
 			)}
-			showsVerticalScrollIndicator={false}
-			ListHeaderComponent={<>{children}</>}
+			scrollEventThrottle={1}
+			showsHorizontalScrollIndicator={false}
+			data={data}
 			renderItem={({ item, index }) => {
-				const inputRange = [-1, 0, 150 * index, 150 * (index + 15)]
-				const scale = scrollY.interpolate({
+				const inputRange = [0, 0, 150 * index, 150 * (index + 10)]
+				const scale = scrollX.interpolate({
 					inputRange,
-					outputRange: [1, 1, 1, 0],
+					outputRange: [1,1, 1, 0],
 					extrapolate: 'clamp'
 				})
+				
 				return (
 					<Animated.View
-						style={{ transform: [{ scale: scale }], marginVertical: 8, height: 150 }}
-					>
+						style={{ transform: [{ scale: scale }], marginRight: 10 }}>
 					<Favoriteitem BookId={item}/>
 					</Animated.View>
 				)

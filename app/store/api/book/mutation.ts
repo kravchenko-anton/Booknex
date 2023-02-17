@@ -164,7 +164,61 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-
+		
+		
+		// add Book to start Reading
+		addBookToStartReading: build.mutation({
+			async queryFn({ currentUserUID, book }) {
+				try {
+					const reference = doc(db, 'users', currentUserUID)
+					await updateDoc(reference, {
+						startReadBook: arrayUnion(book.id)
+					})
+					Toast.show({
+						text1: 'Congratulations on starting to read the new book!',
+						type: 'success'
+					})
+					return { data: 'ok' }
+				} catch (error: any) {
+					Toast.show({
+						text1: 'You book not added to start read!',
+						text2: error.message,
+						type: 'error'
+					})
+					return { error }
+				}
+			},
+			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
+		}),
+		
+		// Finish Book
+		addBookToEndedBook: build.mutation({
+			async queryFn({ currentUserUID, book }) {
+				try {
+					const reference = doc(db, 'users', currentUserUID)
+					await updateDoc(reference, {
+						startReadBook: arrayRemove(book.id),
+						finishedBook: arrayUnion(book.id)
+					})
+					Toast.show({
+						text1: 'Congratulations on finish book!',
+						type: 'success'
+					})
+					return { data: 'ok' }
+				} catch (error: any) {
+					Toast.show({
+						text1: 'You book not finish!',
+						text2: error.message,
+						type: 'error'
+					})
+					return { error }
+				}
+			},
+			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
+		}),
+		
+		
+		
 		// add userBook
 		addUserBook: build.mutation({
 			async queryFn({ UserId, book }) {
@@ -223,6 +277,8 @@ export const {
 	useRemoveUserBookMutation,
 	useAddMessageToChatMutation,
 	useAddBookReviewMutation,
+	useAddBookToStartReadingMutation,
+	useAddBookToEndedBookMutation,
 	useAddUserBookMutation,
 	useAddBookToChatMutation,
 	useAddBookToFavoriteMutation

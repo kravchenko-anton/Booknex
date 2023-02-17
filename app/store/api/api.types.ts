@@ -25,6 +25,8 @@ export interface Iuser {
 	booksCount: number
 	favoritesBook: string[] // more id...
 	favoritesUser: Iuser[]
+	startReadBook: string[]
+	finishedBook: string[]
 }
 
 export interface Comment {
