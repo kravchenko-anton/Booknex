@@ -12,7 +12,19 @@ export type TypeRootStackParamList = {
 	Chat: {
 	BookId: number | string
 	}
+	Settings: {
+		uid: string | number
+	}
 	
+	UserSettings: {
+		uid: string | number
+	}
+	PasswordSettings: {
+		uid: string | number
+	}
+	LanguageSettings: {
+		uid: string | number
+	}
 	Auth: undefined
 	UserProfile: undefined
 

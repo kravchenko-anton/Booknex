@@ -5,6 +5,7 @@ import { useFetchCurrentUserBooksQuery } from '../../../store/api/book/query'
 import { useFetchSingleUserQuery } from '../../../store/api/user/query'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
 import ClearUserLogo from '../../ui/clearUserLogo'
+import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import Statistics from '../../ui/statistics'
@@ -20,15 +21,9 @@ const SingleUserPage = ({ route }: any) => {
 	return (
 		<Layout className='h-full'>
 			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
-				<View className='flex-row justify-between mt-4 '>
-					<Feather
-						onPress={() => goBack()}
-						name='arrow-left'
-						size={24}
-						color='white'
-					/>
-					<AuthorFavoritesButton user={user} />
-				</View>
+		<Header className='mt-4'>
+			<AuthorFavoritesButton user={user} />
+		</Header>
 				<View className=' items-center mt-8'>
 					{user.photoURL ? (
 						<Image
@@ -36,7 +31,7 @@ const SingleUserPage = ({ route }: any) => {
 							className='w-[200px] border-2 border-primary h-[200px] rounded-full'
 						/>
 					) : (
-						<ClearUserLogo letter={user.email} width={150} height={150} />
+						<ClearUserLogo letter={user.name} width={150} height={150} />
 					)}
 					<Text className='text-white font-bold text-2xl mt-2'>{user.name}</Text>
 					<Text className='text-gray text-md'>{user.email}</Text>

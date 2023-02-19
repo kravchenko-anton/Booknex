@@ -7,6 +7,7 @@ import { BookTypes } from '../../../store/api/api.types'
 import { useFetchSingleBookQuery } from '../../../store/api/book/query'
 import { useFetchSingleUserQuery } from '../../../store/api/user/query'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
+import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import UserMapElement from '../../ui/UserMapElement'
@@ -23,17 +24,16 @@ const {goBack} = useTypedNavigation()
 	if (!CurrentUser || !user) return <Loader />
 	 return (
 		<Layout className=' h-full'>
-			<View className='flex flex-row items-center mb-5 mt-4 justify-between'>
-				<Feather name='arrow-left' size={24} color='white' onPress={goBack}/>
-				<Text className='text-2xl font-bold text-white'>Favorites 📚</Text>
-			</View>
+<Header className='mb-4 mt-4'>
+	<Text className='text-2xl font-bold text-white'>Favorites 📚</Text>
+</Header>
 			<ScrollView showsVerticalScrollIndicator={false}>
 			{CurrentUser.favoritesUser.length ?
 				<View>
-			<Text className='text-white text-2xl mb-2 mt-4 font-bold'> Favorite users 👥</Text>
+			<Text className='text-white text-2xl mb-2 mt-2 font-bold'> Favorite users 👥</Text>
 				<ScrollView
 				horizontal={true}
-				className='h-[140px] w-full mt-1'
+				className='h-[130px] w-full mt-1'
 				showsHorizontalScrollIndicator={false}
 			>
 				{CurrentUser.favoritesUser.map(userUid => (
@@ -43,7 +43,7 @@ const {goBack} = useTypedNavigation()
 				</View> : null}
 		
 				{CurrentUser.startReadBook.length ? <View>
-						<Text className='text-white text-3xl mb-4 mt-4 font-bold'>Started book 🧨</Text>
+						<Text className='text-white text-3xl mb-4 mt-2 font-bold'>Started book 🧨</Text>
 						<FavoriteFlatList data={CurrentUser.startReadBook}/>
 					</View>
 					: <Text className='text-white text-2xl mt-4 text-center font-bold'>	Now you don't read books</Text>}

@@ -31,10 +31,10 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 	return (
 		<View
 			className={cn(
-				'mt-2 mb-2 items-end',
+				' mb-4 items-end flex-1',
 				uid === CurrentUser?.uid
-					? 'ml-auto flex-row w-full'
-					: ' mr-auto flex-row-reverse '
+					? 'ml-auto flex-row'
+					: ' mr-auto flex-row-reverse'
 			)}
 		>
 			<ModalPopup
@@ -43,7 +43,7 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 				setIsVisible={setIsVisible}
 				title={'Edit'}
 			>
-				<View className='flex-row justify-between'>
+				<View className='flex-row justify-between w-full'>
 					<TouchableOpacity
 						onPress={() => {
 							removeMessage({
@@ -111,7 +111,7 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 					/>
 				) : (
 					<ClearUserLogo
-						letter={user.email}
+						letter={user.name}
 						latterSize={15}
 						width={30}
 						height={30}

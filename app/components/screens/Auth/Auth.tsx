@@ -32,7 +32,7 @@ const Auth = () => {
 					</Text>
 					<View className='w-5/6'>
 						<Field control={control} name={'email'} placeholder={'Email'} />
-						<Field control={control} name={'password'} placeholder={'Password'} />
+						<Field control={control} name={'password'} placeholder={'Password'} keyboardType={'visible-password'} />
 					</View>
 					<Pressable
 						className='bg-primary rounded-md mt-4 pb-3 pt-3 pl-14 pr-14'

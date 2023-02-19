@@ -23,31 +23,18 @@ const UserProfilePages = () => {
 	const { data: CurrentUser } = useFetchSingleUserQuery(user?.uid)
 	const [isVisible, setIsVisible] = useState(false)
 	const { styleAnimation } = useScaleOnMount()
-	const { logout } = useAction()
-
+const {navigate} = useTypedNavigation()
 	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(
 		CurrentUser?.name,
 		{
 			skip: !CurrentUser
 		}
 	)
-	const [DialogPopupVisible, setDialogPopupVisible] = useState(false)
 
 	if (!CurrentUser || !user) return <Loader />
 	return (
 		<Layout className='h-full'>
-			<DialogPopup
-				type='warning'
-				OnPressOK={() => {
-					logout(null)
-					setDialogPopupVisible(false)
-				}}
-				OnPressCancel={() => setDialogPopupVisible(false)}
-				isVisible={DialogPopupVisible}
-				setISVisible={setDialogPopupVisible}
-				title='LOGOUT'
-				description='Are you sure you want to logout from your account?'
-			/>
+			
 			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
 				<ModalPopup
 					height={600}
@@ -69,9 +56,9 @@ const UserProfilePages = () => {
 						size={24}
 						color='white'
 					/>
-					<MaterialIcons
-						onPress={() => setDialogPopupVisible(true)}
-						name='logout'
+					<Feather
+						onPress={() => navigate('Settings', {uid: user.uid})}
+						name='settings'
 						size={24}
 						color='white'
 					/>
@@ -82,10 +69,10 @@ const UserProfilePages = () => {
 						{CurrentUser.photoURL ? (
 							<Image
 								source={{ uri: CurrentUser.photoURL }}
-								className='w-[100px] border-2 border-primary h-[100px] rounded-full'
+								className='w-[130px] border-2 border-primary h-[130px] rounded-full'
 							/>
 						) : (
-							<ClearUserLogo letter={user.email} width={130} height={130} />
+							<ClearUserLogo letter={CurrentUser.name} width={130} height={130} />
 						)}
 					</Animated.View>
 

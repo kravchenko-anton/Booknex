@@ -10,6 +10,7 @@ import { useTypedSelector } from '../../../hook/useTypedSelector'
 import { useAddMessageToChatMutation } from '../../../store/api/book/mutation'
 import { useFetchSingleBookQuery } from '../../../store/api/book/query'
 import { db } from '../../../utils/firebase'
+import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Field from '../../ui/field/field'
 import Message, { IMessage } from './Message'
@@ -58,21 +59,15 @@ const BookChat = ({ route }: any) => {
 	return (
 		<Layout className='h-full'>
 			<StatusBar backgroundColor='#121212' />
-			<View className='flex-row justify-between mb-4'>
-				<Feather
-					onPress={() => goBack()}
-					name='arrow-left'
-					size={24}
-					color='white'
-				/>
-				<Text className='text-2xl text-white font-bold'>{book?.Name}</Text>
-			</View>
+	<Header className='mb-2 mt-2'>
+		<Text className='text-2xl text-white font-bold'>{book?.Name}</Text>
+	</Header>
 			<ScrollView
 				ref={scrollViewRef}
 				onContentSizeChange={() =>
 					scrollViewRef?.current?.scrollToEnd({ animated: true })
 				}
-				className='flex-wrap-reverse'
+				className=' w-full h-full'
 				showsVerticalScrollIndicator={false}
 			>
 				{chats?.length ? (

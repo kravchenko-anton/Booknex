@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { Pressable, ScrollView, Text, View } from 'react-native'
+import { Image, Pressable, ScrollView, Text, View } from 'react-native'
 import AnimatedScrollView from 'react-native-reanimated/lib/types/reanimated2/component/ScrollView'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import {
@@ -52,7 +52,14 @@ const Search = () => {
 									key={user.uid}
 									className='items-center text-center h-full mr-3'
 								>
-									<ClearUserLogo letter={user.name} width={100} height={100} />
+									{user.photoURL ? (
+										<Image
+											source={{ uri: user.photoURL }}
+											className='w-[100px] border-2 border-primary h-[100px] rounded-full'
+										/>
+									) : (
+										<ClearUserLogo letter={user.name} width={100} height={100} />
+									)}
 									<Text
 										numberOfLines={1}
 										className='mt-1 max-w-[80px] text-center text-white font-bold'
