@@ -1,4 +1,5 @@
 import { Feather, MaterialIcons } from '@expo/vector-icons'
+import I18n from 'i18n-js'
 import { useState } from 'react'
 import { Image, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -82,25 +83,25 @@ const {navigate} = useTypedNavigation()
 					<Text className='text-gray text-md'>{CurrentUser.email}</Text>
 				</View>
 				<Statistics
-					FirstDescription={'Favorite'}
+					FirstDescription={I18n.t('Favorites')}
 					FirstHeading={
 						CurrentUser.favoritesBook.length.toString()
 							? CurrentUser.favoritesBook.length.toString()
 							: '0'
 					}
 					SecondHeading={CurrentUser.revieCount.toString()}
-					SecondDescription={'Review'}
+					SecondDescription={I18n.t('UserReviews')}
 					ThirdHeading={CurrentUserBook?.length}
-					ThirdDescription={'Books'}
+					ThirdDescription={I18n.t('UserBooks')}
 				/>
 
 				<View className='flex-row justify-between items-center mt-6'>
-					<Text className='text-white  font-bold  text-2xl'>Books</Text>
+					<Text className='text-white  font-bold  text-2xl'>{I18n.t('Books')}</Text>
 					<Text
 						className='text-gray  text-lg'
 						onPress={() => setIsVisible(!isVisible)}
 					>
-						Add books
+						{I18n.t('addBook')}
 					</Text>
 				</View>
 			</AnimatedFlatList>

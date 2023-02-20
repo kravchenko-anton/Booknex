@@ -5,6 +5,7 @@ import {
 } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
+import I18n from 'i18n-js'
 import { useState } from 'react'
 import {
 	Image,
@@ -109,7 +110,7 @@ const SingleBookPage = ({ route }: any) => {
 							})
 						}
 					>
-						<Text className=' text-white text-xl font-bold'>Go Read</Text>
+						<Text className=' text-white text-xl font-bold'>{I18n.t('Go Read')}</Text>
 						<FontAwesome5 name='book-reader' size={24} color='white' />
 					</Pressable>
 				</Animatable.View>
@@ -131,7 +132,7 @@ const SingleBookPage = ({ route }: any) => {
 								className='flex-row gap-3 items-center'
 							>
 								<MaterialCommunityIcons name='book-remove' size={26} color='#FF0000' />
-								<Text className='text-[#FF0000] text-lg font-bold'>Delete book</Text>
+								<Text className='text-[#FF0000] text-lg font-bold'>{I18n.t('Delete book')}</Text>
 							</TouchableOpacity>
 						) : null}
 
@@ -182,14 +183,14 @@ const SingleBookPage = ({ route }: any) => {
 						</Animatable.View>
 					</View>
 					<Statistics
-						FirstDescription={'Years'}
+						FirstDescription={I18n.t('Years')}
 						FirstHeading={book.penData}
 						SecondHeading={book.antalSider.toString()}
-						SecondDescription={'Pages'}
+						SecondDescription={I18n.t('Pages')}
 						ThirdHeading={Object.values(book.comments).length.toString()}
-						ThirdDescription={'Reviews'}
+						ThirdDescription={I18n.t('UserReviews')}
 					/>
-					<Text className='text-white  font-bold  text-2xl mt-6'>Description</Text>
+					<Text className='text-white  font-bold  text-2xl mt-6'>{I18n.t('Description')}</Text>
 					<Animatable.Text
 						animation={animation}
 						numberOfLines={4}
@@ -201,12 +202,12 @@ const SingleBookPage = ({ route }: any) => {
 						className='flex-row justify-between
 			items-center'
 					>
-						<Text className='text-white  font-bold  text-2xl mt-6'>Review</Text>
+						<Text className='text-white  font-bold  text-2xl mt-6'>{I18n.t('Reviews')}</Text>
 						<Text
 							onPress={() => setIsVisible(true)}
 							className='text-gray text-lg mt-6'
 						>
-							Add
+{I18n.t('add')}
 						</Text>
 					</View>
 					<Animatable.View animation={animation} className='mb-2 flex-1'>
@@ -222,7 +223,7 @@ const SingleBookPage = ({ route }: any) => {
 								/>
 							))
 						) : (
-							<Text className='text-gray text-xl'>None review!</Text>
+							<Text className='text-gray text-xl'>{I18n.t('None review!')}</Text>
 						)}
 					</Animatable.View>
 				</ScrollView>

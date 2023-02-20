@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons'
+import I18n from 'i18n-js'
 import { FC, useState } from 'react'
 import { Linking, Text, TouchableOpacity, View } from 'react-native'
 import { useAction } from '../../../../hook/useAction'
@@ -18,32 +19,32 @@ export const SettingsList:FC<{uid: string}> = ({uid}) =>  {
 	const {logout} = useAction()
 	const [DialogPopupVisible, setDialogPopupVisible] = useState(false)
 	const settingsArray: ISettingsList[] = [{
-		title: 'Profile settings',
+		title: I18n.t('ProfileSettings'),
 		icon: 'user',
 		onPress: () => navigate('UserSettings', {uid})
 	},
 		{
-			title: 'Password settings',
+			title: I18n.t('PasswordSettings'),
 			icon: 'lock',
 			onPress: () => navigate('PasswordSettings', {uid})
 		},
 		{
-			title: 'Language settings',
+			title:  I18n.t('LanguageSettings'),
 			icon: 'globe',
 			onPress: () => navigate('LanguageSettings', {uid})
 		},
 
 		{
-			title: 'Report a problem',
+			title:  I18n.t('ReportAProblem'),
 			icon: 'alert-circle',
 onPress: () => Linking.openURL('https://t.me/AntonKravcenco')
 		},
 		{
-			title: 'Send feedback',
+			title:  I18n.t('SendFeedback'),
 			icon: 'mail',
 			onPress: () => Linking.openURL('https://t.me/AntonKravcenco')
 		},		{
-			title: 'logout',
+			title:  I18n.t('Logout'),
 			icon: 'log-out',
 			onPress: () => setDialogPopupVisible(true)
 		},]
@@ -57,8 +58,8 @@ onPress: () => Linking.openURL('https://t.me/AntonKravcenco')
 			OnPressCancel={() => setDialogPopupVisible(false)}
 			isVisible={DialogPopupVisible}
 			setISVisible={setDialogPopupVisible}
-			title='LOGOUT'
-			description='Are you sure you want to logout from your account?'
+			title={I18n.t('LOGOUT')}
+			description={I18n.t('Are you sure you want to logout from your account?')}
 		/>
 		{settingsArray.map((item) => {
 			return (

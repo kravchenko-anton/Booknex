@@ -1,4 +1,5 @@
 import { Feather } from '@expo/vector-icons'
+import I18n from 'i18n-js'
 import { Image, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useFetchCurrentUserBooksQuery } from '../../../store/api/book/query'
@@ -37,18 +38,18 @@ const SingleUserPage = ({ route }: any) => {
 					<Text className='text-gray text-md'>{user.email}</Text>
 				</View>
 				<Statistics
-					FirstDescription={'Favorite'}
+					FirstDescription={I18n.t('Favorites')}
 					FirstHeading={
 						user.favoritesBook.length.toString()
 							? user.favoritesBook.length.toString()
 							: '0'
 					}
 					SecondHeading={user.revieCount.toString()}
-					SecondDescription={'Review'}
+					SecondDescription={I18n.t('UserReviews')}
 					ThirdHeading={CurrentUserBook?.length}
-					ThirdDescription={'Books'}
+					ThirdDescription={I18n.t('UserBooks')}
 				/>
-				<Text className='text-white  font-bold  text-2xl mt-6'>Books</Text>
+				<Text className='text-white  font-bold  text-2xl mt-6'>{I18n.t('Books')}</Text>
 			</AnimatedFlatList>
 		</Layout>
 	)

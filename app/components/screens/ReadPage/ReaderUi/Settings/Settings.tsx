@@ -4,6 +4,7 @@ import BottomSheet, {
 	BottomSheetScrollView
 } from '@gorhom/bottom-sheet'
 import Slider from '@react-native-community/slider'
+import I18n from 'i18n-js'
 import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -40,10 +41,10 @@ const Settings = (props: IReadSettings) => {
 							{!searchState ? (
 								<>
 									<View className='flex-row justify-between mb-7'>
-										<Text className='text-white text-lg'>Character progress: </Text>
+										<Text className='text-white text-lg'>{I18n.t('CharacterProgress')} </Text>
 										<Text className='text-white text-lg'>
-											{props.currentLocation?.end.displayed.page} of{' '}
-											{props.currentLocation?.end.displayed.total} pages
+											{props.currentLocation?.end.displayed.page} {I18n.t('of')}{' '}
+											{props.currentLocation?.end.displayed.total} {I18n.t('pages')}
 										</Text>
 									</View>
 									<View className='justify-between w-full items-center flex-row'>
@@ -211,7 +212,7 @@ const Settings = (props: IReadSettings) => {
 										</View>
 									</View>
 									<View className='mt-4 mb-4'>
-										<Text className='text-white text-2xl mb-4'>Characters</Text>
+										<Text className='text-white text-2xl mb-4'>{I18n.t('Characters')}</Text>
 										{props.toc.map((toc: { label: string; id: string; href: string }) => (
 											<TouchableOpacity
 												onPress={() => props.goToLocation(toc.href)}
@@ -237,7 +238,7 @@ const Settings = (props: IReadSettings) => {
 											}}
 											placeholderTextColor='#fff'
 											className='rounded-md p-3 text-lg w-5/6 text-white font-bold  placeholder-white indent-9'
-											placeholder='Enter a search term'
+											placeholder={I18n.t('TypeSomething')}
 											value={term}
 											onChangeText={text => setTerm(text)}
 										/>

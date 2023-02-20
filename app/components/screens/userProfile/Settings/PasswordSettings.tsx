@@ -1,4 +1,5 @@
 import { updatePassword } from 'firebase/auth'
+import I18n from 'i18n-js'
 import { useForm } from 'react-hook-form'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { useTypedNavigation } from '../../../../hook/useTypedNavigation'
@@ -20,16 +21,16 @@ const PasswordSettings = ({route}: any) => {
 	}
 	return <Layout>
 		<Header className='mb-4 mt-4'>
-			<Text	className='text-white text-2xl font-bold'>Change password</Text>
+			<Text	className='text-white text-2xl font-bold'>{I18n.t('PasswordSettings')}</Text>
 		</Header>
 		<View className='mt-4'>
-			<Field control={control} name={'OldPassword'} placeholder={'Old password...'} />
-			<Field control={control} name={'NewPassword'} placeholder={'New password...'} />
+			<Field control={control} name={'OldPassword'} placeholder={I18n.t('EnterOldPassword')} />
+			<Field control={control} name={'NewPassword'} placeholder={I18n.t('EnterNewPassword')} />
 		</View>
 		
 		<TouchableOpacity onPress={handleSubmit(handleUpdatePassword)} className='bg-primary p-2 mt-2 w-[50%] mx-auto rounded-md text-center justify-center items-center'>
 			<Text className='text-2xl text-white font-bold'>
-				Update
+				{I18n.t('Send')}
 			</Text>
 		</TouchableOpacity>
 	</Layout>

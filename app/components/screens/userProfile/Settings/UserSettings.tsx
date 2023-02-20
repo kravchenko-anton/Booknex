@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons'
 import * as ImagePicker from 'expo-image-picker'
+import I18n from 'i18n-js'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Image, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native'
@@ -66,7 +67,7 @@ const {goBack} = useTypedNavigation()
 		<ScrollView>
 		
 		<Header className='mb-4 mt-4'>
-			<Text	className='text-white text-2xl font-bold'>Profile settings</Text>
+			<Text	className='text-white text-2xl font-bold'>{I18n.t('ProfileSettings')}</Text>
 		</Header>
 		<View className='items-center justify-center'>
 			<Pressable onPress={() => pickImage()} className='relative'>
@@ -84,14 +85,14 @@ const {goBack} = useTypedNavigation()
 			</Pressable>
 		</View>
 		<View className='mt-6'>
-			<Field control={control} name={ 'Name'}  placeholder={ 'Enter Name...'}  />
-			<Field control={control} name={'Email'}  placeholder={ 'Enter Email...'}  />
+			<Field control={control} name={'Name'}  placeholder={I18n.t('EnterName')}  />
+			<Field control={control} name={'Email'}  placeholder={I18n.t('EnterEmail')}  />
 			<Field keyboardType={'visible-password'} control={control} rules={{
-				required: 'Confirm Password is required',
-			}} name={'ConfirmPassword'} placeholder={'Confirm Password...'} />
+				required: I18n.t('EnterPassword'),
+			}} name={'ConfirmPassword'} placeholder={I18n.t('EnterPassword')} />
 			<TouchableOpacity onPress={handleSubmit(handleUpdate)} className='bg-primary p-2 mt-2 w-[50%] mx-auto rounded-md text-center justify-center items-center'>
 				<Text className='text-2xl text-white font-bold'>
-					Update
+					{I18n.t('Send')}
 				</Text>
 			</TouchableOpacity>
 		</View>

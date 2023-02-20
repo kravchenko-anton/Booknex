@@ -1,3 +1,4 @@
+import I18n from 'i18n-js'
 import { useForm } from 'react-hook-form'
 import { Image, Pressable, ScrollView, Text, View } from 'react-native'
 import AnimatedScrollView from 'react-native-reanimated/lib/types/reanimated2/component/ScrollView'
@@ -25,7 +26,7 @@ const Search = () => {
 	if (!book || !Users || !ActionBook || !MostPopular) return <Loader />
 	return (
 		<Layout className='h-full'>
-			<Field control={control} name={'Search'} placeholder={'Type something...'} />
+			<Field control={control} name={'Search'} placeholder={I18n.t('TypeSomething')} />
 			{watch('Search', '') !== ('') ? (
 			<AnimatedFlatList
 				data={book.filter(item =>
@@ -76,15 +77,15 @@ const Search = () => {
 				<View className='flex-1'>
 				<ScrollView showsVerticalScrollIndicator={false} className='h-full flex-1'>
 					<View className='mb-6'>
-					<Text className='text-white text-3xl font-bold mt-4 mb-4'>Most popular Book 😎</Text>
+					<Text className='text-white text-2xl font-bold mt-4 mb-4'>{I18n.t('MostPopularBooks')} 😎</Text>
 					<AnimatedBookFlatList data={MostPopular.slice(0,10)} />
 					</View>
-					<Text className='text-white text-3xl font-bold mt-4 mb-4'>Action Book 👨‍🎤</Text>
+					<Text className='text-white text-2xl font-bold mt-4 mb-4'>{I18n.t('ActionBooks')} 👨‍🎤</Text>
 					<AnimatedBookFlatList data={ActionBook.slice(0,10)} />
 					
 					
 					<View className='my-6'>
-						<Text className='text-white text-3xl font-bold mt-4 mb-4'>May be you like 😍</Text>
+						<Text className='text-white text-2xl font-bold mt-4 mb-4'>{I18n.t('MayBeYouLike')} 😍</Text>
 						<AnimatedBookFlatList data={book.slice(0,10)} />
 					</View>
 

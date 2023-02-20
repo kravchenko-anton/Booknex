@@ -1,6 +1,7 @@
 import { Feather } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
 import { doc, onSnapshot } from 'firebase/firestore'
+import I18n from 'i18n-js'
 import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
@@ -52,7 +53,7 @@ const BookChat = ({ route }: any) => {
 		{
 			data.Message !== ''
 				? addMessage({ id: BookId, message: watch('Message'), uid: user?.uid })
-				: Toast.show({ text1: 'Write please message!' })
+				: Toast.show({ text1: I18n.t('TypeSomething') })
 			reset()
 		}
 	}
@@ -84,7 +85,7 @@ const BookChat = ({ route }: any) => {
 					})
 				) : (
 					<Text className='text-white mt-4 justify-start mx-auto items-center'>
-						No one is discussing this book{' '}
+						{I18n.t('NoDiscussions')}
 					</Text>
 				)}
 			</ScrollView>
@@ -95,7 +96,7 @@ const BookChat = ({ route }: any) => {
 						NoError={true}
 						placeholderTextColor='#fff'
 						className='rounded-md z-50 p-0 placeholder-white indent-9'
-						placeholder='Enter a message'
+						placeholder=	{I18n.t('TypeSomething')}
 						control={control}
 						rules={{ validate: validateText, required: true }}
 						name={'Message'}

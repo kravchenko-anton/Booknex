@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useEffect, useState } from 'react'
 import Auth from '../components/screens/Auth/Auth'
 import BottomMenu from '../components/ui/BottomMenu/BottomMenu'
+import { LanguageProvider } from '../components/ui/Layout/languageProvider'
 import { useTypedSelector } from '../hook/useTypedSelector'
 import { TypeRootStackParamList } from './navigationTypes'
 import { userRoutes } from './user.routes'
@@ -27,7 +28,7 @@ const Navigation = () => {
 	}, [])
 
 	return (
-		<>
+		<LanguageProvider>
 			<NavigationContainer ref={navRef}>
 				<Stack.Navigator
 					screenOptions={{
@@ -52,7 +53,7 @@ const Navigation = () => {
 					<BottomMenu currentRoute={currentRoute} />
 				) : null}
 			</NavigationContainer>
-		</>
+		</LanguageProvider>
 	)
 }
 

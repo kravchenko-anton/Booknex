@@ -14,17 +14,17 @@ const Statistics: FC<Istatistics> = props => {
 	return (
 		<View>
 			<View className='bg-blue flex-row justify-between mt-4 p-6 rounded-md'>
-				<View className='items-center justify-center'>
+				<View className='items-center justify-center w-[25%]'>
 					<Text className='text-white font-bold text-2xl'>{props.FirstHeading}</Text>
 					<Text className='text-gray'>{props.FirstDescription}</Text>
 				</View>
-				<View className='items-center justify-center'>
+				<View className='items-center justify-center w-[25%]'>
 					<Text className='text-white font-bold text-2xl'>
 						{props.SecondHeading}
 					</Text>
 					<Text className='text-gray'>{props.SecondDescription}</Text>
 				</View>
-				<View className='items-center justify-center'>
+				<View className='items-center justify-center w-[25%]'>
 					<Text className='text-white font-bold text-2xl'>{props.ThirdHeading}</Text>
 					<Text className='text-gray'>{props.ThirdDescription}</Text>
 				</View>
