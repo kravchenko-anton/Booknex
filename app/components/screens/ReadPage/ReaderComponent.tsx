@@ -63,10 +63,9 @@ const ReaderComponent = (props: {
 				style={theme.body.background === '#121212' ? 'light' : 'dark'}
 				// @ts-ignore, its unreal fix
 				backgroundColor={
-					(theme.body.background === '#fff'
-						? '#fff'
-						: theme.body.background === '#121212' && '#121212') ||
-					(theme.body.background === '#e8dcb8' && '#e8dcb8')
+					theme.body.background === '#fff' ? '#fff' :
+						theme.body.background === '#121212' ? '#121212' :
+							theme.body.background === '#e8dcb8' ? '#e8dcb8' : '#fff'
 				}
 			/>
 			<View
@@ -80,6 +79,11 @@ const ReaderComponent = (props: {
 					<Reader
 						initialLocation={props.LastReadPage}
 						src={props.epub + '.epub'}
+						renderOpeningBookComponent={() => <Loader style={{
+							backgroundColor: theme.body.background === '#fff' ? '#fff' :
+								theme.body.background === '#121212' ? '#121212' :
+									theme.body.background === '#e8dcb8' ? '#e8dcb8' : '#fff', height: height, width: width
+						}} />}
 						fileSystem={useFileSystem}
 						onStarted={ async () => {
 							if (!props.LastReadPage) {
@@ -114,15 +118,11 @@ const ReaderComponent = (props: {
 							await AsyncStorage.setItem(props.epub + 'theme', JSON.stringify(theme))
 							await AsyncStorage.setItem(props.epub + 'fontFamily', fontFamiles)
 						}}
-						renderLoadingFileComponent={() => (
-							<Loader
-								style={{
-									left: '-50%',
-									top: '-50%',
-									transform: [{ translateY: height / 2 }, { translateX: width / 2 }]
-								}}
-							/>
-						)}
+						renderLoadingFileComponent={() => <Loader style={{
+							backgroundColor: theme.body.background === '#fff' ? '#fff' :
+								theme.body.background === '#121212' ? '#121212' :
+									theme.body.background === '#e8dcb8' ? '#e8dcb8' : '#fff', height: height, width: width
+						}} />}
 						enableSwipe={true}
 						height={height}
 					/>

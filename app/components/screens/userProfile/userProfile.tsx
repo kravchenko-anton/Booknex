@@ -38,7 +38,7 @@ const {navigate} = useTypedNavigation()
 			
 			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
 				<ModalPopup
-					height={600}
+					height={400}
 					isVisible={isVisible}
 					setIsVisible={setIsVisible}
 					title={'Add book'}

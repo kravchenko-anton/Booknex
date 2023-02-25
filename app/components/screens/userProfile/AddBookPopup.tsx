@@ -1,50 +1,81 @@
-import * as DocumentPicker from 'expo-document-picker'
-import React, { FC, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { Pressable, Text, View } from 'react-native'
-import DropDownPicker from 'react-native-dropdown-picker'
+import React, { FC, useRef } from 'react'
+import Canvas from 'react-native-canvas'
+import Toast from 'react-native-toast-message'
 import { useAddUserBookMutation } from '../../../store/api/book/mutation'
-import Field from '../../ui/field/field'
 import { IaddBook } from './addBookPopup.interface'
-import { DropdownElement } from './DropdownElement'
+import { parseEpubMetadataPath, parseXML } from './ReadXML'
 import { UploadFile } from './uploadFile'
-
+import {useState} from "react";
+import {StyleSheet, Text, View, Pressable, Alert, Image} from "react-native";
+import * as DocumentPicker from "expo-document-picker";
+import * as FileSystem from "expo-file-system";
+var JSZip = require("jszip");
+interface IMetaData {
+		title: string
+	author:	string
+	description: string
+	lang:	string
+	genres: string[]
+}
 const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
-	const [ImageBlob, setImageBlob] = useState<Blob>()
-	const [EpubBlob, setEpubBlob] = useState<Blob>()
 	const [addUserBook] = useAddUserBookMutation()
-		const { control, handleSubmit, reset } = useForm()
-	const [open, setOpen] = useState(false)
-	const [value, setValue] = useState(null)
-	const [items, setItems] = useState(DropdownElement)
-	const [ImageUrlPatch, setImageUrlPatch] = useState(undefined)
-	const [EpubUrlPatch, setEpubUrlPatch] = useState(undefined)
-	const [UploadLoading, setUploadLoading] = useState(false)
-	const pickEpub = async () => {
-		const result: any = await DocumentPicker.getDocumentAsync({
-			type: 'application/epub+zip'
-		})
-		if (result != null) {
-			const uri = await fetch(result.uri)
-			const blob = await uri.blob()
-			setEpubBlob(blob)
-			setEpubUrlPatch(result.name)
-		}
-	}
-	const pickImage = async () => {
-		const result: any = await DocumentPicker.getDocumentAsync({ type: 'image/*' })
-		if (result != null) {
-			const uri = await fetch(result.uri)
-			const blob = await uri.blob()
-			setImageBlob(blob)
-			setImageUrlPatch(result.name)
-		}
-	}
+	const [image, setImage] = useState('https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png');
+	const [content, setContent] = useState({} as IMetaData);
 
+	
+	const pickDocument = async () => {
+		setContent({} as IMetaData);
+		const zipObj = new JSZip();
+		let result = await DocumentPicker.getDocumentAsync({
+			type: ["application/epub+zip", "application/oebps-package+xml"],
+		});
+		
+		if (result.type !== 'cancel') {
+			FileSystem.readAsStringAsync(result.uri, { encoding: 'base64' })
+				.then((data) => {
+					zipObj
+						.loadAsync(data, { base64: true })
+						.then((zip: any) => {
+				
+							const exampleFile = zip.file('META-INF/container.xml')
+							if (exampleFile) {
+								exampleFile.async('string').then((content: any) => {
+								parseEpubMetadataPath(content).then((funalDataParsed: any) => {
+									const funalFileParsed = zip.file(`${funalDataParsed.subject}`)
+									if (funalFileParsed) {
+										funalFileParsed.async('string').then((content: any) => {
+										parseXML(content).then((data: any) => {
+											setContent({ ...data.xmlMetadata, genres: data.genres });
+											if(data.coverImageName) {
+												const coverFile = zip.file(`${data.coverImageName}`)
+												if (coverFile) {
+													coverFile.async('base64').then((content: any) => {
+														console.log(content, 'content');
+														setImage(`data:image/png;base64,${content}`)
+													})
+												} else {
+													console.log('no cover image')
+												}
+											}
+										})
+										})
+									}
+									})
+								})
+							}
+						}
+						)
+						.catch((err: any) => {
+							console.log(err, 'error')
+				})
+		})}
+		
+	};
+	
+	
 	const UploadBook = async (data: any) => {
-		setUploadLoading(true)
-		const image = await UploadFile(ImageBlob, data.Name)
-		const epub = await UploadFile(EpubBlob, EpubUrlPatch)
+		const image = await UploadFile('blob', data.Name)
+		const epub = await UploadFile('blob', 'ads')
 		addUserBook({
 			UserId: user.uid,
 			book: {
@@ -52,7 +83,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 				Image: image,
 				Name: data.Name,
 				description: data.Description,
-				genre: value,
+				genre: ['ads'],
 				comments: [],
 				autor: [CurrentUser.name],
 				bookLanguage: data.bookLanguage,
@@ -60,106 +91,45 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 				penData: data.penData
 			}
 		})
-		setIsVisible(false)
-		reset()
-		setUploadLoading(false)
 	}
 	return (
 		<View className='h-full'>
-			<Field
-				control={control}
-				name={'Name'}
-				placeholder='Book name'
-				rules={{
-					required: 'Name requered!'
-				}}
-			/>
-			<Field
-				control={control}
-				rules={{
-					required: 'description requered!'
-				}}
-				name={'Description'}
-				placeholder={'Book description'}
-				className='h-[40px]'
-			/>
-			<View>
-				<Text className='text-white text-xl font-bold'>Genre</Text>
-				<DropDownPicker
-					open={open}
-					value={value}
-					multiple={true}
-					items={items}
-					setOpen={setOpen}
-					setValue={setValue}
-					setItems={setItems}
-				/>
-			</View>
-			<View className='gap-1 mt-1 flex-row justify-between w-full items-center'>
-				<View>
-					<Field
-						keyboardType={'number-pad'}
-						control={control}
-						rules={{
-							required: 'data requered!',
-							max: {  value: 2023, message: 'Maximum 2023' },
-						}}
-						name={'penData'}
-						placeholder={'Years'}
-					/>
-				</View>
-				<View>
-					<Field
-						keyboardType={'number-pad'}
-						rules={{
-							required: 'Page count requered!',
-							max: {  value:10000, message: 'Maximum 10000 page' },
-						}}
-						control={control}
-						name={'antalSider'}
-						placeholder={'Page count'}
-					/>
-				</View>
-				<View>
-					<Field
-						rules={{
-							required: 'Language requered!'
-						}}
-						control={control}
-						name={'bookLanguage'}
-						placeholder={'Language'}
-					/>
+			{content.title ?
+			<View className='flex-row'>
+					<Image source={{ uri: image}}
+					       className=' h-[210px] rounded-lg w-[130px]'/>
+		
+				<View  className='flex-1 ml-4'>
+					<Text numberOfLines={2} className='text-white font-bold text-2xl mt-6'>
+						{content.title ?	content.title : 'None title'}
+					</Text>
+					<Text className='text-gray  text-lg mt-2 font-semibold mb-2'>
+						{content.author ?	content.author : 'None author'}
+					</Text>
+			
+					<Text className='text-gray text-lg'>	{content.lang ?	content.lang : 'None languages'}</Text>
+					<View className='mt-2 flex-wrap flex-row'>
+						{content.genres && content.genres.length ? content.genres.map(item => {
+							if (!item) return null
+						 return	(
+								<Text
+									key={item}
+									className='text-white text-md bg-blue rounded-lg mr-1 p-2 mb-2'
+								>
+									{item}
+								</Text>
+							)
+						}) : <Text className='text-white text-md text-md font-bold bg-blue p-2 rounded-lg'>None genres  😭</Text>}
+					</View>
 				</View>
 			</View>
-			<View className='mt-3  flex-row justify-between items-center'>
-				<Text numberOfLines={1} className='text-2xl w-[60%] text-white font-bold'>
-					{!ImageUrlPatch ? 'Select cover photo' : ImageUrlPatch}
-				</Text>
-				<Pressable
-					onPress={() => pickImage()}
-					className='bg-primary p-2 rounded-lg'
-				>
-					<Text className='text-white font-bold text-xl'>Select 📷</Text>
-				</Pressable>
-			</View>
+			: <Text className='text-2xl text-white font-bold items-center justify-center flex text-center mx-auto mt-auto'>Selected item please</Text> }
+			<View className='mt-auto mb-8'>
+						<View className=' justify-center items-center mx-auto w-[200px] bg-blue rounded-lg h-[80px]'>
+							<Text onPress={() => pickDocument()} className='text-2xl text-white font-bold'>Add Book</Text>
+					</View>
 
-			<View className='mt-3  flex-row justify-between items-center'>
-				<Text numberOfLines={1} className='text-2xl w-[60%] text-white font-bold'>
-					{!EpubUrlPatch ? 'Select epub file' : EpubUrlPatch}
-				</Text>
-				<Pressable onPress={() => pickEpub()} className='bg-primary p-2 rounded-lg'>
-					<Text className='text-white font-bold text-xl'>Select 📚</Text>
-				</Pressable>
-			</View>
-
-			<View className='mt-4 flex items-center'>
-				<Pressable  disabled={UploadLoading} android_disableSound={UploadLoading}
-					onPress={handleSubmit(UploadBook)}
-					className='bg-blue p-4 rounded-lg'
-				>
-					<Text className='text-white font-bold text-xl'>{!UploadLoading ? 'Add book 📩' : 'Loading book!'}</Text>
-				</Pressable>
-			</View>
+		</View>
 		</View>
 	)
 }

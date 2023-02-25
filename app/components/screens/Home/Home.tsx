@@ -1,18 +1,19 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import React from 'react'
 import { Animated, Image, Platform, Pressable, Text, View } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
-import { useFetchBooksQuery } from '../../../store/api/book/query'
+import { useFetchAllBooksQuery, useFetchBooksQuery } from '../../../store/api/book/query'
 import Layout from '../../ui/Layout/Layout'
 import { EMPTY_ITEM_SIZE, ITEM_SIZE, SPACING } from './useCarousel'
 
 const Home = () => {
-	const { data: book, isLoading, error } = useFetchBooksQuery(null)
+	const { data: book, isLoading, error } = useFetchAllBooksQuery(null)
 	const { navigate } = useTypedNavigation()
 	const CarouselBook = [
 		{ id: 'first' } as BookTypes,
-		...(book ? book : []),
+		...(book ? book.slice(0, 10) : []),
 		{ id: 'last' } as BookTypes
 	]
 	const scrollX = React.useRef(new Animated.Value(0)).current

@@ -24,8 +24,8 @@ const PasswordSettings = ({route}: any) => {
 			<Text	className='text-white text-2xl font-bold'>{I18n.t('PasswordSettings')}</Text>
 		</Header>
 		<View className='mt-4'>
-			<Field control={control} name={'OldPassword'} placeholder={I18n.t('EnterOldPassword')} />
-			<Field control={control} name={'NewPassword'} placeholder={I18n.t('EnterNewPassword')} />
+			<Field control={control} name={'OldPassword'} secureTextEntry={true} placeholder={I18n.t('EnterOldPassword')} />
+			<Field control={control} secureTextEntry={true} name={'NewPassword'} placeholder={I18n.t('EnterNewPassword')} />
 		</View>
 		
 		<TouchableOpacity onPress={handleSubmit(handleUpdatePassword)} className='bg-primary p-2 mt-2 w-[50%] mx-auto rounded-md text-center justify-center items-center'>
