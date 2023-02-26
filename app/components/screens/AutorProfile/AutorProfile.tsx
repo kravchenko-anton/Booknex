@@ -16,7 +16,7 @@ const SingleUserPage = ({ route }: any) => {
 	const { uid } = route.params
 	const { goBack } = useTypedNavigation()
 	const { data: user } = useFetchSingleUserQuery(uid)
-	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(user?.name)
+	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(user?.uid)
 
 	if (!user) return <Loader />
 	return (

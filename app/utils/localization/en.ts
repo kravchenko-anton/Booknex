@@ -60,5 +60,16 @@ export const en = {
 	Send: 'Send',
 	'Are you sure you want to logout from your account?':
 		'Are you sure you want to logout from your account?',
-	LOGOUT: 'LOGOUT'
+	LOGOUT: 'LOGOUT',
+	'Book already exists': 'Book already exists',
+"Please try again": 'Please try again',
+	'Something went wrong':'Something went wrong',
+	"Error": 'Error',
+	'None title': 'None title',
+	'None author': 'None author',
+	'None languages': 'None languages',
+	'None genres': 'None genres',
+	'Selected item please': 'Selected item please',
+	'Add book': 'Add book',
+	'Select epub': 'Select epub',
 }

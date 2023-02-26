@@ -60,5 +60,16 @@ export const ru = {
 	Send: 'Отправить',
 	'Are you sure you want to logout from your account?':
 		'Вы уверены, что хотите выйти из аккаунта?',
-	LOGOUT: 'ВЫЙТИ'
+	LOGOUT: 'ВЫЙТИ',
+	'Book already exists': 'Книга уже существует',
+	"Please try again": 'Попробуйте еще раз',
+	'Something went wrong':'Что-то пошло не так',
+	"Error": 'Ошибка',
+	'None title': 'Без названия',
+	'None author': 'Без автора',
+	'None languages': 'Без языка',
+	'None genres': 'Без жанра',
+	'Selected item please': 'Выберите элемент',
+	'Add book': 'Добавить книгу',
+	'Select epub': 'Выберите epub',
 }

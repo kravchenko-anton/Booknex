@@ -26,7 +26,7 @@ const UserProfilePages = () => {
 	const { styleAnimation } = useScaleOnMount()
 	const { navigate } = useTypedNavigation()
 	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(
-		CurrentUser?.name,
+		CurrentUser?.uid,
 		{
 			skip: !CurrentUser
 		}

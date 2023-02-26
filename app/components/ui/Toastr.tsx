@@ -2,7 +2,7 @@ import { FC } from 'react'
 import RnToast, { BaseToast } from 'react-native-toast-message'
 
 const options = (primaryColor: string) => ({
-	style: { backgroundColor: '#080808', borderLeftColor: primaryColor },
+	style: { backgroundColor: '#080808', borderLeftColor: primaryColor, zIndex: 1000 },
 	text1Style: {
 		color: '#fff',
 		fontSize: 16
@@ -16,6 +16,7 @@ const Toast: FC = () => {
 	return (
 		<RnToast
 			topOffset={50}
+			autoHide={true}
 			config={{
 				success: props => <BaseToast {...props} {...options('#67E769')} />,
 				info: props => <BaseToast {...props} {...options('#65d4ff')} />,

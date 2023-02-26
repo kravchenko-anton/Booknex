@@ -43,11 +43,11 @@ const bookQuery = api.injectEndpoints({
 
 		// Fetch CurrentUserBooks
 		fetchCurrentUserBooks: build.query({
-			async queryFn(AutorName) {
+			async queryFn(AutorUid) {
 				try {
 					const q = query(
 						collection(db, 'userBook'),
-						where('autor', 'array-contains', AutorName)
+						where('AutorUid', '==', AutorUid)
 					)
 					const querySnaphot = await getDocs(q)
 					let books: BookTypes[] = []

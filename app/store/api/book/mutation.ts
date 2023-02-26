@@ -248,10 +248,16 @@ const bookMutation = api.injectEndpoints({
 			async queryFn({ searchTerm, author, lang }) {
 				try {
 					const response = await fetch(
-						`https://www.googleapis.com/books/v1/volumes?q=intitle:${searchTerm}${author !== '' ? `+inauthor:${author}`: ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}`
+						`https://www.googleapis.com/books/v1/volumes?q=intitle:${searchTerm}${author !== '' ? `+inauthor:${author}`: ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}?fields=id`
 					)
 					const books = await response.json()
-					return { data: books.items[0].volumeInfo }
+					
+					const HightQuaittyImage = await fetch(
+						`https://www.googleapis.com/books/v1/volumes/${books.items[0].id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`
+					)
+					const HightQuaittyImageJson = await HightQuaittyImage.json()
+const finalBook = { ...books.items[0].volumeInfo, ...{ HighQualityImage: HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge } }
+					return { data: finalBook  }
 				} catch (error: any) {
 					console.log(error)
 					Toast.show({
