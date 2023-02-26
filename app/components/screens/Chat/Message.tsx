@@ -1,8 +1,8 @@
 import { Feather } from '@expo/vector-icons'
-import cn from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import * as Clipboard from 'expo-clipboard'
+import I18n from 'i18n-js'
 import { useState } from 'react'
 import { Image, Pressable, Text, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
@@ -29,11 +29,8 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 
 	if (!user) return <Loader />
 	return (
-		<View
-			className={cn(
-				' mb-4 items-end flex-1',
-				uid === CurrentUser?.uid ? 'ml-auto flex-row' : ' mr-auto flex-row-reverse'
-			)}
+		<View style={{ marginLeft: uid === CurrentUser?.uid ? 'auto' : 0, marginRight: uid === CurrentUser?.uid ? 0 : 'auto', flexDirection: uid	=== CurrentUser?.uid ? 'row' : 'row-reverse' }}
+			className={'mb-4 items-end flex-1'}
 		>
 			<ModalPopup
 				height={100}
@@ -53,13 +50,13 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 							setIsVisible(false)
 							Toast.show({
 								type: 'success',
-								text1: 'You message delete'
+								text1: I18n.t('You message delete')
 							})
 						}}
 					>
 						<View className='flex-row gap-3 items-center'>
 							<Feather name='delete' size={24} color='red' />
-							<Text className='text-2xl text-white'>Delete</Text>
+							<Text className='text-2xl text-white'>{I18n.t('Delete')}</Text>
 						</View>
 					</TouchableOpacity>
 
@@ -69,12 +66,12 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 							setIsVisible(false)
 							Toast.show({
 								type: 'success',
-								text1: 'You message copy'
+								text1: I18n.t('You message copy')
 							})
 						}}
 					>
 						<View className='flex-row gap-3 items-center'>
-							<Text className='text-2xl text-white'>Copy</Text>
+							<Text className='text-2xl text-white'>{I18n.t('Copy')}</Text>
 							<Feather name='copy' size={24} color='orange' />
 						</View>
 					</TouchableOpacity>
@@ -83,13 +80,14 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 			<Pressable
 				onLongPress={() =>
 					uid === CurrentUser?.uid ? setIsVisible(!isVisible) : null
-				}
-				className={cn(
-					'p-3 max-w-[80%] rounded-lg rounded-bl-none',
-					uid === CurrentUser?.uid
-						? 'bg-primary mr-2 ml-auto rounded-bl-lg rounded-br-none '
-						: 'bg-blue mr-auto ml-2'
-				)}
+				} style={{
+					backgroundColor: uid === CurrentUser?.uid ? '#702DF5' : '#1E1E1E',
+				marginLeft: uid === CurrentUser?.uid ? 'auto' : 10,
+				marginRight: uid === CurrentUser?.uid ? 10: 'auto',
+				borderBottomLeftRadius: uid === CurrentUser?.uid ? 5 : 0,
+				borderBottomRightRadius: uid === CurrentUser?.uid ? 0 : 5,
+			}}
+				className={'p-3 max-w-[80%] rounded-md'}
 			>
 				{uid !== CurrentUser?.uid ? (
 					<Text className='text-primary text-md'>{user?.name}</Text>

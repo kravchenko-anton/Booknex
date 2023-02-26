@@ -1,4 +1,3 @@
-import cn from 'clsx'
 import { Controller } from 'react-hook-form'
 import { Text, TextInput, View } from 'react-native'
 import { IField } from './field.interface'
@@ -17,11 +16,9 @@ const Field = <T extends Record<string, any>>({
 			rules={rules}
 			render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
 				<>
-					<View
-						className={cn(
-							'bg-blue border-2 w-full rounded-md pb-2.5 pt-2.5 px-4 my-1.5',
-							error ? 'border-[#ff0000]' : 'border-white'
-						)}
+					<View style={{borderColor: error ? 'red' : '#1E212C'}}
+						className={
+							'bg-blue border-2 w-full rounded-md pb-2.5 pt-2.5 px-4 my-1.5'}
 					>
 						<TextInput
 							autoCapitalize={'none'}

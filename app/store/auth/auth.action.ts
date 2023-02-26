@@ -5,6 +5,7 @@ import {
 	signOut
 } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
+import I18n from 'i18n-js'
 import Toast from 'react-native-toast-message'
 import { db } from '../../utils/firebase'
 import { auth } from './../../utils/firebase'
@@ -16,8 +17,7 @@ export const register = createAsyncThunk<any, IAuthFields>(
 		try {
 			const user = await createUserWithEmailAndPassword(auth, email, password)
 			Toast.show({
-				text1: 'Success!',
-				text2: 'You login success!',
+				text1: I18n.t('Success'),
 				type: 'success'
 			})
 			await setDoc(doc(db, 'users', user.user.uid), {
@@ -35,7 +35,7 @@ export const register = createAsyncThunk<any, IAuthFields>(
 			return { user }
 		} catch (error: any) {
 			Toast.show({
-				text1: 'Error!',
+				text1: I18n.t('Error'),
 				text2: error.message,
 				type: 'error'
 			})
@@ -50,15 +50,14 @@ export const login = createAsyncThunk<any, IAuthFields>(
 		try {
 			const user = await signInWithEmailAndPassword(auth, email, password)
 			Toast.show({
-				text1: 'Success!',
-				text2: 'You login success!',
+				text1 : I18n.t('Success'),
 				type: 'success'
 			})
 
 			return { user }
 		} catch (error: any) {
 			Toast.show({
-				text1: 'Error!',
+				text1: I18n.t('Error'),
 				text2: error.message,
 				type: 'error'
 			})
@@ -72,7 +71,6 @@ export const logout = createAsyncThunk<any, null>(
 	async (_, thunkAPI) => {
 		try {
 			await signOut(auth).then(() => {
-				console.log('Logout succes')
 			})
 		} catch (e) {
 			console.log(e)

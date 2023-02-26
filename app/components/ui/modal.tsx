@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar'
 import { FC, PropsWithChildren } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import Modal from 'react-native-modal'
@@ -24,6 +25,8 @@ const ModalPopup: FC<PropsWithChildren<IModal>> = ({
 			onBackButtonPress={() => setIsVisible(false)}
 			isVisible={isVisible}
 			swipeDirection='down'
+			renderToHardwareTextureAndroid={true}
+			statusBarTranslucent={true}
 			onSwipeComplete={() => setIsVisible(!isVisible)}
 			animationIn='bounceInUp'
 			animationOut='bounceOutDown'

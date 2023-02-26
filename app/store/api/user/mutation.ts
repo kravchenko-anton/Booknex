@@ -15,6 +15,7 @@ import {
 	updateEmail,
 	updateProfile
 } from 'firebase/auth'
+import I18n from 'i18n-js'
 import Toast from 'react-native-toast-message'
 import { auth, db } from '../../../utils/firebase'
 import { api } from '../api'
@@ -22,6 +23,8 @@ import { Iuser } from '../api.types'
 
 const userMutationApi = api.injectEndpoints({
 	endpoints: build => ({
+		
+		// remove	user from the favorite list
 		removeUserToFavorite: build.mutation({
 			async queryFn({ currentUserUID, favoriteUser }) {
 				try {
@@ -30,13 +33,13 @@ const userMutationApi = api.injectEndpoints({
 						favoritesUser: arrayRemove(favoriteUser)
 					})
 					Toast.show({
-						text1: 'You add user to favorites',
+						text1: I18n.t('UserRemoveFromFavorite'),
 						type: 'success'
 					})
 					return { data: 'ok' }
 				} catch (error) {
 					Toast.show({
-						text1: 'Yo user not added to favorites!',
+						text1: I18n.t('Something went wrong'),
 						type: 'error'
 					})
 					return { error }
@@ -53,13 +56,13 @@ const userMutationApi = api.injectEndpoints({
 						favoritesUser: arrayUnion(favoriteUser)
 					})
 					Toast.show({
-						text1: 'You add user to favorites',
+						text1: I18n.t('You add user to favorites'),
 						type: 'success'
 					})
 					return { data: 'ok' }
 				} catch (error) {
 					Toast.show({
-						text1: 'Yo user not added to favorites!',
+						text1: I18n.t('Something went wrong'),
 						type: 'error'
 					})
 					return { error }
@@ -82,16 +85,15 @@ const userMutationApi = api.injectEndpoints({
 						email: email,
 						photoURL: photoURL
 					})
-
 					Toast.show({
-						text1: 'Success update profile',
+						text1: I18n.t('Success update profile'),
 						type: 'success'
 					})
 					return { data: 'ok' }
 				} catch (error: any) {
 					console.log(error)
 					Toast.show({
-						text1: 'You not update profile!',
+							text1: I18n.t('Something went wrong'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -109,16 +111,15 @@ const userMutationApi = api.injectEndpoints({
 					) {
 						updatePassword(userCredential.user, NewPassword)
 					})
-
 					Toast.show({
-						text1: 'Success update password',
+						text1: I18n.t('Success update password'),
 						type: 'success'
 					})
 					return { data: 'ok' }
 				} catch (error: any) {
 					console.log(error)
 					Toast.show({
-						text1: 'You not update password!',
+						text1: I18n.t('Something went wrong'),
 						text2: error.message,
 						type: 'error'
 					})

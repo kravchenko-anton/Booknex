@@ -4,7 +4,6 @@ import { ComponentProps, useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { en } from '../../../utils/localization/en'
 import { ru } from '../../../utils/localization/ru'
-import * as Localization from 'expo-localization'
 export const LanguageProvider = ({ children }: ComponentProps<any>) => {
 	const [language, setLanguage] = useState('en')
 	useEffect(() => {

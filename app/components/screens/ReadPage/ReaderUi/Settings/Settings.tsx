@@ -252,7 +252,7 @@ const Settings = (props: IReadSettings) => {
 												term.length > 5
 													? props.search(term)
 													: Toast.show({
-															text1: 'Min term length = 5',
+															text1: I18n.t('Min term length = 5'),
 															type: 'error'
 													  })
 											}

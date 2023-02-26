@@ -10,6 +10,7 @@ import {
 	setDoc,
 	updateDoc
 } from 'firebase/firestore'
+import I18n from 'i18n-js'
 import Toast from 'react-native-toast-message'
 import { db } from '../../../utils/firebase'
 import { api } from '../api'
@@ -18,6 +19,7 @@ import Timestamp = firebase.firestore.Timestamp
 
 const bookMutation = api.injectEndpoints({
 	endpoints: build => ({
+		
 		// Fetch appBooks book
 		RemoveUserBook: build.mutation({
 			async queryFn({ id }) {
@@ -25,7 +27,7 @@ const bookMutation = api.injectEndpoints({
 					const userBookRef = doc(db, 'userBook', id)
 					deleteDoc(userBookRef).then(() => {
 						Toast.show({
-							text1: 'You delete book!',
+							text1: I18n.t('You delete book!'),
 							type: 'success'
 						})
 					})
@@ -33,7 +35,7 @@ const bookMutation = api.injectEndpoints({
 				} catch (error: any) {
 					console.log(error)
 					Toast.show({
-						text1: 'You  not delete book!',
+						text1: I18n.t('Something went wrong'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -50,13 +52,10 @@ const bookMutation = api.injectEndpoints({
 					const BookRef = doc(db, 'BookChats', id)
 					const docSnap = await getDoc(BookRef)
 					if (!docSnap.exists()) {
-						console.log('add!')
 						await setDoc(BookRef, { message: [] })
 					}
-
 					return { data: 'Ok' }
 				} catch (error: any) {
-					console.log(error)
 
 					return { error }
 				}
@@ -79,7 +78,11 @@ const bookMutation = api.injectEndpoints({
 
 					return { data: 'Ok' }
 				} catch (error: any) {
-					console.log(error)
+										Toast.show({
+						text1: I18n.t('Error in message!'),
+						text2: error.message,
+						type: 'error'
+										})
 					return { error }
 				}
 			},
@@ -101,7 +104,11 @@ const bookMutation = api.injectEndpoints({
 
 					return { data: 'Ok' }
 				} catch (error: any) {
-					console.log(error)
+					Toast.show({
+						text1: I18n.t('Error in message!'),
+						text2: error.message,
+						type: 'error'
+					})
 					return { error }
 				}
 			},
@@ -124,13 +131,13 @@ const bookMutation = api.injectEndpoints({
 						revieCount: firebase.firestore.FieldValue.increment(1)
 					})
 					Toast.show({
-						text1: 'You add book review!',
+						text1: I18n.t('You add book review!'),
 						type: 'success'
 					})
 					return { data: 'ok' }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'You  not added book review!',
+						text1: I18n.t('Something went wrong!'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -149,13 +156,13 @@ const bookMutation = api.injectEndpoints({
 						favoritesBook: arrayUnion(book.id)
 					})
 					Toast.show({
-						text1: 'You add book to favorites!',
+						text1: I18n.t('You add book to favorite!'),
 						type: 'success'
 					})
 					return { data: 'ok' }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'You book not added to favorites!',
+						text1: I18n.t('Something went wrong!'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -173,14 +180,10 @@ const bookMutation = api.injectEndpoints({
 					await updateDoc(reference, {
 						startReadBook: arrayUnion(book.id)
 					})
-					Toast.show({
-						text1: 'Congratulations on starting to read the new book!',
-						type: 'success'
-					})
 					return { data: 'ok' }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'You book not added to start read!',
+						text1: I18n.t('Something went wrong!'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -200,13 +203,13 @@ const bookMutation = api.injectEndpoints({
 						finishedBook: arrayUnion(book.id)
 					})
 					Toast.show({
-						text1: 'Congratulations on finish book!',
+						text1: I18n.t('You finish book!'),
 						type: 'success'
 					})
 					return { data: 'ok' }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'You book not finish!',
+						text1: I18n.t('Something went wrong!'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -220,18 +223,16 @@ const bookMutation = api.injectEndpoints({
 		addUserBook: build.mutation({
 			async queryFn({  book }) {
 				try {
-
 					await addDoc(collection(db, 'userBook'), book)
-
 					Toast.show({
-						text1: 'You book add!',
+						text1: I18n.t('You add book!'),
 						type: 'success'
 					})
 					return { data: 'ok' }
 				} catch (error: any) {
 					console.log(error)
 					Toast.show({
-						text1: 'You book not add!',
+						text1: I18n.t('Something went wrong!'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -259,9 +260,8 @@ const bookMutation = api.injectEndpoints({
 const finalBook = { ...books.items[0].volumeInfo, ...{ HighQualityImage: HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge } }
 					return { data: finalBook  }
 				} catch (error: any) {
-					console.log(error)
 					Toast.show({
-						text1: 'Api not working!',
+						text1: I18n.t('Something went wrong!'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -281,13 +281,13 @@ const finalBook = { ...books.items[0].volumeInfo, ...{ HighQualityImage: HightQu
 						favoritesBook: arrayRemove(book.id)
 					})
 					Toast.show({
-						text1: 'You book remove from favorites!',
+						text1: I18n.t('You delete book from favorite!'),
 						type: 'success'
 					})
 					return { data: 'ok' }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'You  book not remove from favorites!',
+						text1: I18n.t('Something went wrong!'),
 						text2: error.message,
 						type: 'error'
 					})

@@ -7,6 +7,7 @@ import {
 	where,
 	onSnapshot
 } from 'firebase/firestore'
+import I18n from 'i18n-js'
 import Toast from 'react-native-toast-message'
 import { db } from '../../../utils/firebase'
 import { api } from '../api'
@@ -14,8 +15,6 @@ import { BookTypes, iBookwithRating } from '../api.types'
 
 const bookQuery = api.injectEndpoints({
 	endpoints: build => ({
-
-	
 		
 		// Fetch default book from admin
 		fetchBooks: build.query({
@@ -25,13 +24,12 @@ const bookQuery = api.injectEndpoints({
 					const querySnaphot = await getDocs(blogRef)
 					let books: BookTypes[] = []
 					querySnaphot?.forEach(doc => {
-						// @ts-ignore
-						books.push({ id: doc.id, ...doc.data() })
+						books.push({ id: doc.id, ...doc.data() } as BookTypes)
 					})
 					return { data: books }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'Book not loaded!',
+						text1: I18n.t('Book not loaded!'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -52,12 +50,15 @@ const bookQuery = api.injectEndpoints({
 					const querySnaphot = await getDocs(q)
 					let books: BookTypes[] = []
 					querySnaphot?.forEach(doc => {
-						// @ts-ignore
-						books.push({ id: doc.id, ...doc.data() })
+						books.push({ id: doc.id, ...doc.data() } as BookTypes)
 					})
 					return { data: books }
 				} catch (error: any) {
-					console.log(error)
+					Toast.show({
+						text1: I18n.t('Book not loaded!'),
+						text2: error.message,
+						type: 'error'
+					})
 					return { error }
 				}
 			},
@@ -76,17 +77,15 @@ const bookQuery = api.injectEndpoints({
 					const BooksquerySnaphot = await getDocs(bq)
 					let books: BookTypes[] = []
 					UserquerySnaphot?.forEach(doc => {
-						// @ts-ignore
-						books.push({ id: doc.id, ...doc.data() })
+						books.push({ id: doc.id, ...doc.data() } as BookTypes)
 					})
 					BooksquerySnaphot?.forEach(doc => {
-						// @ts-ignore
-						books.push({ id: doc.id, ...doc.data() })
+						books.push({ id: doc.id, ...doc.data() } as BookTypes)
 					})
 					return { data: books }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'Book not loaded!',
+						text1: I18n.t('Book not loaded!'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -106,39 +105,30 @@ const bookQuery = api.injectEndpoints({
 					const BooksquerySnaphot = await getDocs(booksRef)
 					let books: iBookwithRating[] = []
 					UserquerySnaphot?.forEach(doc => {
-						books.push({
+						books.push(<iBookwithRating>{
 							id: doc.id,
 							...doc.data(),
-						// @ts-ignore
-							rating: doc.data().comments
-								? Object.values(doc.data().comments).reduce(
-						// @ts-ignore
-										(t, values) => t + values.rating,
-										0
-								  )
-								: 0
+							rating:
+								doc.data().comments ? Object.values(doc.data().comments).reduce((t, values: any) => t + values.rating, 0) : 0
 						})
 					})
 					BooksquerySnaphot?.forEach(doc => {
-						books.push({
+						books.push(<iBookwithRating>{
 							id: doc.id,
 							...doc.data(),
-						// @ts-ignore
 							rating: doc.data().comments
 								? Object.values(doc.data().comments).reduce(
-						// @ts-ignore
-										(t, values) => t + values.rating,
+										(t, values: any) => t + values.rating,
 										0
 								  )
 								: 0
 						})
 					})
 
-					var res = books.sort(({ rating: a }, { rating: b }) => b - a)
 					return { data: books }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'Book not loaded!',
+						text1: I18n.t('Book not loaded!'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -158,17 +148,15 @@ const bookQuery = api.injectEndpoints({
 					const BooksquerySnaphot = await getDocs(booksRef)
 					let books: BookTypes[] = []
 					UserquerySnaphot?.forEach(doc => {
-						// @ts-ignore
-						books.push({ id: doc.id, ...doc.data() })
+						books.push({ id: doc.id, ...doc.data() } as BookTypes)
 					})
 					BooksquerySnaphot?.forEach(doc => {
-						// @ts-ignore
-						books.push({ id: doc.id, ...doc.data() })
+						books.push({ id: doc.id, ...doc.data() } as BookTypes)
 					})
 					return { data: books }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'Book not loaded!',
+						text1: I18n.t('Book not loaded!'),
 						text2: error.message,
 						type: 'error'
 					})
@@ -190,7 +178,7 @@ const bookQuery = api.injectEndpoints({
 					return { data: { id: id, ...CurrentSnaphot.data() } as BookTypes }
 				} catch (error: any) {
 					Toast.show({
-						text1: 'You book not loaded!',
+						text1: I18n.t('Book not loaded!'),
 						text2: error.message,
 						type: 'error'
 					})

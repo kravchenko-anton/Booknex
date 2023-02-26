@@ -13,8 +13,7 @@ const userQueryApi = api.injectEndpoints({
 					const querySnaphot = await getDocs(blogRef)
 					let user: Iuser[] = []
 					querySnaphot?.forEach(doc => {
-						// @ts-ignore
-						user.push({ uid: doc.id, ...doc.data() })
+						user.push({ uid: doc.id, ...doc.data() } as Iuser)
 					})
 					return { data: user }
 				} catch (error) {
