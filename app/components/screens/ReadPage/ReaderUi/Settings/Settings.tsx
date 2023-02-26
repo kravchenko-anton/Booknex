@@ -17,7 +17,7 @@ import { IReadSettings } from './types'
 const Settings = (props: IReadSettings) => {
 	const [searchState, setSearchState] = useState(false)
 	const [term, setTerm] = React.useState('')
-	const {navigate} = useTypedNavigation()
+	const { navigate } = useTypedNavigation()
 	const [addChat] = useAddBookToChatMutation()
 	return (
 		<>
@@ -41,7 +41,9 @@ const Settings = (props: IReadSettings) => {
 							{!searchState ? (
 								<>
 									<View className='flex-row justify-between mb-7'>
-										<Text className='text-white text-lg'>{I18n.t('CharacterProgress')} </Text>
+										<Text className='text-white text-lg'>
+											{I18n.t('CharacterProgress')}{' '}
+										</Text>
 										<Text className='text-white text-lg'>
 											{props.currentLocation?.end.displayed.page} {I18n.t('of')}{' '}
 											{props.currentLocation?.end.displayed.total} {I18n.t('pages')}
@@ -212,7 +214,9 @@ const Settings = (props: IReadSettings) => {
 										</View>
 									</View>
 									<View className='mt-4 mb-4'>
-										<Text className='text-white text-2xl mb-4'>{I18n.t('Characters')}</Text>
+										<Text className='text-white text-2xl mb-4'>
+											{I18n.t('Characters')}
+										</Text>
 										{props.toc.map((toc: { label: string; id: string; href: string }) => (
 											<TouchableOpacity
 												onPress={() => props.goToLocation(toc.href)}
@@ -296,37 +300,37 @@ const Settings = (props: IReadSettings) => {
 					>
 						<AntDesign name='arrowleft' size={24} color='white' />
 					</TouchableOpacity>
-		<View>
-	<TouchableOpacity
-		style={{
-			backgroundColor:
-				props.theme.body.background === '#121212' ? 'gray' : '#121212'
-		}}
-		onPress={async () => {
-			console.log(props.BookId)
-			await addChat({ id: props.BookId }).then(() =>
-				navigate('Chat', {BookId: props.BookId})
-			)
-		}}
-		className='absolute right-16 top-10 p-3 rounded-full bg-blue z-[50]'
-	>
-		<Ionicons name="chatbubbles-outline" size={24} color="white" />
-	</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => setSearchState(!searchState)}
-						style={{
-							backgroundColor:
-								props.theme.body.background === '#121212' ? 'gray' : '#121212'
-						}}
-						className='absolute right-3 p-3 rounded-full top-10   z-[50]'
-					>
-						{searchState ? (
-							<Ionicons name='close' size={24} color='white' />
-						) : (
-							<AntDesign name='search1' size={24} color='white' />
-						)}
-					</TouchableOpacity>
-</View>
+					<View>
+						<TouchableOpacity
+							style={{
+								backgroundColor:
+									props.theme.body.background === '#121212' ? 'gray' : '#121212'
+							}}
+							onPress={async () => {
+								console.log(props.BookId)
+								await addChat({ id: props.BookId }).then(() =>
+									navigate('Chat', { BookId: props.BookId })
+								)
+							}}
+							className='absolute right-16 top-10 p-3 rounded-full bg-blue z-[50]'
+						>
+							<Ionicons name='chatbubbles-outline' size={24} color='white' />
+						</TouchableOpacity>
+						<TouchableOpacity
+							onPress={() => setSearchState(!searchState)}
+							style={{
+								backgroundColor:
+									props.theme.body.background === '#121212' ? 'gray' : '#121212'
+							}}
+							className='absolute right-3 p-3 rounded-full top-10   z-[50]'
+						>
+							{searchState ? (
+								<Ionicons name='close' size={24} color='white' />
+							) : (
+								<AntDesign name='search1' size={24} color='white' />
+							)}
+						</TouchableOpacity>
+					</View>
 				</View>
 			) : null}
 		</>

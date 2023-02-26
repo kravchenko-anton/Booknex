@@ -10,17 +10,14 @@ export const LanguageProvider = ({ children }: ComponentProps<any>) => {
 	useEffect(() => {
 		const getLanguage = async () => {
 			const lang = await AsyncStorage.getItem('language')
-		 setLanguage(lang	? lang : 'en')
+			setLanguage(lang ? lang : 'en')
 		}
-		
+
 		getLanguage()
 	}, [language])
-	
-	I18n.translations = { en, ru };
-	I18n.locale = language;
-	I18n.fallbacks = true;
-	return (
-		<>
-			{children}
-		</> )
+
+	I18n.translations = { en, ru }
+	I18n.locale = language
+	I18n.fallbacks = true
+	return <>{children}</>
 }

@@ -28,7 +28,13 @@ const AddBookRating: FC<{ Profile: Iuser; id: any }> = ({ Profile, id }) => {
 				size={40}
 				defaultRating={3}
 				count={5}
-				reviews={[I18n.t('Terrable'), I18n.t('Bad'), I18n.t('Normal'), I18n.t('Good'), I18n.t('Excellent')]}
+				reviews={[
+					I18n.t('Terrable'),
+					I18n.t('Bad'),
+					I18n.t('Normal'),
+					I18n.t('Good'),
+					I18n.t('Excellent')
+				]}
 				onFinishRating={raitingCount => setRatingCount(raitingCount)}
 			/>
 			<View className='h-full items-end'>

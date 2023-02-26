@@ -1,7 +1,20 @@
-
 import firebase from 'firebase/compat'
-import { arrayRemove, arrayUnion, collection, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore'
-import { getAuth, updatePassword, signInWithEmailAndPassword, updateEmail, updateProfile } from 'firebase/auth'
+import {
+	arrayRemove,
+	arrayUnion,
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	updateDoc
+} from 'firebase/firestore'
+import {
+	getAuth,
+	updatePassword,
+	signInWithEmailAndPassword,
+	updateEmail,
+	updateProfile
+} from 'firebase/auth'
 import Toast from 'react-native-toast-message'
 import { auth, db } from '../../../utils/firebase'
 import { api } from '../api'
@@ -9,7 +22,6 @@ import { Iuser } from '../api.types'
 
 const userMutationApi = api.injectEndpoints({
 	endpoints: build => ({
-		
 		removeUserToFavorite: build.mutation({
 			async queryFn({ currentUserUID, favoriteUser }) {
 				try {
@@ -32,7 +44,7 @@ const userMutationApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
+
 		addUserToFavorite: build.mutation({
 			async queryFn({ currentUserUID, favoriteUser }) {
 				try {
@@ -55,22 +67,22 @@ const userMutationApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
-		
+
 		UpdateProfile: build.mutation({
 			async queryFn({ name, email, photoURL, uid, oldEmail, ConfirmPassword }) {
 				try {
-				 await	signInWithEmailAndPassword(auth, oldEmail, ConfirmPassword)
-						.then(function(userCredential) {
+					await signInWithEmailAndPassword(auth, oldEmail, ConfirmPassword).then(
+						function (userCredential) {
 							updateEmail(userCredential.user, email)
-						})
+						}
+					)
 					const reference = doc(db, 'users', uid)
 					await updateDoc(reference, {
 						name: name,
 						email: email,
-						photoURL: photoURL,
+						photoURL: photoURL
 					})
-		
+
 					Toast.show({
 						text1: 'Success update profile',
 						type: 'success'
@@ -88,16 +100,16 @@ const userMutationApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
+
 		UpdatePassword: build.mutation({
-			async queryFn({  OldPassword, NewPassword, email }) {
+			async queryFn({ OldPassword, NewPassword, email }) {
 				try {
-					
-					await	signInWithEmailAndPassword(auth, email, OldPassword)
-						.then(function(userCredential) {
-							updatePassword(userCredential.user, NewPassword)
-						})
-				
+					await signInWithEmailAndPassword(auth, email, OldPassword).then(function (
+						userCredential
+					) {
+						updatePassword(userCredential.user, NewPassword)
+					})
+
 					Toast.show({
 						text1: 'Success update password',
 						type: 'success'
@@ -115,15 +127,11 @@ const userMutationApi = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		})
-		
-		
-		
-		
 	})
 })
 export const {
 	useAddUserToFavoriteMutation,
 	useRemoveUserToFavoriteMutation,
-useUpdateProfileMutation,
-	useUpdatePasswordMutation,
+	useUpdateProfileMutation,
+	useUpdatePasswordMutation
 } = userMutationApi

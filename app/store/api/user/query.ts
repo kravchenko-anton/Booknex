@@ -23,8 +23,7 @@ const userQueryApi = api.injectEndpoints({
 			},
 			providesTags: ['user']
 		}),
-		
-		
+
 		// Fetch single user
 		fetchSingleUser: build.query({
 			async queryFn(uid) {
@@ -38,7 +37,7 @@ const userQueryApi = api.injectEndpoints({
 			},
 			providesTags: ['user']
 		}),
-		
+
 		fetchMyProfile: build.query({
 			async queryFn(uid) {
 				try {
@@ -50,8 +49,7 @@ const userQueryApi = api.injectEndpoints({
 				}
 			},
 			providesTags: ['user']
-		}),
-		
+		})
 	})
 })
 export const {

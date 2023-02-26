@@ -164,8 +164,7 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
-		
+
 		// add Book to start Reading
 		addBookToStartReading: build.mutation({
 			async queryFn({ currentUserUID, book }) {
@@ -190,7 +189,7 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
+
 		// Finish Book
 		addBookToEndedBook: build.mutation({
 			async queryFn({ currentUserUID, book }) {
@@ -216,14 +215,11 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-		
-		
-		
+
 		// add userBook
 		addUserBook: build.mutation({
-			async queryFn({ UserId, book }) {
+			async queryFn({  book }) {
 				try {
-					const reference = doc(db, 'users', UserId)
 
 					await addDoc(collection(db, 'userBook'), book)
 
@@ -244,7 +240,32 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-
+		
+		
+		
+		// Get search results from google book api
+		SearchBookByGoogleApi: build.mutation({
+			async queryFn({ searchTerm, author, lang }) {
+				try {
+					const response = await fetch(
+						`https://www.googleapis.com/books/v1/volumes?q=intitle:${searchTerm}${author !== '' ? `+inauthor:${author}`: ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}`
+					)
+					const books = await response.json()
+					return { data: books.items[0].volumeInfo }
+				} catch (error: any) {
+					console.log(error)
+					Toast.show({
+						text1: 'Api not working!',
+						text2: error.message,
+						type: 'error'
+					})
+					return { error }
+				}
+			},
+			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
+		}),
+		
+		
 		// delete favorite book
 		deleteBookFromFavorite: build.mutation({
 			async queryFn({ currentUserUID, book }) {
@@ -279,6 +300,7 @@ export const {
 	useAddBookReviewMutation,
 	useAddBookToStartReadingMutation,
 	useAddBookToEndedBookMutation,
+	useSearchBookByGoogleApiMutation,
 	useAddUserBookMutation,
 	useAddBookToChatMutation,
 	useAddBookToFavoriteMutation

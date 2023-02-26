@@ -32,9 +32,7 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 		<View
 			className={cn(
 				' mb-4 items-end flex-1',
-				uid === CurrentUser?.uid
-					? 'ml-auto flex-row'
-					: ' mr-auto flex-row-reverse'
+				uid === CurrentUser?.uid ? 'ml-auto flex-row' : ' mr-auto flex-row-reverse'
 			)}
 		>
 			<ModalPopup
@@ -110,12 +108,7 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 						className='w-[30px] border-2 border-primary h-[30px] rounded-full'
 					/>
 				) : (
-					<ClearUserLogo
-						letter={user.name}
-						latterSize={15}
-						width={30}
-						height={30}
-					/>
+					<ClearUserLogo letter={user.name} latterSize={15} width={30} height={30} />
 				)}
 			</TouchableOpacity>
 		</View>

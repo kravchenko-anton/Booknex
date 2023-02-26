@@ -8,7 +8,10 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { Toast } from 'react-native-toast-message/lib/src/Toast'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import { useAddBookToEndedBookMutation, useAddBookToStartReadingMutation } from '../../../store/api/book/mutation'
+import {
+	useAddBookToEndedBookMutation,
+	useAddBookToStartReadingMutation
+} from '../../../store/api/book/mutation'
 import Loader from '../../ui/Loader'
 import Settings from './ReaderUi/Settings/Settings'
 import { light } from './Theme'
@@ -21,7 +24,7 @@ const ReaderComponent = (props: {
 	const [theme, setTheme] = useState(light)
 	const [isVisible, setIsVisible] = useState(false)
 	const [toc, setToc] = useState([])
-	const {user} = useTypedSelector(state => state.auth)
+	const { user } = useTypedSelector(state => state.auth)
 	const { goBack, navigate } = useTypedNavigation()
 	const [fontSize, setFontSize] = useState(0)
 	const [LoadingfontSize, setLoadingFontSize] = useState(0)
@@ -63,9 +66,13 @@ const ReaderComponent = (props: {
 				style={theme.body.background === '#121212' ? 'light' : 'dark'}
 				// @ts-ignore, its unreal fix
 				backgroundColor={
-					theme.body.background === '#fff' ? '#fff' :
-						theme.body.background === '#121212' ? '#121212' :
-							theme.body.background === '#e8dcb8' ? '#e8dcb8' : '#fff'
+					theme.body.background === '#fff'
+						? '#fff'
+						: theme.body.background === '#121212'
+						? '#121212'
+						: theme.body.background === '#e8dcb8'
+						? '#e8dcb8'
+						: '#fff'
 				}
 			/>
 			<View
@@ -79,20 +86,36 @@ const ReaderComponent = (props: {
 					<Reader
 						initialLocation={props.LastReadPage}
 						src={props.epub + '.epub'}
-						renderOpeningBookComponent={() => <Loader style={{
-							backgroundColor: theme.body.background === '#fff' ? '#fff' :
-								theme.body.background === '#121212' ? '#121212' :
-									theme.body.background === '#e8dcb8' ? '#e8dcb8' : '#fff', height: height, width: width
-						}} />}
+						renderOpeningBookComponent={() => (
+							<Loader
+								style={{
+									backgroundColor:
+										theme.body.background === '#fff'
+											? '#fff'
+											: theme.body.background === '#121212'
+											? '#121212'
+											: theme.body.background === '#e8dcb8'
+											? '#e8dcb8'
+											: '#fff',
+									height: height,
+									width: width
+								}}
+							/>
+						)}
 						fileSystem={useFileSystem}
-						onStarted={ async () => {
+						onStarted={async () => {
 							if (!props.LastReadPage) {
-							await startBookMutation({currentUserUID: user?.uid, book: { id: props.BookId }})
+								await startBookMutation({
+									currentUserUID: user?.uid,
+									book: { id: props.BookId }
+								})
 							}
 						}}
-			
 						onFinish={async () => {
-							await EndBookMutation({currentUserUID: user?.uid, book: { id: props.BookId }})
+							await EndBookMutation({
+								currentUserUID: user?.uid,
+								book: { id: props.BookId }
+							})
 							await AsyncStorage.removeItem(props.epub)
 							navigate('Home')
 						}}
@@ -118,11 +141,22 @@ const ReaderComponent = (props: {
 							await AsyncStorage.setItem(props.epub + 'theme', JSON.stringify(theme))
 							await AsyncStorage.setItem(props.epub + 'fontFamily', fontFamiles)
 						}}
-						renderLoadingFileComponent={() => <Loader style={{
-							backgroundColor: theme.body.background === '#fff' ? '#fff' :
-								theme.body.background === '#121212' ? '#121212' :
-									theme.body.background === '#e8dcb8' ? '#e8dcb8' : '#fff', height: height, width: width
-						}} />}
+						renderLoadingFileComponent={() => (
+							<Loader
+								style={{
+									backgroundColor:
+										theme.body.background === '#fff'
+											? '#fff'
+											: theme.body.background === '#121212'
+											? '#121212'
+											: theme.body.background === '#e8dcb8'
+											? '#e8dcb8'
+											: '#fff',
+									height: height,
+									width: width
+								}}
+							/>
+						)}
 						enableSwipe={true}
 						height={height}
 					/>

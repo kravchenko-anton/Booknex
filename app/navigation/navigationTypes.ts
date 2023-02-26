@@ -8,14 +8,14 @@ export type TypeRootStackParamList = {
 		id?: number | string
 		uid?: number | string
 	}
-	
+
 	Chat: {
-	BookId: number | string
+		BookId: number | string
 	}
 	Settings: {
 		uid: string | number
 	}
-	
+
 	UserSettings: {
 		uid: string | number
 	}

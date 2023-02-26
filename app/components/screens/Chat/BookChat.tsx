@@ -60,9 +60,9 @@ const BookChat = ({ route }: any) => {
 	return (
 		<Layout className='h-full'>
 			<StatusBar backgroundColor='#121212' />
-	<Header className='mb-2 mt-2'>
-		<Text className='text-2xl text-white font-bold'>{book?.Name}</Text>
-	</Header>
+			<Header className='mb-2 mt-2'>
+				<Text className='text-2xl text-white font-bold'>{book?.Name}</Text>
+			</Header>
 			<ScrollView
 				ref={scrollViewRef}
 				onContentSizeChange={() =>
@@ -96,7 +96,7 @@ const BookChat = ({ route }: any) => {
 						NoError={true}
 						placeholderTextColor='#fff'
 						className='rounded-md z-50 p-0 placeholder-white indent-9'
-						placeholder=	{I18n.t('TypeSomething')}
+						placeholder={I18n.t('TypeSomething')}
 						control={control}
 						rules={{ validate: validateText, required: true }}
 						name={'Message'}

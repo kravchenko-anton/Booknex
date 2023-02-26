@@ -24,7 +24,7 @@ const UserProfilePages = () => {
 	const { data: CurrentUser } = useFetchSingleUserQuery(user?.uid)
 	const [isVisible, setIsVisible] = useState(false)
 	const { styleAnimation } = useScaleOnMount()
-const {navigate} = useTypedNavigation()
+	const { navigate } = useTypedNavigation()
 	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(
 		CurrentUser?.name,
 		{
@@ -35,7 +35,6 @@ const {navigate} = useTypedNavigation()
 	if (!CurrentUser || !user) return <Loader />
 	return (
 		<Layout className='h-full'>
-			
 			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
 				<ModalPopup
 					height={400}
@@ -58,7 +57,7 @@ const {navigate} = useTypedNavigation()
 						color='white'
 					/>
 					<Feather
-						onPress={() => navigate('Settings', {uid: user.uid})}
+						onPress={() => navigate('Settings', { uid: user.uid })}
 						name='settings'
 						size={24}
 						color='white'

@@ -22,9 +22,9 @@ const SingleUserPage = ({ route }: any) => {
 	return (
 		<Layout className='h-full'>
 			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
-		<Header className='mt-4'>
-			<AuthorFavoritesButton user={user} />
-		</Header>
+				<Header className='mt-4'>
+					<AuthorFavoritesButton user={user} />
+				</Header>
 				<View className=' items-center mt-8'>
 					{user.photoURL ? (
 						<Image
@@ -49,7 +49,9 @@ const SingleUserPage = ({ route }: any) => {
 					ThirdHeading={CurrentUserBook?.length}
 					ThirdDescription={I18n.t('UserBooks')}
 				/>
-				<Text className='text-white  font-bold  text-2xl mt-6'>{I18n.t('Books')}</Text>
+				<Text className='text-white  font-bold  text-2xl mt-6'>
+					{I18n.t('Books')}
+				</Text>
 			</AnimatedFlatList>
 		</Layout>
 	)

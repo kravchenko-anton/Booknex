@@ -1,4 +1,12 @@
-import { collection, doc, getDoc, getDocs, query, where, onSnapshot } from 'firebase/firestore'
+import {
+	collection,
+	doc,
+	getDoc,
+	getDocs,
+	query,
+	where,
+	onSnapshot
+} from 'firebase/firestore'
 import Toast from 'react-native-toast-message'
 import { db } from '../../../utils/firebase'
 import { api } from '../api'
@@ -6,6 +14,8 @@ import { BookTypes, iBookwithRating } from '../api.types'
 
 const bookQuery = api.injectEndpoints({
 	endpoints: build => ({
+
+	
 		
 		// Fetch default book from admin
 		fetchBooks: build.query({
@@ -30,7 +40,7 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
+
 		// Fetch CurrentUserBooks
 		fetchCurrentUserBooks: build.query({
 			async queryFn(AutorName) {
@@ -53,9 +63,7 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
-		
-	
+
 		//Fetch Action  book
 		fetchActionBooks: build.query({
 			async queryFn() {
@@ -87,8 +95,7 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
-		
+
 		//Fetch Most popular book
 		fetchMostPopularBooks: build.query({
 			async queryFn() {
@@ -99,15 +106,35 @@ const bookQuery = api.injectEndpoints({
 					const BooksquerySnaphot = await getDocs(booksRef)
 					let books: iBookwithRating[] = []
 					UserquerySnaphot?.forEach(doc => {
+						books.push({
+							id: doc.id,
+							...doc.data(),
 						// @ts-ignore
-						books.push({ id: doc.id, ...doc.data(), rating: doc.data().comments ? Object.values(doc.data().comments).reduce((t, values) => t + values.rating, 0) : 0})
+							rating: doc.data().comments
+								? Object.values(doc.data().comments).reduce(
+						// @ts-ignore
+										(t, values) => t + values.rating,
+										0
+								  )
+								: 0
+						})
 					})
 					BooksquerySnaphot?.forEach(doc => {
+						books.push({
+							id: doc.id,
+							...doc.data(),
 						// @ts-ignore
-						books.push({ id: doc.id, ...doc.data(), rating: doc.data().comments ? Object.values(doc.data().comments).reduce((t, values) => t + values.rating, 0) : 0})
+							rating: doc.data().comments
+								? Object.values(doc.data().comments).reduce(
+						// @ts-ignore
+										(t, values) => t + values.rating,
+										0
+								  )
+								: 0
+						})
 					})
-					
-					var res = books.sort(({rating:a}, {rating:b}) => b-a);
+
+					var res = books.sort(({ rating: a }, { rating: b }) => b - a)
 					return { data: books }
 				} catch (error: any) {
 					Toast.show({
@@ -120,7 +147,7 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
+
 		// Fetch AllBooks
 		fetchAllBooks: build.query({
 			async queryFn() {
@@ -150,11 +177,7 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-		
-		
-	
-		
-		
+
 		//Fetch single book
 		fetchSingleBook: build.query({
 			async queryFn(id) {
@@ -175,12 +198,9 @@ const bookQuery = api.injectEndpoints({
 				}
 			},
 			providesTags: ['book']
-		}),
-		
-		
+		})
 	})
 })
-
 
 export const {
 	useFetchCurrentUserBooksQuery,
@@ -188,5 +208,5 @@ export const {
 	useFetchMostPopularBooksQuery,
 	useFetchActionBooksQuery,
 	useFetchAllBooksQuery,
-	useFetchSingleBookQuery,
+	useFetchSingleBookQuery
 } = bookQuery

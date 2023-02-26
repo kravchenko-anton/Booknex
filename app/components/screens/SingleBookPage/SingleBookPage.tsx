@@ -132,7 +132,9 @@ const SingleBookPage = ({ route }: any) => {
 								className='flex-row gap-3 items-center'
 							>
 								<MaterialCommunityIcons name='book-remove' size={26} color='#FF0000' />
-								<Text className='text-[#FF0000] text-lg font-bold'>{I18n.t('Delete book')}</Text>
+								<Text className='text-[#FF0000] text-lg font-bold'>
+									{I18n.t('Delete book')}
+								</Text>
 							</TouchableOpacity>
 						) : null}
 
@@ -190,7 +192,9 @@ const SingleBookPage = ({ route }: any) => {
 						ThirdHeading={Object.values(book.comments).length.toString()}
 						ThirdDescription={I18n.t('UserReviews')}
 					/>
-					<Text className='text-white  font-bold  text-2xl mt-6'>{I18n.t('Description')}</Text>
+					<Text className='text-white  font-bold  text-2xl mt-6'>
+						{I18n.t('Description')}
+					</Text>
 					<Animatable.Text
 						animation={animation}
 						numberOfLines={4}
@@ -202,12 +206,14 @@ const SingleBookPage = ({ route }: any) => {
 						className='flex-row justify-between
 			items-center'
 					>
-						<Text className='text-white  font-bold  text-2xl mt-6'>{I18n.t('Reviews')}</Text>
+						<Text className='text-white  font-bold  text-2xl mt-6'>
+							{I18n.t('Reviews')}
+						</Text>
 						<Text
 							onPress={() => setIsVisible(true)}
 							className='text-gray text-lg mt-6'
 						>
-{I18n.t('add')}
+							{I18n.t('add')}
 						</Text>
 					</View>
 					<Animatable.View animation={animation} className='mb-2 flex-1'>

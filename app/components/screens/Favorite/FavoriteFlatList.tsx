@@ -10,7 +10,7 @@ const AnimatedFavoriteFlatList: FC<
 > = ({ children, data }) => {
 	const { navigate } = useTypedNavigation()
 	const scrollX = useRef(new Animated.Value(0)).current
-	
+
 	return (
 		<FlatList
 			horizontal
@@ -28,14 +28,13 @@ const AnimatedFavoriteFlatList: FC<
 				const inputRange = [0, 0, 150 * index, 150 * (index + 10)]
 				const scale = scrollX.interpolate({
 					inputRange,
-					outputRange: [1,1, 1, 0],
+					outputRange: [1, 1, 1, 0],
 					extrapolate: 'clamp'
 				})
-				
+
 				return (
-					<Animated.View
-						style={{ transform: [{ scale: scale }], marginRight: 10 }}>
-					<Favoriteitem BookId={item}/>
+					<Animated.View style={{ transform: [{ scale: scale }], marginRight: 10 }}>
+						<Favoriteitem BookId={item} />
 					</Animated.View>
 				)
 			}}

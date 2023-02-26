@@ -33,7 +33,13 @@ const Field = <T extends Record<string, any>>({
 							{...rest}
 						/>
 					</View>
-					{!NoError ? error && <Text className='text-white font-bold m-0 text-md'>{error.message}</Text> : null}
+					{!NoError
+						? error && (
+								<Text className='text-white font-bold m-0 text-md'>
+									{error.message}
+								</Text>
+						  )
+						: null}
 				</>
 			)}
 		/>
