@@ -24,7 +24,9 @@ const bookQuery = api.injectEndpoints({
 					const querySnaphot = await getDocs(blogRef)
 					let books: BookTypes[] = []
 					querySnaphot?.forEach(doc => {
+						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
 						books.push({ id: doc.id, ...doc.data() } as BookTypes)
+						}
 					})
 					return { data: books }
 				} catch (error: any) {
@@ -77,10 +79,14 @@ const bookQuery = api.injectEndpoints({
 					const BooksquerySnaphot = await getDocs(bq)
 					let books: BookTypes[] = []
 					UserquerySnaphot?.forEach(doc => {
+						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
 						books.push({ id: doc.id, ...doc.data() } as BookTypes)
+						}
 					})
 					BooksquerySnaphot?.forEach(doc => {
+						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
 						books.push({ id: doc.id, ...doc.data() } as BookTypes)
+						}
 					})
 					return { data: books }
 				} catch (error: any) {
@@ -105,14 +111,17 @@ const bookQuery = api.injectEndpoints({
 					const BooksquerySnaphot = await getDocs(booksRef)
 					let books: iBookwithRating[] = []
 					UserquerySnaphot?.forEach(doc => {
+						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
 						books.push(<iBookwithRating>{
 							id: doc.id,
 							...doc.data(),
 							rating:
 								doc.data().comments ? Object.values(doc.data().comments).reduce((t, values: any) => t + values.rating, 0) : 0
 						})
+						}
 					})
 					BooksquerySnaphot?.forEach(doc => {
+						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
 						books.push(<iBookwithRating>{
 							id: doc.id,
 							...doc.data(),
@@ -123,6 +132,7 @@ const bookQuery = api.injectEndpoints({
 								  )
 								: 0
 						})
+						}
 					})
 
 					return { data: books }
@@ -148,11 +158,15 @@ const bookQuery = api.injectEndpoints({
 					const BooksquerySnaphot = await getDocs(booksRef)
 					let books: BookTypes[] = []
 					UserquerySnaphot?.forEach(doc => {
-						books.push({ id: doc.id, ...doc.data() } as BookTypes)
-					})
+						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
+							books.push({ id: doc.id, ...doc.data() } as BookTypes)
+						}})
 					BooksquerySnaphot?.forEach(doc => {
+					if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
 						books.push({ id: doc.id, ...doc.data() } as BookTypes)
+					}
 					})
+					
 					return { data: books }
 				} catch (error: any) {
 					Toast.show({
@@ -165,6 +179,36 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
+		
+		// Fetch AllBooks no by language
+		fetchAllBooksNoLang: build.query({
+			async queryFn() {
+				try {
+					const userBookRef = collection(db, 'userBook')
+					const booksRef = collection(db, 'books')
+					const UserquerySnaphot = await getDocs(userBookRef)
+					const BooksquerySnaphot = await getDocs(booksRef)
+					let books: BookTypes[] = []
+					UserquerySnaphot?.forEach(doc => {
+							books.push({ id: doc.id, ...doc.data() } as BookTypes)
+						})
+					BooksquerySnaphot?.forEach(doc => {
+							books.push({ id: doc.id, ...doc.data() } as BookTypes)
+					})
+					
+					return { data: books }
+				} catch (error: any) {
+					Toast.show({
+						text1: I18n.t('Book not loaded!'),
+						text2: error.message,
+						type: 'error'
+					})
+					return { error }
+				}
+			},
+			providesTags: ['book']
+		}),
+		
 
 		//Fetch single book
 		fetchSingleBook: build.query({
@@ -193,6 +237,7 @@ const bookQuery = api.injectEndpoints({
 export const {
 	useFetchCurrentUserBooksQuery,
 	useFetchBooksQuery,
+	useFetchAllBooksNoLangQuery,
 	useFetchMostPopularBooksQuery,
 	useFetchActionBooksQuery,
 	useFetchAllBooksQuery,

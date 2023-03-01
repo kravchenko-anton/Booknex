@@ -249,15 +249,17 @@ const bookMutation = api.injectEndpoints({
 			async queryFn({ searchTerm, author, lang }) {
 				try {
 					const response = await fetch(
-						`https://www.googleapis.com/books/v1/volumes?q=intitle:${searchTerm}${author !== '' ? `+inauthor:${author}`: ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}?fields=id`
-					)
+						`https://www.googleapis.com/books/v1/volumes?q=intitle:${searchTerm}${author !== '' ? `+inauthor:${author}`: ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}?fields=id`)
 					const books = await response.json()
-					
+					await console.log(books)
 					const HightQuaittyImage = await fetch(
-						`https://www.googleapis.com/books/v1/volumes/${books.items[0].id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`
-					)
+						`https://www.googleapis.com/books/v1/volumes/${books.items[0].id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`)
 					const HightQuaittyImageJson = await HightQuaittyImage.json()
-const finalBook = { ...books.items[0].volumeInfo, ...{ HighQualityImage: HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge } }
+			
+					console.log(HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge ? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge : books.items[0].volumeInfo.imageLinks.thumbnail)
+					const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge ? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge : books.items[0].volumeInfo.imageLinks.thumbnail
+					
+const finalBook = { ...books.items[0].volumeInfo, ...{ HighQualityImage: imageSize } }
 					return { data: finalBook  }
 				} catch (error: any) {
 					Toast.show({

@@ -8,7 +8,6 @@ import Favoriteitem from './Favoriteitem'
 const AnimatedFavoriteFlatList: FC<
 	PropsWithChildren<{ data: string[]; id?: string }>
 > = ({ children, data }) => {
-	const { navigate } = useTypedNavigation()
 	const scrollX = useRef(new Animated.Value(0)).current
 
 	return (
@@ -31,11 +30,8 @@ const AnimatedFavoriteFlatList: FC<
 					outputRange: [1, 1, 1, 0],
 					extrapolate: 'clamp'
 				})
-
 				return (
-					<Animated.View style={{ transform: [{ scale: scale }], marginRight: 10 }}>
-						<Favoriteitem BookId={item} />
-					</Animated.View>
+						<Favoriteitem scale={scale} BookId={item} />
 				)
 			}}
 		/>

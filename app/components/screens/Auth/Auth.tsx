@@ -1,23 +1,24 @@
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm, UseFormHandleSubmit } from 'react-hook-form'
 import { Pressable, Text, View } from 'react-native'
 import I18n from 'i18n-js'
 import { useAction } from '../../../hook/useAction'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
+import { IAuthFields } from '../../../store/auth/auth.interface'
 import Layout from '../../ui/Layout/Layout'
 import Field from '../../ui/field/field'
 
 const Auth = () => {
-	const { control, handleSubmit } = useForm()
+	const { control, handleSubmit } = useForm<IAuthFields>()
 	const [isReg, setIsReg] = useState(false)
 	const { register, login } = useAction()
 	const { user } = useTypedSelector(state => state.auth)
 	const { navigate } = useTypedNavigation()
-	const onSubmit = async (data: any) => {
+	const onSubmit: SubmitHandler<IAuthFields> = async data => {
 		isReg ? register(data) : login(data)
 	}
-	// if user register or login, user ben rederect to home page
+
 	useEffect(() => {
 		if (user) {
 			navigate('Home')

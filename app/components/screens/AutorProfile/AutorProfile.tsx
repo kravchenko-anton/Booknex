@@ -1,5 +1,8 @@
 import { Feather } from '@expo/vector-icons'
+import { RouteConfigComponent, RouteProp } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import I18n from 'i18n-js'
+import { FC } from 'react'
 import { Image, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useFetchCurrentUserBooksQuery } from '../../../store/api/book/query'
@@ -14,7 +17,6 @@ import AuthorFavoritesButton from './AuthorFavoritesButton'
 
 const SingleUserPage = ({ route }: any) => {
 	const { uid } = route.params
-	const { goBack } = useTypedNavigation()
 	const { data: user } = useFetchSingleUserQuery(uid)
 	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(user?.uid)
 

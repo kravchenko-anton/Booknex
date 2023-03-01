@@ -1,9 +1,9 @@
 import I18n from 'i18n-js'
 import React, { FC, useRef } from 'react'
-import Canvas from 'react-native-canvas'
 import Toast from 'react-native-toast-message'
+import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useAddUserBookMutation, useSearchBookByGoogleApiMutation } from '../../../store/api/book/mutation'
-import { useFetchAllBooksQuery } from '../../../store/api/book/query'
+import { useFetchAllBooksNoLangQuery, useFetchAllBooksQuery } from '../../../store/api/book/query'
 import { IaddBook } from './addBookPopup.interface'
 import { parseEpubMetadataPath, parseXML } from './ReadXML'
 import { UploadFile } from './uploadFile'
@@ -30,7 +30,8 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 	const [GoogleBookApi] = useSearchBookByGoogleApiMutation()
 	const [EpubBlob, setEpubBlob] = useState<Blob>()
 	const [EpubUrlPath, setEpubUrlPatch] = useState<string>()
-	const {data: AllBook} = useFetchAllBooksQuery(null)
+	const { navigate } = useTypedNavigation()
+	const {data: AllBook} = useFetchAllBooksNoLangQuery(null)
 	const pickDocument = async () => {
 		setContent({} as IMetaData)
 		const zipObj = new JSZip()
@@ -80,8 +81,9 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 	const UploadBook = async () => {
 		const epub = await UploadFile(EpubBlob, EpubUrlPath)
 			const penData = content.publishData.substring(0, 4)
-		const includes = AllBook?.some((book) => book.Name === content.title && book.bookLanguage === content.lang)
+		const includes = AllBook?.find(book => book.Name == content.title)
 		if (content.title, content.author, content.lang, epub, image, content.description, content.antalSide, content.publishData) {
+			console.log(includes, 'includes')
 			if (!includes) {
 				await addUserBook({
 					book: {
@@ -107,6 +109,11 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 					text1: I18n.t('Book already exists'),
 					text2: I18n.t('Please try again'),
 				})
+				if (includes?.id) {
+					navigate('BookPage', {
+						id: includes.id
+					})
+				}
 				setIsVisible(false)
 				setContent({} as IMetaData)
 			}

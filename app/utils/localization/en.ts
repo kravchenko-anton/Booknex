@@ -64,6 +64,7 @@ export const en = {
 	'Book already exists': 'Book already exists',
 "Please try again": 'Please try again',
 	'Something went wrong':'Something went wrong',
+	'Something went wrong!':'Something went wrong!',
 	"Error": 'Error',
 	'None title': 'None title',
 	'None author': 'None author',

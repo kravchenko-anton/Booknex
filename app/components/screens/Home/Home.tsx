@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import I18n from 'i18n-js'
 import React from 'react'
 import { Animated, Image, Platform, Pressable, Text, View } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
@@ -12,8 +13,7 @@ import Layout from '../../ui/Layout/Layout'
 import { EMPTY_ITEM_SIZE, ITEM_SIZE, SPACING } from './useCarousel'
 
 const Home = () => {
-	const { data: book, isLoading, error } = useFetchAllBooksQuery(null)
-
+	const { data: book } = useFetchAllBooksQuery(null)
 	const { navigate } = useTypedNavigation()
 	const CarouselBook = [
 		{ id: 'first' } as BookTypes,
