@@ -8,30 +8,6 @@ import { BookTypes, iBookwithRating } from '../api.types'
 
 const bookQuery = api.injectEndpoints({
 	endpoints: build => ({
-		// Fetch default book from admin
-		fetchBooks: build.query({
-			async queryFn() {
-				try {
-					const blogRef = collection(db, 'books')
-					const querySnaphot = await getDocs(blogRef)
-					let books: BookTypes[] = []
-					querySnaphot?.forEach(doc => {
-						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
-							books.push({ id: doc.id, ...doc.data() } as BookTypes)
-						}
-					})
-					return { data: books }
-				} catch (error: any) {
-					Toast.show({
-						text1: I18n.t('Book not loaded!'),
-						text2: error.message,
-						type: 'error'
-					})
-					return { error }
-				}
-			},
-			providesTags: ['book']
-		}),
 		
 		// Fetch CurrentUserBooks
 		fetchCurrentUserBooks: build.query({
@@ -59,39 +35,6 @@ const bookQuery = api.injectEndpoints({
 			providesTags: ['book']
 		}),
 		
-		//Fetch Action  book
-		fetchActionBooks: build.query({
-			async queryFn() {
-				try {
-					const userBookRef = collection(db, 'userBook')
-					const uq = query(userBookRef, where('genre', 'array-contains', 'Action'))
-					const booksRef = collection(db, 'books')
-					const bq = query(booksRef, where('genre', 'array-contains', 'Action'))
-					const UserquerySnaphot = await getDocs(uq)
-					const BooksquerySnaphot = await getDocs(bq)
-					let books: BookTypes[] = []
-					UserquerySnaphot?.forEach(doc => {
-						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
-							books.push({ id: doc.id, ...doc.data() } as BookTypes)
-						}
-					})
-					BooksquerySnaphot?.forEach(doc => {
-						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
-							books.push({ id: doc.id, ...doc.data() } as BookTypes)
-						}
-					})
-					return { data: books }
-				} catch (error: any) {
-					Toast.show({
-						text1: I18n.t('Book not loaded!'),
-						text2: error.message,
-						type: 'error'
-					})
-					return { error }
-				}
-			},
-			providesTags: ['book']
-		}),
 		
 		//Fetch Most popular book
 		fetchMostPopularBooks: build.query({
@@ -130,8 +73,7 @@ const bookQuery = api.injectEndpoints({
 							})
 						}
 					})
-					
-					return { data: books }
+					return { data: books.sort((a, b) => b.rating - a.rating) }
 				} catch (error: any) {
 					Toast.show({
 						text1: I18n.t('Book not loaded!'),
@@ -266,10 +208,8 @@ const bookQuery = api.injectEndpoints({
 
 export const {
 	useFetchCurrentUserBooksQuery,
-	useFetchBooksQuery,
 	useFetchAllBooksNoLangQuery,
 	useFetchMostPopularBooksQuery,
-	useFetchActionBooksQuery,
 	useFetchAllBooksQuery,
 	useFetchSingleBookQuery,
 	useFetchRandomBooksQuery

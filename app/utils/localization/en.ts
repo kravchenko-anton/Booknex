@@ -100,5 +100,6 @@ export const en = {
 	'Library': 'Library',
 	'Continue Reading': 'Continue Reading',
 	'Continue': 'Continue',
-	'Favorite Authors': 'Favorite Authors'
+	'Favorite Authors': 'Favorite Authors',
+	'Name must be less than 20 characters': 'Name must be less than 20 characters'
 }

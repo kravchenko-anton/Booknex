@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar'
 import { FC, PropsWithChildren } from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { View } from 'react-native'
 import Modal from 'react-native-modal'
 
 export interface IModal {
@@ -10,13 +9,7 @@ export interface IModal {
 	height: number | string
 }
 
-const ModalPopup: FC<PropsWithChildren<IModal>> = ({
-	isVisible,
-	setIsVisible,
-	children,
-	height,
-	title
-}) => {
+const ModalPopup: FC<PropsWithChildren<IModal>> = ({ isVisible, setIsVisible, children, height, title }) => {
 	return (
 		<Modal
 			className='m-0 p-0'
@@ -26,7 +19,6 @@ const ModalPopup: FC<PropsWithChildren<IModal>> = ({
 			isVisible={isVisible}
 			swipeDirection='down'
 			renderToHardwareTextureAndroid={true}
-			statusBarTranslucent={true}
 			onSwipeComplete={() => setIsVisible(!isVisible)}
 			animationIn='bounceInUp'
 			animationOut='bounceOutDown'

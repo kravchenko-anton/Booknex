@@ -1,28 +1,12 @@
-import {
-	Feather,
-	FontAwesome5,
-	MaterialCommunityIcons
-} from '@expo/vector-icons'
+import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'
 import I18n from 'i18n-js'
-import {
-	Image,
-	Pressable,
-	ScrollView,
-	Text,
-	TouchableOpacity,
-	View
-} from 'react-native'
+import { Image, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { AirbnbRating } from 'react-native-ratings'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 
-import {
-	animation,
-	BottomAnimation,
-	BottomAnimationEndToStart
-} from '../../../utils/TextAnimation'
-import { useScaleOnMount } from '../../../utils/useBounces'
+import { animation, BottomAnimation, BottomAnimationEndToStart } from '../../../utils/TextAnimation'
 import DialogPopup from '../../ui/DialogPopup'
 import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
@@ -69,7 +53,7 @@ const SingleBookPage = ({ route }: any) => {
 				>
 					<AddBookRating id={id} Profile={Profile} />
 				</ModalPopup>
-
+				
 				<DialogPopup
 					type='danger'
 					OnPressOK={() => {
@@ -82,7 +66,7 @@ const SingleBookPage = ({ route }: any) => {
 					title='DELETE BOOK!'
 					description='Are you sure you want to delete this book?'
 				/>
-
+				
 				<Animatable.View
 					className=' absolute z-50 bottom-3 flex-row left-28 right-28 items-center justify-between'
 					animation={visibleButton ? BottomAnimation : BottomAnimationEndToStart}
@@ -117,7 +101,7 @@ const SingleBookPage = ({ route }: any) => {
 								</Text>
 							</TouchableOpacity>
 						) : null}
-
+						
 						<BookFavoritesButton
 							book={book}
 							Profile={Profile}
@@ -138,7 +122,7 @@ const SingleBookPage = ({ route }: any) => {
 							<Text className='text-gray  text-lg mt-2 font-semibold mb-2'>
 								{book.autor.join(', ')}
 							</Text>
-
+							
 							<View className='flex-row items-center mb-2'>
 								<AirbnbRating
 									size={20}

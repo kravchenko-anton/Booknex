@@ -22,7 +22,6 @@ const Home = () => {
 	const { data: CurrentUser } = useFetchMyProfileQuery(user?.uid)
 	const { navigate } = useTypedNavigation()
 	const [selectFavoriteBook, setSelectFavoriteBook] = React.useState(true)
-	console.log(CurrentUser)
 	if (!CurrentUser) return <Loader />
 	
 	return (

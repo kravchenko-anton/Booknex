@@ -100,5 +100,6 @@ export const ru = {
 	'Continue': 'Продолжить',
 	'Favorite Authors': 'Избранные авторы',
 	'hi': 'Привет',
-	'Finish book': 'Прочитанные книги'
+	'Finish book': 'Прочитанные книги',
+	'Name must be less than 20 characters': 'Имя должно быть меньше 20 символов'
 }

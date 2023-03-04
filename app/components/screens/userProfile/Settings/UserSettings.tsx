@@ -3,14 +3,7 @@ import * as ImagePicker from 'expo-image-picker'
 import I18n from 'i18n-js'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-	Image,
-	Pressable,
-	ScrollView,
-	Text,
-	TouchableOpacity,
-	View
-} from 'react-native'
+import { Image, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { useTypedNavigation } from '../../../../hook/useTypedNavigation'
 import { useUpdateProfileMutation } from '../../../../store/api/user/mutation'
 import { useFetchSingleUserQuery } from '../../../../store/api/user/query'
@@ -31,12 +24,12 @@ const UserSettings = ({ route }: any) => {
 	const { control, handleSubmit } = useForm()
 	const pickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.All,
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
 			aspect: [4, 3],
 			quality: 1
 		})
-
+		
 		if (!result.canceled) {
 			// @ts-ignore
 			setSelectedImage(result.assets[0].uri)
@@ -96,14 +89,19 @@ const UserSettings = ({ route }: any) => {
 					</Pressable>
 				</View>
 				<View className='mt-6'>
-					<Field control={control} name={'Name'} placeholder={I18n.t('EnterName')} />
+					<Field control={control} name={'Name'} rules={{
+						maxLength: {
+							value: 15,
+							message: I18n.t('Name must be less than 15 characters')
+						}
+					}} placeholder={I18n.t('EnterName')} />
 					<Field
 						control={control}
 						name={'Email'}
 						placeholder={I18n.t('EnterEmail')}
 					/>
 					<Field
-						keyboardType={'visible-password'}
+						secureTextEntry={true}
 						control={control}
 						rules={{
 							required: I18n.t('EnterPassword')
