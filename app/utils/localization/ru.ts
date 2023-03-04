@@ -92,5 +92,13 @@ export const ru = {
 	Delete: 'Удалить',
 	'Min term length = 5': 'Минимальная длина запроса = 5',
 	'RTK error': 'Ошибка RTK',
-	'No Books': 'Нет книг'
+	'No Books': 'Нет книг',
+	'You not have books': 'У вас нет книг',
+	'Random Books': 'Случайные книги',
+	'Library': 'Библиотека',
+	'Continue Reading': 'Продолжить чтение',
+	'Continue': 'Продолжить',
+	'Favorite Authors': 'Избранные авторы',
+	'hi': 'Привет',
+	'Finish book': 'Прочитанные книги'
 }

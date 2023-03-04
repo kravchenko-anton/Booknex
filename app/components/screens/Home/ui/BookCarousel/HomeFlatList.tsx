@@ -2,30 +2,37 @@ import I18n from 'i18n-js'
 import Lottie from 'lottie-react-native'
 import { FC, useRef } from 'react'
 import { Animated, Platform, Text, View } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 import HomeListItem from './HomeListItem'
 
 const AnimatedHomeFlatList: FC<{ data: string[]; id?: string }> = ({ data }) => {
 	const scrollX = useRef(new Animated.Value(0)).current
 	const animationRef = useRef<Lottie>(null)
+	let listRef: any = useRef<FlatList | any>(null)
 	return (
 		<Animated.FlatList
 			horizontal
-			ListEmptyComponent={() =>
-				<View className='w-[190px] h-[270px] bg-blue rounded-lg'>
+			ref={ref => (listRef = ref)}
+			extraData={data}
+			renderToHardwareTextureAndroid={true}
+			ListEmptyComponent={() => (
+				<View className='w-[200px] h-[290px] bg-blue rounded-lg items-center'>
 					<Lottie
-						loop={false}
+						renderMode={Platform.OS === 'ios' ? 'HARDWARE' : 'SOFTWARE'}
+						loop={true}
+						style={{ height: 210 }}
 						autoPlay={false}
-						progress={animationRef.current}
 						ref={animationRef}
-						onLayout={() => animationRef.current?.play(30, 209)}
-						source={require('./../../../../../assets/99349-girl-with-books.json')}
+						onLayout={() => animationRef.current?.play()}
+						source={require('./../../../../../assets/101674-science-lover.json')}
 					/>
-					<Text className='text-white mt-2 text-2xl text-center'>{I18n.t('No Books')} 🥱</Text>
+					<Text className='text-white absolute font-bold bottom-5 mt-2 text-2xl text-center'>{I18n.t('No Books')} 😬</Text>
 				</View>
-			}
+			)}
 			decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
 			snapToInterval={200}
 			bounces={false}
+			scrollEnabled={data.length > 2}
 			keyExtractor={(item, index) => {
 				return index.toString()
 			}}
@@ -33,7 +40,6 @@ const AnimatedHomeFlatList: FC<{ data: string[]; id?: string }> = ({ data }) => 
 				[{ nativeEvent: { contentOffset: { x: scrollX } } }],
 				{ useNativeDriver: false }
 			)}
-			scrollEventThrottle={1}
 			showsHorizontalScrollIndicator={false}
 			data={data}
 			renderItem={({ item, index }) => {

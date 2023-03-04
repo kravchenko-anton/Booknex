@@ -1,6 +1,8 @@
+import I18n from 'i18n-js'
+import LottieView from 'lottie-react-native'
 import Lottie from 'lottie-react-native'
 import { FC, PropsWithChildren, useRef } from 'react'
-import { Animated, Image, Pressable, Text, View } from 'react-native'
+import { Animated, Image, Platform, Pressable, Text, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
@@ -11,27 +13,31 @@ const AnimatedFlatList: FC<
 	const { navigate } = useTypedNavigation()
 	const scrollY = useRef(new Animated.Value(0)).current
 	const animationRef = useRef<Lottie>(null)
-	
+	let listRef: any = useRef<FlatList | any>(null)
 	return (
-		<FlatList
+		<Animated.FlatList
 			renderToHardwareTextureAndroid={true}
 			data={data}
+			ref={ref => (listRef = ref)}
+			extraData={data}
 			onScroll={Animated.event(
 				[{ nativeEvent: { contentOffset: { y: scrollY } } }],
 				{ useNativeDriver: false }
 			)}
-			// ListEmptyComponent={() => (
-			// 	<View className='w-[150px] h-[250px] bg-blue rounded-lg'>
-			// 		<Lottie
-			// 			loop={false}
-			// 			autoPlay={true}
-			// 			progress={animationRef.current}
-			// 			ref={animationRef}
-			// 			onLayout={() => animationRef.current?.play(0, 340)}
-			// 			source={require('./../../../assets/98849-book-lover.json')}
-			// 		/>
-			// 	</View>
-			// )}
+			ListEmptyComponent={() => (
+				<View className='w-[100%] mt-4 h-[250px] bg-blue rounded-lg items-center'>
+					<LottieView
+						renderMode={Platform.OS === 'ios' ? 'HARDWARE' : 'SOFTWARE'}
+						loop={true}
+						ref={animationRef}
+						style={{ height: 200, width: 300 }}
+						onLayout={() => animationRef.current?.play()}
+						source={require('./../../../assets/98849-book-lover.json')}
+					/>
+					<Text
+						className='absolute bottom-5 text-2xl text-white text-center justify-center'>{I18n.t('You not have books')} 🙄</Text>
+				</View>
+			)}
 			showsVerticalScrollIndicator={false}
 			ListHeaderComponent={<>{children}</>}
 			renderItem={({ item, index }) => {

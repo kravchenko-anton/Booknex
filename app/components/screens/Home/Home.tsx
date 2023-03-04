@@ -1,6 +1,7 @@
 import { AntDesign } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
 import { StatusBar } from 'expo-status-bar'
+import I18n from 'i18n-js'
 import React from 'react'
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
@@ -41,50 +42,49 @@ const Home = () => {
 								<ClearUserLogo latterSize={30} rounded={8} letter={CurrentUser.name} width={50} height={50} />
 							)}
 						</View>
-						<Text className='text-white text-xl font-bold'>Hi, {CurrentUser.name}</Text>
+						<Text className='text-white text-xl font-bold'>{I18n.t('hi')}, {CurrentUser.name}</Text>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={() => navigate('Search')} className='bg-blue p-2 rounded-lg'>
 						<AntDesign name='search1' size={24} color='white' />
 					</TouchableOpacity>
 				
 				</View>
-				<Text className='text-2xl text-white font-bold mt-4 mb-4'>Library </Text>
+				<Text className='text-2xl text-white font-bold mt-4 mb-4'>{I18n.t('Library')} 📚 </Text>
 				<AnimatedHomeFlatList
-					data={CurrentUser.startReadBook && CurrentUser.startReadBook.length ? CurrentUser.startReadBook : []} />
+					data={CurrentUser.startReadBook && CurrentUser.startReadBook.length ? [...CurrentUser.startReadBook].reverse() : []} />
 				
 				<ContinueRead />
 				
 				{CurrentUser.favoritesUser && CurrentUser.favoritesUser.length ? <>
-					<Text className='text-2xl text-white font-bold mt-4 mb-4'>Favorite Author </Text>
+					<Text className='text-2xl text-white font-bold mt-4 mb-4'>{I18n.t('Favorite Authors')} </Text>
 					<AnimatedUserHomeFlatList data={CurrentUser.favoritesUser} />
 				</> : null}
 				
 				
-				<View className='mt-4'>
+				<View className='mt-4 p-0'>
 					<Picker
 						mode='dropdown'
 						dropdownIconColor='white'
 						dropdownIconRippleColor='#121212'
 						accessibilityIgnoresInvertColors={true}
 						collapsable={true}
-						
 						accessibilityLiveRegion={'none'}
 						selectedValue={selectFavoriteBook}
 						onValueChange={(itemValue) =>
 							setSelectFavoriteBook(itemValue)
 						}>
-						<Picker.Item label='Favorite' color='white' value={true}
+						<Picker.Item label={I18n.t('Favorite') + ' ❤'} color='white' value={true}
 						             style={{
 							             backgroundColor: '#121212',
 							             fontSize: 20,
-							             fontWeight: 'bold',
+							             fontWeight: '600',
 							             zIndex: 1000
 						             }} />
-						<Picker.Item label='Finish book' color='white'
+						<Picker.Item label={I18n.t('Finish book') + ' 🧐'} color='white'
 						             style={{
 							             backgroundColor: '#121212',
 							             fontSize: 20,
-							             fontWeight: 'bold'
+							             fontWeight: '600'
 						             }}
 						             value={false} />
 					</Picker>

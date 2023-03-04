@@ -17,18 +17,18 @@ const AnimatedFavoriteFlatList: FC<
 			horizontal
 			extraData={data}
 			renderToHardwareTextureAndroid={true}
-			ListEmptyComponent={() => <View className='w-[150px] h-[250px] bg-blue rounded-lg'>
+			ListEmptyComponent={() => <View className='w-[150px] h-[250px] items-center bg-blue rounded-lg'>
 				<LottieView
-					loop={false}
+					loop={true}
 					renderMode={Platform.OS === 'ios' ? 'HARDWARE' : 'SOFTWARE'}
 					autoPlay={false}
 					ref={animationRef}
 					onLayout={() => {
-						animationRef.current?.play(0, 108)
+						animationRef.current?.play()
 					}}
-					source={require('./70315-school-books.json')}
+					source={require('../../../../assets/65089-book-search.json')}
 				/>
-				<Text className='text-white mt-2 text-xl text-center'>{I18n.t('No Books')} 🥱</Text>
+				<Text className='text-white absolute bottom-5 text-xl text-center'>{I18n.t('No Books')} 🥱</Text>
 			</View>
 			}
 			

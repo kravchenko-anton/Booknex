@@ -87,7 +87,7 @@ const Search = () => {
 						<Carousel />
 						
 						<Text className='text-white ml-3 text-2xl font-bold mt-4 mb-2'>
-							Random Book 😜</Text>
+							{I18n.t('Random Books')} 😜</Text>
 						<View className='p-3'>
 							
 							<HorizontalBookItem imageUrl={RandomBook.Image} navigate={() => navigate('BookPage', { id: RandomBook.id })}

@@ -10,6 +10,8 @@ export const en = {
 	Books: 'Books',
 	Reviews: 'Reviews',
 	Favorite: 'Favorite',
+	'Finish book': 'Finish book',
+	'hi': 'Hi',
 	UserBooks: 'Books',
 	UserReviews: 'Reviews',
 	NoDiscussions: 'No discussions',
@@ -92,5 +94,11 @@ export const en = {
 	Delete: 'Delete',
 	'Min term length = 5': 'Min term length = 5',
 	'RTK error': 'RTK error',
-	'No Books': 'No Books'
+	'No Books': 'No Books',
+	'You not have books': 'You not have books',
+	'Random Books': 'Random Books',
+	'Library': 'Library',
+	'Continue Reading': 'Continue Reading',
+	'Continue': 'Continue',
+	'Favorite Authors': 'Favorite Authors'
 }

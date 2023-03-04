@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import I18n from 'i18n-js'
 import React, { useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
@@ -37,12 +38,12 @@ const ContinueRead = () => {
 	if (!book || !parsedBookData) return null
 	return <View className='p-0 m-0'>
 		
-		<Text className='text-2xl text-white font-bold mt-4 mb-4'>Continue </Text>
+		<Text className='text-2xl text-white font-bold mt-4 mb-4'>{I18n.t('Continue Reading')} 📰 </Text>
 		<HorizontalBookItem imageUrl={book.Image} navigate={() => navigate('ReadPage', {
 			BookId: book.id,
 			epub: book.epubDoc,
 			LastReadPage: parsedBookData.LastReadPage
-		})} title={book.Name} author={book.autor} buttonText={'Continue'}>
+		})} title={book.Name} author={book.autor} buttonText={I18n.t('Continue')}>
 			<Text className='text-gray text-md ' numberOfLines={2}>{book.description}</Text>
 			<View className='flex-row items-center'>
 				<AnimatedCircularProgress

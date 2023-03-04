@@ -14,7 +14,7 @@ const HorizontalBookItem: FC<PropsWithChildren<horizontalBookItemTypes>> = (prop
 						className='text-primary'>{props.author}</Text></Text>
 					{props.children}
 					<TouchableOpacity onPress={props.navigate} className='bg-blue w-[160px] items-center rounded-lg p-2'><Text
-						className='text-white font-bold text-2xl'>{props.buttonText}</Text></TouchableOpacity>
+						className='text-white font-bold text-[22px]'>{props.buttonText}</Text></TouchableOpacity>
 				</View>
 			</View>
 		</View>
