@@ -107,9 +107,9 @@ const Search = () => {
 									</Text>
 								</View>
 								
-								<Text numberOfLines={2} className='  mb-[9px] text-gray text-lg'> {RandomBook.description}</Text>
+								<Text numberOfLines={2} className='mb-[9px] text-gray text-lg'> {RandomBook.description}</Text>
 							</HorizontalBookItem>
-							<Text className='text-white text-2xl font-bold mt-4 mb-4'>
+							<Text className='text-white text-2xl font-bold mt-10 mb-4'>
 								{I18n.t('MostPopularBooks')} 😎
 							</Text>
 							<AnimatedBookFlatList data={MostPopular.slice(0, 10)} />

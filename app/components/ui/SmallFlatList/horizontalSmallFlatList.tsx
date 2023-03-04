@@ -4,9 +4,9 @@ import Lottie from 'lottie-react-native'
 import { FC, PropsWithChildren, useRef } from 'react'
 import { Animated, Platform, Text, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import FavoriteItem from './FavoriteItem'
+import HorizontalSmallFlatlistItem from './horizontalSmallFlatlistItem'
 
-const AnimatedFavoriteFlatList: FC<
+const HorizontalSmallFlatList: FC<
 	PropsWithChildren<{ data: string[]; id?: string }>
 > = ({ children, data }) => {
 	let listRef: any = useRef<FlatList | any>(null)
@@ -26,7 +26,7 @@ const AnimatedFavoriteFlatList: FC<
 					onLayout={() => {
 						animationRef.current?.play()
 					}}
-					source={require('../../../../assets/65089-book-search.json')}
+					source={require('../../../assets/65089-book-search.json')}
 				/>
 				<Text className='text-white absolute bottom-5 text-xl text-center'>{I18n.t('No Books')} 🥱</Text>
 			</View>
@@ -54,10 +54,10 @@ const AnimatedFavoriteFlatList: FC<
 				})
 				
 				
-				return <FavoriteItem scale={scale} BookId={item} />
+				return <HorizontalSmallFlatlistItem scale={scale} BookId={item} />
 			}}
 		/>
 	)
 }
 
-export default AnimatedFavoriteFlatList
+export default HorizontalSmallFlatList

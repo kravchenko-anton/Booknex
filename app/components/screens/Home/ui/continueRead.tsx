@@ -38,7 +38,7 @@ const ContinueRead = () => {
 	if (!book || !parsedBookData) return null
 	return <View className='p-0 m-0'>
 		
-		<Text className='text-2xl text-white font-bold mt-4 mb-4'>{I18n.t('Continue Reading')} 📰 </Text>
+		<Text className='text-2xl text-white font-bold mt-8 mb-4'>{I18n.t('Continue Reading')} 📰 </Text>
 		<HorizontalBookItem imageUrl={book.Image} navigate={() => navigate('ReadPage', {
 			BookId: book.id,
 			epub: book.epubDoc,

@@ -1,11 +1,11 @@
 import { FC } from 'react'
 import { Animated, Image, Pressable } from 'react-native'
-import { useTypedNavigation } from '../../../../hook/useTypedNavigation'
-import { useFetchSingleBookQuery } from '../../../../store/api/book/query'
-import { IFavoriteitem } from './favoriteTypes'
+import { useTypedNavigation } from '../../../hook/useTypedNavigation'
+import { useFetchSingleBookQuery } from '../../../store/api/book/query'
+import { ISmallFlatItem } from './SmallFlatlistTypes'
 
 
-const FavoriteItem: FC<IFavoriteitem> = ({ BookId, scale }) => {
+const HorizontalSmallFlatlistItem: FC<ISmallFlatItem> = ({ BookId, scale }) => {
 	const { data: book } = useFetchSingleBookQuery(BookId)
 	const { navigate } = useTypedNavigation()
 	if (!book?.Name) return null
@@ -23,4 +23,4 @@ const FavoriteItem: FC<IFavoriteitem> = ({ BookId, scale }) => {
 	)
 }
 
-export default FavoriteItem
+export default HorizontalSmallFlatlistItem

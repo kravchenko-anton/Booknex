@@ -12,7 +12,7 @@ import { ElementBottomAnimation, ElementBottomToTopAnimation } from '../../../ut
 import ClearUserLogo from '../../ui/clearUserLogo'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
-import AnimatedFavoriteFlatList from '../Favorite/ui/FavoriteFlatList'
+import HorizontalSmallFlatList from '../../ui/SmallFlatList/horizontalSmallFlatList'
 import AnimatedHomeFlatList from './ui/BookCarousel/HomeFlatList'
 import ContinueRead from './ui/continueRead'
 import AnimatedUserHomeFlatList from './ui/UserCarousel/homeUserFlatList'
@@ -90,7 +90,7 @@ const Home = () => {
 					</Picker>
 				</View>
 				<Animatable.View delay={300} animation={selectFavoriteBook ? ElementBottomAnimation : ElementBottomToTopAnimation}>
-					<AnimatedFavoriteFlatList data={selectFavoriteBook ? CurrentUser.favoritesBook : CurrentUser.finishedBook} />
+					<HorizontalSmallFlatList data={selectFavoriteBook ? CurrentUser.favoritesBook : CurrentUser.finishedBook} />
 				
 				</Animatable.View>
 			
