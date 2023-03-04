@@ -14,12 +14,9 @@ import I18n from 'i18n-js'
 import Toast from 'react-native-toast-message'
 import { db } from '../../../utils/firebase'
 import { api } from '../api'
-import FieldValue = firebase.firestore.FieldValue
-import Timestamp = firebase.firestore.Timestamp
 
 const bookMutation = api.injectEndpoints({
 	endpoints: build => ({
-		
 		// Fetch appBooks book
 		RemoveUserBook: build.mutation({
 			async queryFn({ id }) {
@@ -44,7 +41,7 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-
+		
 		//Add Chat to book
 		AddBookToChat: build.mutation({
 			async queryFn({ id }) {
@@ -56,13 +53,12 @@ const bookMutation = api.injectEndpoints({
 					}
 					return { data: 'Ok' }
 				} catch (error: any) {
-
 					return { error }
 				}
 			},
 			invalidatesTags: () => [{ type: 'chat' }]
 		}),
-
+		
 		//AddMessage
 		AddMessageToChat: build.mutation({
 			async queryFn({ id, message, uid }) {
@@ -75,33 +71,7 @@ const bookMutation = api.injectEndpoints({
 							timeStamp: new Date().toISOString()
 						})
 					})
-
-					return { data: 'Ok' }
-				} catch (error: any) {
-										Toast.show({
-						text1: I18n.t('Error in message!'),
-						text2: error.message,
-						type: 'error'
-										})
-					return { error }
-				}
-			},
-			invalidatesTags: () => [{ type: 'chat' }]
-		}),
-
-		//Remove message
-		RemoveMessageFromChat: build.mutation({
-			async queryFn({ id, message, uid, timeStamp }) {
-				try {
-					const BookRef = doc(db, 'BookChats', id)
-					await updateDoc(BookRef, {
-						comments: arrayRemove({
-							uid,
-							message,
-							timeStamp
-						})
-					})
-
+					
 					return { data: 'Ok' }
 				} catch (error: any) {
 					Toast.show({
@@ -114,7 +84,33 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'chat' }]
 		}),
-
+		
+		//Remove message
+		RemoveMessageFromChat: build.mutation({
+			async queryFn({ id, message, uid, timeStamp }) {
+				try {
+					const BookRef = doc(db, 'BookChats', id)
+					await updateDoc(BookRef, {
+						comments: arrayRemove({
+							uid,
+							message,
+							timeStamp
+						})
+					})
+					
+					return { data: 'Ok' }
+				} catch (error: any) {
+					Toast.show({
+						text1: I18n.t('Error in message!'),
+						text2: error.message,
+						type: 'error'
+					})
+					return { error }
+				}
+			},
+			invalidatesTags: () => [{ type: 'chat' }]
+		}),
+		
 		// add Book Review
 		addBookReview: build.mutation({
 			async queryFn({ id, rating, profile }) {
@@ -146,7 +142,7 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-
+		
 		// add Book to Favorite
 		addBookToFavorite: build.mutation({
 			async queryFn({ currentUserUID, book }) {
@@ -156,7 +152,7 @@ const bookMutation = api.injectEndpoints({
 						favoritesBook: arrayUnion(book.id)
 					})
 					Toast.show({
-						text1: I18n.t('You add book to favorite!'),
+						text1: I18n.t('You add book to favorites!'),
 						type: 'success'
 					})
 					return { data: 'ok' }
@@ -171,7 +167,7 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-
+		
 		// add Book to start Reading
 		addBookToStartReading: build.mutation({
 			async queryFn({ currentUserUID, book }) {
@@ -192,7 +188,7 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-
+		
 		// Finish Book
 		addBookToEndedBook: build.mutation({
 			async queryFn({ currentUserUID, book }) {
@@ -218,10 +214,10 @@ const bookMutation = api.injectEndpoints({
 			},
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
-
+		
 		// add userBook
 		addUserBook: build.mutation({
-			async queryFn({  book }) {
+			async queryFn({ book }) {
 				try {
 					await addDoc(collection(db, 'userBook'), book)
 					Toast.show({
@@ -242,25 +238,36 @@ const bookMutation = api.injectEndpoints({
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
 		
-		
-		
 		// Get search results from google book api
 		SearchBookByGoogleApi: build.mutation({
 			async queryFn({ searchTerm, author, lang }) {
 				try {
 					const response = await fetch(
-						`https://www.googleapis.com/books/v1/volumes?q=intitle:${searchTerm}${author !== '' ? `+inauthor:${author}`: ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}?fields=id`)
+						`https://www.googleapis.com/books/v1/volumes?q=intitle:${searchTerm}${
+							author !== '' ? `+inauthor:${author}` : ''
+						}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}?fields=id`
+					)
 					const books = await response.json()
 					await console.log(books)
 					const HightQuaittyImage = await fetch(
-						`https://www.googleapis.com/books/v1/volumes/${books.items[0].id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`)
+						`https://www.googleapis.com/books/v1/volumes/${books.items[0].id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`
+					)
 					const HightQuaittyImageJson = await HightQuaittyImage.json()
-			
-					console.log(HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge ? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge : books.items[0].volumeInfo.imageLinks.thumbnail)
-					const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge ? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge : books.items[0].volumeInfo.imageLinks.thumbnail
 					
-const finalBook = { ...books.items[0].volumeInfo, ...{ HighQualityImage: imageSize } }
-					return { data: finalBook  }
+					console.log(
+						HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+							? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+							: books.items[0].volumeInfo.imageLinks.thumbnail
+					)
+					const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+						? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+						: books.items[0].volumeInfo.imageLinks.thumbnail
+					
+					const finalBook = {
+						...books.items[0].volumeInfo,
+						...{ HighQualityImage: imageSize }
+					}
+					return { data: finalBook }
 				} catch (error: any) {
 					Toast.show({
 						text1: I18n.t('Something went wrong!'),
@@ -273,7 +280,6 @@ const finalBook = { ...books.items[0].volumeInfo, ...{ HighQualityImage: imageSi
 			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
 		}),
 		
-		
 		// delete favorite book
 		deleteBookFromFavorite: build.mutation({
 			async queryFn({ currentUserUID, book }) {
@@ -283,7 +289,7 @@ const finalBook = { ...books.items[0].volumeInfo, ...{ HighQualityImage: imageSi
 						favoritesBook: arrayRemove(book.id)
 					})
 					Toast.show({
-						text1: I18n.t('You delete book from favorite!'),
+						text1: I18n.t('You book remove from favorites!'),
 						type: 'success'
 					})
 					return { data: 'ok' }

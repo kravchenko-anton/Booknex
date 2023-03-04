@@ -1,20 +1,19 @@
-import { FC, PropsWithChildren, useRef, useState } from 'react'
-import { Animated, Image, Platform, Pressable, Text, View } from 'react-native'
+import { FC, PropsWithChildren, useRef } from 'react'
+import { Animated, Platform } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import { useTypedNavigation } from '../../../hook/useTypedNavigation'
-import { BookTypes } from '../../../store/api/api.types'
-import Favoriteitem from './Favoriteitem'
+import { Iuser } from '../../../../../store/api/api.types'
+import HomeUserListItem from './homeUserListItem'
 
-const AnimatedFavoriteFlatList: FC<
-	PropsWithChildren<{ data: string[]; id?: string }>
+const AnimatedUserHomeFlatList: FC<
+	PropsWithChildren<{ data: Iuser[]; id?: string }>
 > = ({ children, data }) => {
+	
 	const scrollX = useRef(new Animated.Value(0)).current
-
 	return (
 		<FlatList
 			horizontal
 			decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
-			snapToInterval={160}
+			snapToInterval={122}
 			bounces={false}
 			onScroll={Animated.event(
 				[{ nativeEvent: { contentOffset: { x: scrollX } } }],
@@ -30,12 +29,12 @@ const AnimatedFavoriteFlatList: FC<
 					outputRange: [1, 1, 1, 0],
 					extrapolate: 'clamp'
 				})
-				return (
-						<Favoriteitem scale={scale} BookId={item} />
-				)
+				
+				
+				return <HomeUserListItem scale={scale} uid={item.uid} />
 			}}
 		/>
 	)
 }
 
-export default AnimatedFavoriteFlatList
+export default AnimatedUserHomeFlatList

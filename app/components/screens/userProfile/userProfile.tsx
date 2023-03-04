@@ -11,12 +11,13 @@ import { useFetchSingleUserQuery } from '../../../store/api/user/query'
 import { useScaleOnMount } from '../../../utils/useBounces'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
 import DialogPopup from '../../ui/DialogPopup'
+import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import ClearUserLogo from '../../ui/clearUserLogo'
 import ModalPopup from '../../ui/modal'
 import Statistics from '../../ui/statistics'
-import AddBookPopup from './AddBookPopup'
+import AddBookPopup from './AddBook/AddBookPopup'
 
 const UserProfilePages = () => {
 	const { goBack } = useTypedNavigation()
@@ -49,20 +50,14 @@ const UserProfilePages = () => {
 					/>
 				</ModalPopup>
 
-				<View className='flex-row justify-between mt-4 '>
-					<Feather
-						onPress={() => goBack()}
-						name='arrow-left'
-						size={24}
-						color='white'
-					/>
+				<Header className='mt-4'>
 					<Feather
 						onPress={() => navigate('Settings', { uid: user.uid })}
 						name='settings'
 						size={24}
 						color='white'
 					/>
-				</View>
+				</Header>
 
 				<View className=' items-center mt-2'>
 					<Animated.View style={styleAnimation}>

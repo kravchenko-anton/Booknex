@@ -6,19 +6,14 @@ import I18n from 'i18n-js'
 import { useState } from 'react'
 import { Image, Pressable, Text, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
-import { useTypedNavigation } from '../../../hook/useTypedNavigation'
-import { useTypedSelector } from '../../../hook/useTypedSelector'
-import { useRemoveMessageFromChatMutation } from '../../../store/api/book/mutation'
-import { useFetchSingleUserQuery } from '../../../store/api/user/query'
-import Loader from '../../ui/Loader'
-import ClearUserLogo from '../../ui/clearUserLogo'
-import ModalPopup from '../../ui/modal'
-export interface IMessage {
-	message: string
-	timeStamp: string
-	uid: string
-	BookId: string
-}
+import { useTypedNavigation } from '../../../../hook/useTypedNavigation'
+import { useTypedSelector } from '../../../../hook/useTypedSelector'
+import { useRemoveMessageFromChatMutation } from '../../../../store/api/book/mutation'
+import { useFetchSingleUserQuery } from '../../../../store/api/user/query'
+import Loader from '../../../ui/Loader'
+import ClearUserLogo from '../../../ui/clearUserLogo'
+import ModalPopup from '../../../ui/modal'
+import { IMessage } from './messageTypes'
 dayjs.extend(relativeTime)
 const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 	const { user: CurrentUser } = useTypedSelector(state => state.auth)
@@ -29,7 +24,12 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 
 	if (!user) return <Loader />
 	return (
-		<View style={{ marginLeft: uid === CurrentUser?.uid ? 'auto' : 0, marginRight: uid === CurrentUser?.uid ? 0 : 'auto', flexDirection: uid	=== CurrentUser?.uid ? 'row' : 'row-reverse' }}
+		<View
+			style={{
+				marginLeft: uid === CurrentUser?.uid ? 'auto' : 0,
+				marginRight: uid === CurrentUser?.uid ? 0 : 'auto',
+				flexDirection: uid === CurrentUser?.uid ? 'row' : 'row-reverse'
+			}}
 			className={'mb-4 items-end flex-1'}
 		>
 			<ModalPopup
@@ -80,13 +80,14 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 			<Pressable
 				onLongPress={() =>
 					uid === CurrentUser?.uid ? setIsVisible(!isVisible) : null
-				} style={{
+				}
+				style={{
 					backgroundColor: uid === CurrentUser?.uid ? '#702DF5' : '#1E1E1E',
-				marginLeft: uid === CurrentUser?.uid ? 'auto' : 10,
-				marginRight: uid === CurrentUser?.uid ? 10: 'auto',
-				borderBottomLeftRadius: uid === CurrentUser?.uid ? 5 : 0,
-				borderBottomRightRadius: uid === CurrentUser?.uid ? 0 : 5,
-			}}
+					marginLeft: uid === CurrentUser?.uid ? 'auto' : 10,
+					marginRight: uid === CurrentUser?.uid ? 10 : 'auto',
+					borderBottomLeftRadius: uid === CurrentUser?.uid ? 5 : 0,
+					borderBottomRightRadius: uid === CurrentUser?.uid ? 0 : 5
+				}}
 				className={'p-3 max-w-[80%] rounded-md'}
 			>
 				{uid !== CurrentUser?.uid ? (

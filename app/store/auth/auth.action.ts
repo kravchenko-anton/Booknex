@@ -50,7 +50,7 @@ export const login = createAsyncThunk<any, IAuthFields>(
 		try {
 			const user = await signInWithEmailAndPassword(auth, email, password)
 			Toast.show({
-				text1 : I18n.t('Success'),
+				text1: I18n.t('Success'),
 				type: 'success'
 			})
 
@@ -70,8 +70,7 @@ export const logout = createAsyncThunk<any, null>(
 	'auth/logout',
 	async (_, thunkAPI) => {
 		try {
-			await signOut(auth).then(() => {
-			})
+			await signOut(auth).then(() => {})
 		} catch (e) {
 			console.log(e)
 			return thunkAPI.rejectWithValue(e)

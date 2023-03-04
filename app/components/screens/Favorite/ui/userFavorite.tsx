@@ -1,20 +1,16 @@
 import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native'
-import { useTypedNavigation } from '../../../hook/useTypedNavigation'
-import { useFetchSingleUserQuery } from '../../../store/api/user/query'
-import ClearUserLogo from '../../ui/clearUserLogo'
+import { useTypedNavigation } from '../../../../hook/useTypedNavigation'
+import { useFetchSingleUserQuery } from '../../../../store/api/user/query'
+import ClearUserLogo from '../../../ui/clearUserLogo'
+import Loader from '../../../ui/Loader'
 
 const UserFavorite = (props: { id: string | number }) => {
 	const { navigate } = useTypedNavigation()
 	const { data } = useFetchSingleUserQuery(props.id)
-	if (!data)
-		return (
-			<ActivityIndicator
-				color='#702DF5'
-				style={{ height: '100%' }}
-				className='justify-center items-center'
-				size={'large'}
-			/>
-		)
+	if (!data?.uid) {
+		return <Loader />
+	}
+	
 	return (
 		<View>
 			<Pressable

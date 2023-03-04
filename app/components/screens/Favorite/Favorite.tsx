@@ -1,27 +1,16 @@
-import { Feather, MaterialIcons } from '@expo/vector-icons'
 import I18n from 'i18n-js'
-import { useEffect, useState } from 'react'
 import { ScrollView, Text, View } from 'react-native'
-import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import { BookTypes } from '../../../store/api/api.types'
-import { useFetchSingleBookQuery } from '../../../store/api/book/query'
 import { useFetchSingleUserQuery } from '../../../store/api/user/query'
-import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
 import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import UserMapElement from '../../ui/UserMapElement'
-import FavoriteFlatList from './FavoriteFlatList'
+import FavoriteFlatList from './ui/FavoriteFlatList'
 
 const Favorite = () => {
 	const { user } = useTypedSelector(state => state.auth)
-	const {
-		data: CurrentUser,
-		isLoading,
-		error
-	} = useFetchSingleUserQuery(user?.uid)
-	const { goBack } = useTypedNavigation()
+	const { data: CurrentUser } = useFetchSingleUserQuery(user?.uid)
 	if (!CurrentUser || !user) return <Loader />
 	return (
 		<Layout className=' h-full'>

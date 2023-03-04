@@ -2,7 +2,11 @@ import { FC } from 'react'
 import RnToast, { BaseToast } from 'react-native-toast-message'
 
 const options = (primaryColor: string) => ({
-	style: { backgroundColor: '#080808', borderLeftColor: primaryColor, zIndex: 1000 },
+	style: {
+		backgroundColor: '#080808',
+		borderLeftColor: primaryColor,
+		zIndex: 1000
+	},
 	text1Style: {
 		color: '#fff',
 		fontSize: 16

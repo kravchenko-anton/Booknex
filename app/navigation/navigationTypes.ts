@@ -1,21 +1,20 @@
 import { ComponentType } from 'react'
 
 export type TypeRootStackParamList = {
-	Favorite: undefined
 	Home: undefined
 	Search: undefined
 	BookPage: {
 		id?: number | string
 		uid?: number | string
 	}
-
+	
 	Chat: {
 		BookId: number | string
 	}
 	Settings: {
 		uid: string | number
 	}
-
+	
 	UserSettings: {
 		uid: string | number
 	}
@@ -27,7 +26,7 @@ export type TypeRootStackParamList = {
 	}
 	Auth: undefined
 	UserProfile: undefined
-
+	
 	AutorProfile: {
 		uid: string | number
 	}

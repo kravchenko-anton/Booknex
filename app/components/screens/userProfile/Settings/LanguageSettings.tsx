@@ -1,5 +1,4 @@
 import { Feather, MaterialIcons } from '@expo/vector-icons'
-import { a } from '@gxl/epub-parser/lib/mdConverters'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import I18n from 'i18n-js'
 import React, { useTransition } from 'react'

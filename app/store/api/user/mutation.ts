@@ -23,7 +23,6 @@ import { Iuser } from '../api.types'
 
 const userMutationApi = api.injectEndpoints({
 	endpoints: build => ({
-		
 		// remove	user from the favorite list
 		removeUserToFavorite: build.mutation({
 			async queryFn({ currentUserUID, favoriteUser }) {
@@ -93,7 +92,7 @@ const userMutationApi = api.injectEndpoints({
 				} catch (error: any) {
 					console.log(error)
 					Toast.show({
-							text1: I18n.t('Something went wrong'),
+						text1: I18n.t('Something went wrong'),
 						text2: error.message,
 						type: 'error'
 					})

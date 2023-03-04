@@ -3,10 +3,7 @@ import {
 	FontAwesome5,
 	MaterialCommunityIcons
 } from '@expo/vector-icons'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useFocusEffect } from '@react-navigation/native'
 import I18n from 'i18n-js'
-import { useState } from 'react'
 import {
 	Image,
 	Pressable,
@@ -19,10 +16,6 @@ import * as Animatable from 'react-native-animatable'
 import { AirbnbRating } from 'react-native-ratings'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
-import { useTypedSelector } from '../../../hook/useTypedSelector'
-import { useRemoveUserBookMutation } from '../../../store/api/book/mutation'
-import { useFetchSingleBookQuery } from '../../../store/api/book/query'
-import { useFetchMyProfileQuery } from '../../../store/api/user/query'
 
 import {
 	animation,
@@ -31,40 +24,34 @@ import {
 } from '../../../utils/TextAnimation'
 import { useScaleOnMount } from '../../../utils/useBounces'
 import DialogPopup from '../../ui/DialogPopup'
+import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import ModalPopup from '../../ui/modal'
 import CommentElement from '../../ui/ratingElement'
 import Statistics from '../../ui/statistics'
-import AddBookRating from './AddBookRating'
-import BookFavoritesButton from './BookFavoritesButton'
+import AddBookRating from './ui/AddBookRating'
+import BookFavoritesButton from './ui/BookFavoritesButton'
+import { useSingleBook } from './useSingleBook'
 
 const SingleBookPage = ({ route }: any) => {
 	const { id } = route.params
-	const { goBack, navigate } = useTypedNavigation()
-	const { user: StateUser } = useTypedSelector(state => state.auth)
-	const { data: book, isLoading } = useFetchSingleBookQuery(id)
-	const { data: Profile } = useFetchMyProfileQuery(StateUser?.uid)
-	const [isVisible, setIsVisible] = useState(false)
-	const [visibleButton, setVisibleButton] = useState(true)
-	const [lastReadPage, setLastReadPage] = useState('')
-	const [remove] = useRemoveUserBookMutation()
-	const { styleAnimation } = useScaleOnMount()
-	const [DialogPopupVisible, setDialogPopupVisible] = useState(false)
-	useFocusEffect(() => {
-		const parseLastPage = async () => {
-			try {
-				// @ts-ignore
-				const value = await AsyncStorage.getItem(book.epubDoc)
-				if (value !== null) {
-					setLastReadPage(value)
-				}
-			} catch (e) {
-				console.log(e)
-			}
-		}
-		parseLastPage()
-	})
+	const { navigate } = useTypedNavigation()
+	const {
+		StateUser,
+		book,
+		Profile,
+		isLoading,
+		setVisibleButton,
+		setIsVisible,
+		isVisible,
+		visibleButton,
+		lastReadPage,
+		styleAnimation,
+		DialogPopupVisible,
+		setDialogPopupVisible,
+		remove
+	} = useSingleBook(id)
 	if (!book || !Profile || isLoading) return <Loader />
 	const total =
 		Object.values(book.comments).reduce((t, { rating }) => t + rating, 0) /
@@ -118,15 +105,8 @@ const SingleBookPage = ({ route }: any) => {
 					onTouchEndCapture={() => setVisibleButton(!visibleButton)}
 					showsVerticalScrollIndicator={false}
 				>
-					<View className='flex-row justify-between items-center mt-4 '>
-						<Feather
-							onPress={() => goBack()}
-							name='arrow-left'
-							size={24}
-							color='white'
-						/>
-
-						{book.autor.includes(Profile.name) ? (
+					<Header className='mt-4'>
+						{book.AutorUid && book.AutorUid.includes(Profile.uid) ? (
 							<TouchableOpacity
 								onPress={() => setDialogPopupVisible(true)}
 								className='flex-row gap-3 items-center'
@@ -143,7 +123,7 @@ const SingleBookPage = ({ route }: any) => {
 							Profile={Profile}
 							StateUser={StateUser}
 						/>
-					</View>
+					</Header>
 					<View className='flex-row  justify-between mt-8'>
 						<Animated.View entering={FadeInDown} style={styleAnimation}>
 							<Image

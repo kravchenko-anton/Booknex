@@ -3,18 +3,15 @@ import { useFileSystem } from '@epubjs-react-native/expo-file-system'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StatusBar } from 'expo-status-bar'
 import React, { useLayoutEffect, useState } from 'react'
-import { Text, View, useWindowDimensions } from 'react-native'
+import { Text, useWindowDimensions, View } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
-import { Toast } from 'react-native-toast-message/lib/src/Toast'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import {
-	useAddBookToEndedBookMutation,
-	useAddBookToStartReadingMutation
-} from '../../../store/api/book/mutation'
+import { useAddBookToEndedBookMutation, useAddBookToStartReadingMutation } from '../../../store/api/book/mutation'
 import Loader from '../../ui/Loader'
-import Settings from './ReaderUi/Settings/Settings'
-import { light } from './Theme'
+import Settings from './ui/Settings/Settings'
+import { light } from './ui/Theme'
+
 const ReaderComponent = (props: {
 	LastReadPage: string
 	epub: string
@@ -58,7 +55,7 @@ const ReaderComponent = (props: {
 		}
 		parseLastPage()
 	}, [])
-
+	
 	return (
 		<SafeAreaProvider>
 			<StatusBar
@@ -69,10 +66,10 @@ const ReaderComponent = (props: {
 					theme.body.background === '#fff'
 						? '#fff'
 						: theme.body.background === '#121212'
-						? '#121212'
-						: theme.body.background === '#e8dcb8'
-						? '#e8dcb8'
-						: '#fff'
+							? '#121212'
+							: theme.body.background === '#e8dcb8'
+								? '#e8dcb8'
+								: '#fff'
 				}
 			/>
 			<View
@@ -93,10 +90,10 @@ const ReaderComponent = (props: {
 										theme.body.background === '#fff'
 											? '#fff'
 											: theme.body.background === '#121212'
-											? '#121212'
-											: theme.body.background === '#e8dcb8'
-											? '#e8dcb8'
-											: '#fff',
+												? '#121212'
+												: theme.body.background === '#e8dcb8'
+													? '#e8dcb8'
+													: '#fff',
 									height: height,
 									width: width
 								}}
@@ -127,12 +124,19 @@ const ReaderComponent = (props: {
 							changeFontFamily(fontFamiles)
 						}}
 						onDoublePress={() => setIsVisible(!isVisible)}
+						
 						onSwipeLeft={async () => {
 							// @ts-ignore
 							await AsyncStorage.setItem(props.epub, currentLocation.end.cfi)
 							await AsyncStorage.setItem(props.epub + 'font', fontSize.toString())
 							await AsyncStorage.setItem(props.epub + 'theme', JSON.stringify(theme))
 							await AsyncStorage.setItem(props.epub + 'fontFamily', fontFamiles)
+							await AsyncStorage.setItem('ContinueRead', JSON.stringify({
+								BookId: props.BookId,
+								LastReadPage: currentLocation?.end.cfi,
+								epub: props.epub,
+								interest: currentLocation?.end.percentage
+							}))
 						}}
 						onSwipeRight={async () => {
 							// @ts-ignore
@@ -140,6 +144,12 @@ const ReaderComponent = (props: {
 							await AsyncStorage.setItem(props.epub + 'font', fontSize.toString())
 							await AsyncStorage.setItem(props.epub + 'theme', JSON.stringify(theme))
 							await AsyncStorage.setItem(props.epub + 'fontFamily', fontFamiles)
+							await AsyncStorage.setItem('ContinueRead', JSON.stringify({
+								BookId: props.BookId,
+								LastReadPage: currentLocation?.end.cfi,
+								epub: props.epub,
+								interest: currentLocation?.end.percentage
+							}))
 						}}
 						renderLoadingFileComponent={() => (
 							<Loader
@@ -148,10 +158,10 @@ const ReaderComponent = (props: {
 										theme.body.background === '#fff'
 											? '#fff'
 											: theme.body.background === '#121212'
-											? '#121212'
-											: theme.body.background === '#e8dcb8'
-											? '#e8dcb8'
-											: '#fff',
+												? '#121212'
+												: theme.body.background === '#e8dcb8'
+													? '#e8dcb8'
+													: '#fff',
 									height: height,
 									width: width
 								}}

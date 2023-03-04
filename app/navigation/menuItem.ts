@@ -7,17 +7,14 @@ export interface IMenuItem {
 
 export const menuItems: IMenuItem[] = [
 	{
-		iconName: 'home',
-		path: 'Home'
-	},
-	{
 		iconName: 'search',
 		path: 'Search'
 	},
 	{
-		iconName: 'heart',
-		path: 'Favorite'
+		iconName: 'book-open',
+		path: 'Home'
 	},
+	
 	{
 		iconName: 'user',
 		path: 'UserProfile'

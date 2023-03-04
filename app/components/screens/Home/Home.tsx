@@ -1,119 +1,101 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import I18n from 'i18n-js'
+import { AntDesign } from '@expo/vector-icons'
+import { Picker } from '@react-native-picker/picker'
+import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import { Animated, Image, Platform, Pressable, Text, View } from 'react-native'
-import { AirbnbRating } from 'react-native-ratings'
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import * as Animatable from 'react-native-animatable'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
-import { BookTypes } from '../../../store/api/api.types'
-import {
-	useFetchAllBooksQuery,
-	useFetchBooksQuery
-} from '../../../store/api/book/query'
+import { useTypedSelector } from '../../../hook/useTypedSelector'
+import { useFetchMyProfileQuery } from '../../../store/api/user/query'
+import { ElementBottomAnimation, ElementBottomToTopAnimation } from '../../../utils/Animation'
+import ClearUserLogo from '../../ui/clearUserLogo'
 import Layout from '../../ui/Layout/Layout'
-import { EMPTY_ITEM_SIZE, ITEM_SIZE, SPACING } from './useCarousel'
+import Loader from '../../ui/Loader'
+import AnimatedFavoriteFlatList from '../Favorite/ui/FavoriteFlatList'
+import AnimatedHomeFlatList from './ui/BookCarousel/HomeFlatList'
+import ContinueRead from './ui/continueRead'
+import AnimatedUserHomeFlatList from './ui/UserCarousel/homeUserFlatList'
 
 const Home = () => {
-	const { data: book } = useFetchAllBooksQuery(null)
+	const { user } = useTypedSelector(state => state.auth)
+	const { data: CurrentUser } = useFetchMyProfileQuery(user?.uid)
 	const { navigate } = useTypedNavigation()
-	const CarouselBook = [
-		{ id: 'first' } as BookTypes,
-		...(book ? book.slice(0, 10) : []),
-		{ id: 'last' } as BookTypes
-	]
-	const scrollX = React.useRef(new Animated.Value(0)).current
+	const [selectFavoriteBook, setSelectFavoriteBook] = React.useState(true)
+	console.log(CurrentUser)
+	if (!CurrentUser) return <Loader />
+	
 	return (
-		<Layout className='h-full p-0 items-center justify-center'>
-			<Animated.FlatList
-				bounces={false}
-				keyExtractor={item => `key ${item.id}`}
-				decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
-				showsHorizontalScrollIndicator={false}
-				snapToInterval={ITEM_SIZE}
-				snapToAlignment='start'
-				scrollEventThrottle={16}
-				contentContainerStyle={{ alignItems: 'center' }}
-				renderToHardwareTextureAndroid
-				horizontal
-				data={CarouselBook}
-				onScroll={Animated.event(
-					[{ nativeEvent: { contentOffset: { x: scrollX } } }],
-					{ useNativeDriver: false }
-				)}
-				renderItem={({ item, index }) => {
-					if (!item.Name) return <View style={{ width: EMPTY_ITEM_SIZE }} />
-					const inputRange = [
-						(index - 2) * ITEM_SIZE,
-						(index - 1) * ITEM_SIZE,
-						index * ITEM_SIZE
-					]
-					const TranslateY = scrollX.interpolate({
-						inputRange,
-						outputRange: [100, 50, 100],
-						extrapolate: 'clamp'
-					})
-					return (
-						<View style={{ width: ITEM_SIZE }}>
-							<Animated.View
-								key={item.id}
-								style={{
-									transform: [{ translateY: TranslateY }],
-									marginHorizontal: SPACING,
-									alignItems: 'center'
-								}}
-							>
-								<Pressable
-									className='w-full'
-									onPress={event =>
-										navigate('BookPage', {
-											id: item.id
-										})
-									}
-								>
-									<Image
-										source={{ uri: item.Image }}
-										className='w-full rounded-xl'
-										style={{ height: ITEM_SIZE * 1.3 }}
-									/>
-								</Pressable>
-								<Text
-									numberOfLines={1}
-									className='text-center text-white w-full text-3xl font-bold mt-2'
-								>
-									{item.Name}
-								</Text>
-								<View className='flex-row items-center'>
-									<AirbnbRating
-										size={18}
-										defaultRating={
-											Object.values(item.comments).reduce(
-												(t, { rating }) => t + rating,
-												0
-											) /
-											(item.comments.length
-												? item.comments.length
-												: item.comments.constructor.length)
-										}
-										count={5}
-										showRating={false}
-										isDisabled={true}
-									/>
-									<Text className='text-white text-xl font-bold'>/ 5</Text>
-								</View>
-								<View className='mt-2 flex-wrap flex-row'>
-									{item.genre.map((item: string) => (
-										<Text
-											key={item}
-											className='text-white text-md bg-blue rounded-lg mr-1 p-2 mb-2'
-										>
-											{item}
-										</Text>
-									))}
-								</View>
-							</Animated.View>
+		<Layout className=''>
+			<StatusBar backgroundColor='#121212' />
+			<ScrollView showsVerticalScrollIndicator={false} className='p-0 m-0'>
+				
+				<View className='flex-row items-center justify-between'>
+					<TouchableOpacity onPress={() => navigate('UserProfile')} className='flex-row items-center'>
+						<View className='mr-3 p-0'>
+							{CurrentUser.photoURL ? (
+								<Image
+									source={{ uri: CurrentUser.photoURL }}
+									className='w-[50px] h-[50px] rounded-lg'
+								/>
+							) : (
+								<ClearUserLogo latterSize={30} rounded={8} letter={CurrentUser.name} width={50} height={50} />
+							)}
 						</View>
-					)
-				}}
-			/>
+						<Text className='text-white text-xl font-bold'>Hi, {CurrentUser.name}</Text>
+					</TouchableOpacity>
+					<TouchableOpacity onPress={() => navigate('Search')} className='bg-blue p-2 rounded-lg'>
+						<AntDesign name='search1' size={24} color='white' />
+					</TouchableOpacity>
+				
+				</View>
+				<Text className='text-2xl text-white font-bold mt-4 mb-4'>Library </Text>
+				<AnimatedHomeFlatList
+					data={CurrentUser.startReadBook && CurrentUser.startReadBook.length ? CurrentUser.startReadBook : []} />
+				
+				<ContinueRead />
+				
+				{CurrentUser.favoritesUser && CurrentUser.favoritesUser.length ? <>
+					<Text className='text-2xl text-white font-bold mt-4 mb-4'>Favorite Author </Text>
+					<AnimatedUserHomeFlatList data={CurrentUser.favoritesUser} />
+				</> : null}
+				
+				
+				<View className='mt-4'>
+					<Picker
+						mode='dropdown'
+						dropdownIconColor='white'
+						dropdownIconRippleColor='#121212'
+						accessibilityIgnoresInvertColors={true}
+						collapsable={true}
+						
+						accessibilityLiveRegion={'none'}
+						selectedValue={selectFavoriteBook}
+						onValueChange={(itemValue) =>
+							setSelectFavoriteBook(itemValue)
+						}>
+						<Picker.Item label='Favorite' color='white' value={true}
+						             style={{
+							             backgroundColor: '#121212',
+							             fontSize: 20,
+							             fontWeight: 'bold',
+							             zIndex: 1000
+						             }} />
+						<Picker.Item label='Finish book' color='white'
+						             style={{
+							             backgroundColor: '#121212',
+							             fontSize: 20,
+							             fontWeight: 'bold'
+						             }}
+						             value={false} />
+					</Picker>
+				</View>
+				<Animatable.View delay={300} animation={selectFavoriteBook ? ElementBottomAnimation : ElementBottomToTopAnimation}>
+					<AnimatedFavoriteFlatList data={selectFavoriteBook ? CurrentUser.favoritesBook : CurrentUser.finishedBook} />
+				
+				</Animatable.View>
+			
+			
+			</ScrollView>
 		</Layout>
 	)
 }

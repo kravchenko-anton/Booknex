@@ -1,21 +1,13 @@
-import {
-	collection,
-	doc,
-	getDoc,
-	getDocs,
-	query,
-	where,
-	onSnapshot
-} from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
 import I18n from 'i18n-js'
 import Toast from 'react-native-toast-message'
 import { db } from '../../../utils/firebase'
+import { randChoice } from '../../../utils/randomElelementFromArray'
 import { api } from '../api'
 import { BookTypes, iBookwithRating } from '../api.types'
 
 const bookQuery = api.injectEndpoints({
 	endpoints: build => ({
-		
 		// Fetch default book from admin
 		fetchBooks: build.query({
 			async queryFn() {
@@ -25,7 +17,7 @@ const bookQuery = api.injectEndpoints({
 					let books: BookTypes[] = []
 					querySnaphot?.forEach(doc => {
 						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
-						books.push({ id: doc.id, ...doc.data() } as BookTypes)
+							books.push({ id: doc.id, ...doc.data() } as BookTypes)
 						}
 					})
 					return { data: books }
@@ -40,7 +32,7 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-
+		
 		// Fetch CurrentUserBooks
 		fetchCurrentUserBooks: build.query({
 			async queryFn(AutorUid) {
@@ -66,7 +58,7 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-
+		
 		//Fetch Action  book
 		fetchActionBooks: build.query({
 			async queryFn() {
@@ -80,12 +72,12 @@ const bookQuery = api.injectEndpoints({
 					let books: BookTypes[] = []
 					UserquerySnaphot?.forEach(doc => {
 						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
-						books.push({ id: doc.id, ...doc.data() } as BookTypes)
+							books.push({ id: doc.id, ...doc.data() } as BookTypes)
 						}
 					})
 					BooksquerySnaphot?.forEach(doc => {
 						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
-						books.push({ id: doc.id, ...doc.data() } as BookTypes)
+							books.push({ id: doc.id, ...doc.data() } as BookTypes)
 						}
 					})
 					return { data: books }
@@ -100,7 +92,7 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-
+		
 		//Fetch Most popular book
 		fetchMostPopularBooks: build.query({
 			async queryFn() {
@@ -112,29 +104,33 @@ const bookQuery = api.injectEndpoints({
 					let books: iBookwithRating[] = []
 					UserquerySnaphot?.forEach(doc => {
 						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
-						books.push(<iBookwithRating>{
-							id: doc.id,
-							...doc.data(),
-							rating:
-								doc.data().comments ? Object.values(doc.data().comments).reduce((t, values: any) => t + values.rating, 0) : 0
-						})
+							books.push(<iBookwithRating>{
+								id: doc.id,
+								...doc.data(),
+								rating: doc.data().comments
+									? Object.values(doc.data().comments).reduce(
+										(t, values: any) => t + values.rating,
+										0
+									)
+									: 0
+							})
 						}
 					})
 					BooksquerySnaphot?.forEach(doc => {
 						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
-						books.push(<iBookwithRating>{
-							id: doc.id,
-							...doc.data(),
-							rating: doc.data().comments
-								? Object.values(doc.data().comments).reduce(
+							books.push(<iBookwithRating>{
+								id: doc.id,
+								...doc.data(),
+								rating: doc.data().comments
+									? Object.values(doc.data().comments).reduce(
 										(t, values: any) => t + values.rating,
 										0
-								  )
-								: 0
-						})
+									)
+									: 0
+							})
 						}
 					})
-
+					
 					return { data: books }
 				} catch (error: any) {
 					Toast.show({
@@ -147,7 +143,7 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
-
+		
 		// Fetch AllBooks
 		fetchAllBooks: build.query({
 			async queryFn() {
@@ -160,11 +156,12 @@ const bookQuery = api.injectEndpoints({
 					UserquerySnaphot?.forEach(doc => {
 						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
 							books.push({ id: doc.id, ...doc.data() } as BookTypes)
-						}})
+						}
+					})
 					BooksquerySnaphot?.forEach(doc => {
-					if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
-						books.push({ id: doc.id, ...doc.data() } as BookTypes)
-					}
+						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
+							books.push({ id: doc.id, ...doc.data() } as BookTypes)
+						}
 					})
 					
 					return { data: books }
@@ -179,6 +176,40 @@ const bookQuery = api.injectEndpoints({
 			},
 			providesTags: ['book']
 		}),
+		
+		
+		// Fetch random book
+		fetchRandomBooks: build.query({
+			async queryFn() {
+				try {
+					const userBookRef = collection(db, 'userBook')
+					const booksRef = collection(db, 'books')
+					const UserquerySnaphot = await getDocs(userBookRef)
+					const BooksquerySnaphot = await getDocs(booksRef)
+					let books: BookTypes[] = []
+					UserquerySnaphot?.forEach(doc => {
+						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
+							books.push({ id: doc.id, ...doc.data() } as BookTypes)
+						}
+					})
+					BooksquerySnaphot?.forEach(doc => {
+						if (doc.data().bookLanguage.toLowerCase().includes(I18n.locale)) {
+							books.push({ id: doc.id, ...doc.data() } as BookTypes)
+						}
+					})
+					return { data: randChoice<BookTypes>(books) }
+				} catch (error: any) {
+					Toast.show({
+						text1: I18n.t('Book not loaded!'),
+						text2: error.message,
+						type: 'error'
+					})
+					return { error }
+				}
+			},
+			providesTags: ['book']
+		}),
+		
 		
 		// Fetch AllBooks no by language
 		fetchAllBooksNoLang: build.query({
@@ -190,10 +221,10 @@ const bookQuery = api.injectEndpoints({
 					const BooksquerySnaphot = await getDocs(booksRef)
 					let books: BookTypes[] = []
 					UserquerySnaphot?.forEach(doc => {
-							books.push({ id: doc.id, ...doc.data() } as BookTypes)
-						})
+						books.push({ id: doc.id, ...doc.data() } as BookTypes)
+					})
 					BooksquerySnaphot?.forEach(doc => {
-							books.push({ id: doc.id, ...doc.data() } as BookTypes)
+						books.push({ id: doc.id, ...doc.data() } as BookTypes)
 					})
 					
 					return { data: books }
@@ -209,7 +240,6 @@ const bookQuery = api.injectEndpoints({
 			providesTags: ['book']
 		}),
 		
-
 		//Fetch single book
 		fetchSingleBook: build.query({
 			async queryFn(id) {
@@ -241,5 +271,6 @@ export const {
 	useFetchMostPopularBooksQuery,
 	useFetchActionBooksQuery,
 	useFetchAllBooksQuery,
-	useFetchSingleBookQuery
+	useFetchSingleBookQuery,
+	useFetchRandomBooksQuery
 } = bookQuery

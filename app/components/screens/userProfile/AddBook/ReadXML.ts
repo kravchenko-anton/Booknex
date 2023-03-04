@@ -8,9 +8,8 @@ export async function parseXML(xmlFile: any) {
 		xmlMetadata = {
 			title: xmlDoc.getElementsByTagName('dc:title')[0].textContent,
 			author: xmlDoc.getElementsByTagName('dc:creator')[0].textContent,
-			lang: xmlDoc.getElementsByTagName('dc:language')[0].textContent,
+			lang: xmlDoc.getElementsByTagName('dc:language')[0].textContent
 		}
-
 
 		return xmlMetadata
 	} catch (error) {

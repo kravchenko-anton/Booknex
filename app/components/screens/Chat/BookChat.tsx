@@ -1,62 +1,25 @@
 import { Feather } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
-import { doc, onSnapshot } from 'firebase/firestore'
 import I18n from 'i18n-js'
-import React, { useEffect, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import React from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import Toast from 'react-native-toast-message'
-import { useTypedNavigation } from '../../../hook/useTypedNavigation'
-import { useTypedSelector } from '../../../hook/useTypedSelector'
-import { useAddMessageToChatMutation } from '../../../store/api/book/mutation'
-import { useFetchSingleBookQuery } from '../../../store/api/book/query'
-import { db } from '../../../utils/firebase'
+import Field from '../../ui/field/field'
 import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
-import Field from '../../ui/field/field'
-import Message, { IMessage } from './Message'
-import { badWords } from './badWords'
+import Message from './ui/Message'
+import { useChat } from './useChat'
 
 const BookChat = ({ route }: any) => {
 	const { BookId } = route.params
-	const [addMessage] = useAddMessageToChatMutation()
-	const { control, watch, reset, handleSubmit, setValue } = useForm({
-		mode: 'onSubmit'
-	})
-	const { user } = useTypedSelector(state => state.auth)
-	const [chats, setChats] = useState<IMessage[]>([])
-	const { goBack } = useTypedNavigation()
-	const { data: book } = useFetchSingleBookQuery(BookId)
-	const scrollViewRef = useRef<ScrollView | any>()
-	const validateText = (value: string[]) => {
-		for (let i = 0; i < badWords.length; i++) {
-			if (value.includes(badWords[i])) {
-				return false
-			}
-		}
-		return true
-	}
-	useEffect(() => {
-		//https://www.reddit.com/r/reactjs/comments/n3px8t/how_to_use_onsnapshot_in_redux_toolkit/
-		const getChats = () => {
-			const unsub = onSnapshot(doc(db, 'BookChats', BookId), doc => {
-				setChats(doc.exists() ? doc.data().comments : [])
-			})
-			return () => {
-				unsub()
-			}
-		}
-		getChats()
-	}, [])
-
-	const handeSublit = (data: any) => {
-		{
-			data.Message !== ''
-				? addMessage({ id: BookId, message: watch('Message'), uid: user?.uid })
-				: Toast.show({ text1: I18n.t('TypeSomething') })
-			reset()
-		}
-	}
+	const {
+		handeSublit,
+		control,
+		validateText,
+		book,
+		scrollViewRef,
+		chats,
+		handleSubmit
+	} = useChat(BookId)
 	return (
 		<Layout className='h-full'>
 			<StatusBar backgroundColor='#121212' />
@@ -89,7 +52,7 @@ const BookChat = ({ route }: any) => {
 					</Text>
 				)}
 			</ScrollView>
-
+			
 			<View className='justify-between flex-row w-full items-center'>
 				<View className='w-5/6'>
 					<Field
@@ -102,7 +65,7 @@ const BookChat = ({ route }: any) => {
 						name={'Message'}
 					/>
 				</View>
-
+				
 				<TouchableOpacity
 					onPress={handleSubmit(handeSublit)}
 					className=' bg-blue border-2 border-white p-3 rounded-md'

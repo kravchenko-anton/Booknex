@@ -1,0 +1,63 @@
+import I18n from 'i18n-js'
+import LottieView from 'lottie-react-native'
+import Lottie from 'lottie-react-native'
+import { FC, PropsWithChildren, useRef } from 'react'
+import { Animated, Platform, Text, View } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
+import FavoriteItem from './FavoriteItem'
+
+const AnimatedFavoriteFlatList: FC<
+	PropsWithChildren<{ data: string[]; id?: string }>
+> = ({ children, data }) => {
+	let listRef: any = useRef<FlatList | any>(null)
+	const scrollX = useRef(new Animated.Value(0)).current
+	let animationRef = useRef<Lottie>(null)
+	return (
+		<FlatList
+			horizontal
+			extraData={data}
+			renderToHardwareTextureAndroid={true}
+			ListEmptyComponent={() => <View className='w-[150px] h-[250px] bg-blue rounded-lg'>
+				<LottieView
+					loop={false}
+					renderMode={Platform.OS === 'ios' ? 'HARDWARE' : 'SOFTWARE'}
+					autoPlay={false}
+					ref={animationRef}
+					onLayout={() => {
+						animationRef.current?.play(0, 108)
+					}}
+					source={require('./70315-school-books.json')}
+				/>
+				<Text className='text-white mt-2 text-xl text-center'>{I18n.t('No Books')} 🥱</Text>
+			</View>
+			}
+			
+			ref={ref => (listRef = ref)}
+			onContentSizeChange={() => listRef.scrollToOffset({ animated: true, offset: 0 })}
+			decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
+			scrollEnabled={data.length > 3}
+			snapToInterval={160}
+			bounces={false}
+			onScroll={Animated.event(
+				[{ nativeEvent: { contentOffset: { x: scrollX } } }],
+				{ useNativeDriver: false }
+			)}
+			scrollEventThrottle={1}
+			showsHorizontalScrollIndicator={false}
+			data={data}
+			renderItem={({ item, index }) => {
+				const inputRange = [0, 0, 150 * index, 150 * (index + 10)]
+				const scale = scrollX.interpolate({
+					inputRange,
+					outputRange: [1, 1, 1, 0],
+					extrapolate: 'clamp'
+				})
+				
+				
+				return <FavoriteItem scale={scale} BookId={item} />
+			}}
+		/>
+	)
+}
+
+export default AnimatedFavoriteFlatList

@@ -3,7 +3,9 @@ import { FC } from 'react'
 import { Pressable } from 'react-native'
 import { menuItems } from './menuItem'
 import { TypeRootStackParamList } from './navigationTypes'
+
 export type TypeNavigate = (screenName: keyof TypeRootStackParamList) => void
+
 interface IMenuItemProps {
 	// @ts-ignore
 	item: menuItems
@@ -17,7 +19,7 @@ const ManuItem: FC<IMenuItemProps> = ({ nav, item, currentRoute }) => {
 		<Pressable onPress={() => nav(item.path)}>
 			<Feather
 				name={item.iconName}
-				size={26}
+				size={30}
 				color={isActive ? 'white' : '#949494'}
 			/>
 		</Pressable>

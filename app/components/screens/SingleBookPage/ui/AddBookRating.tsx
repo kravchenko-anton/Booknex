@@ -3,9 +3,9 @@ import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Pressable, Text, View } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
-import { Iuser } from '../../../store/api/api.types'
-import { useAddBookReviewMutation } from '../../../store/api/book/mutation'
-import Field from '../../ui/field/field'
+import { Iuser } from '../../../../store/api/api.types'
+import { useAddBookReviewMutation } from '../../../../store/api/book/mutation'
+import Field from '../../../ui/field/field'
 
 const AddBookRating: FC<{ Profile: Iuser; id: any }> = ({ Profile, id }) => {
 	const { control, reset, handleSubmit } = useForm()

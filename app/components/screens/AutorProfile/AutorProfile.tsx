@@ -13,7 +13,7 @@ import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import Statistics from '../../ui/statistics'
-import AuthorFavoritesButton from './AuthorFavoritesButton'
+import AuthorFavoritesButton from './ui/AuthorFavoritesButton'
 
 const SingleUserPage = ({ route }: any) => {
 	const { uid } = route.params

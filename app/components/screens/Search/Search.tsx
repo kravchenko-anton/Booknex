@@ -1,41 +1,46 @@
 import I18n from 'i18n-js'
 import { useForm } from 'react-hook-form'
 import { Image, Pressable, ScrollView, Text, View } from 'react-native'
-import AnimatedScrollView from 'react-native-reanimated/lib/types/reanimated2/component/ScrollView'
+import { AirbnbRating } from 'react-native-ratings'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import {
-	useFetchActionBooksQuery,
 	useFetchAllBooksQuery,
-	useFetchMostPopularBooksQuery
+	useFetchMostPopularBooksQuery,
+	useFetchRandomBooksQuery
 } from '../../../store/api/book/query'
 import { useFetchUserQuery } from '../../../store/api/user/query'
 import AnimatedBookFlatList from '../../ui/animateList/animatedBookFlatList'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
-import Layout from '../../ui/Layout/Layout'
-import Loader from '../../ui/Loader'
 import ClearUserLogo from '../../ui/clearUserLogo'
 import Field from '../../ui/field/field'
+import HorizontalBookItem from '../../ui/horizontalBookItem/horizontalBookItem'
+import Layout from '../../ui/Layout/Layout'
+import Loader from '../../ui/Loader'
+import Carousel from './ui/Carousel'
 
 const Search = () => {
 	const { control, watch } = useForm()
 	const { navigate } = useTypedNavigation()
 	const { data: book } = useFetchAllBooksQuery(null)
 	const { data: Users } = useFetchUserQuery(null)
-	const { data: ActionBook } = useFetchActionBooksQuery(null)
 	const { data: MostPopular } = useFetchMostPopularBooksQuery(null)
-	if (!book || !Users || !ActionBook || !MostPopular) return <Loader />
+	const { data: RandomBook } = useFetchRandomBooksQuery(null)
+	console.log('RandomBook', RandomBook)
+	if (!book || !Users || !MostPopular || !RandomBook) return <Loader />
 	return (
-		<Layout className='h-full'>
-			<Field
-				control={control}
-				name={'Search'}
-				placeholder={I18n.t('TypeSomething')}
-			/>
+		<Layout className=' p-0 h-full'>
+			<View className='p-3 m-0 w-full'>
+				<Field
+					control={control}
+					name={'Search'}
+					placeholder={I18n.t('TypeSomething')}
+				/>
+			</View>
 			{watch('Search', '') !== '' ? (
-				<AnimatedFlatList
-					data={book.filter(item => item.Name.includes(watch('Search')))}
-				>
-					<View>
+				<View className='p-3 pt-0'>
+					<AnimatedFlatList
+						data={book.filter(item => item.Name.includes(watch('Search')))}
+					>
 						{watch('Search') != '' &&
 						Users.filter(user => user.name.includes(watch('Search'))).length > 0 ? (
 							<ScrollView
@@ -73,30 +78,46 @@ const Search = () => {
 								))}
 							</ScrollView>
 						) : null}
-					</View>
-				</AnimatedFlatList>
+					</AnimatedFlatList>
+				</View>
 			) : (
-				<View className='flex-1'>
-					<ScrollView showsVerticalScrollIndicator={false} className='h-full flex-1'>
-						<View className='mb-6'>
+				<>
+					<ScrollView showsVerticalScrollIndicator={false}>
+						<Text className='text-2xl text-center mb-4 text-white font-bold'>{I18n.t('MayBeYouLike')} 🥰</Text>
+						<Carousel />
+						
+						<Text className='text-white ml-3 text-2xl font-bold mt-4 mb-2'>
+							Random Book 😜</Text>
+						<View className='p-3'>
+							
+							<HorizontalBookItem imageUrl={RandomBook.Image} navigate={() => navigate('BookPage', { id: RandomBook.id })}
+							                    title={RandomBook.Name} author={RandomBook.autor} buttonText={'Read'}>
+								<View className='flex-row items-center mb-[5px]'>
+									<AirbnbRating
+										size={20}
+										defaultRating={Object.values(RandomBook.comments).reduce((t, { rating }) => t + rating, 0) /
+											(RandomBook.comments.length
+												? RandomBook.comments.length
+												: RandomBook.comments.constructor.length)}
+										count={5}
+										showRating={false}
+										isDisabled={true} />
+									<Text className='text-white text-lg font-bold'>
+										/ ({Object.values(RandomBook.comments).length})
+									</Text>
+								</View>
+								
+								<Text numberOfLines={2} className='  mb-[9px] text-gray text-lg'> {RandomBook.description}</Text>
+							</HorizontalBookItem>
 							<Text className='text-white text-2xl font-bold mt-4 mb-4'>
 								{I18n.t('MostPopularBooks')} 😎
 							</Text>
 							<AnimatedBookFlatList data={MostPopular.slice(0, 10)} />
 						</View>
-						<Text className='text-white text-2xl font-bold mt-4 mb-4'>
-							{I18n.t('ActionBooks')} 👨‍🎤
-						</Text>
-						<AnimatedBookFlatList data={ActionBook.slice(0, 10)} />
-
-						<View className='my-6'>
-							<Text className='text-white text-2xl font-bold mt-4 mb-4'>
-								{I18n.t('MayBeYouLike')} 😍
-							</Text>
-							<AnimatedBookFlatList data={book.slice(0, 10)} />
-						</View>
 					</ScrollView>
-				</View>
+				</>
+			
+			
 			)}
 		</Layout>
 	)

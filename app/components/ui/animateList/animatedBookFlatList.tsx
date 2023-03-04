@@ -1,19 +1,8 @@
 import { FC, useRef } from 'react'
-import {
-	Animated,
-	FlatList,
-	Image,
-	Platform,
-	Pressable,
-	View
-} from 'react-native'
-import {
-	useAnimatedScrollHandler,
-	useSharedValue
-} from 'react-native-reanimated'
+import { Animated, FlatList, Image, Platform, Pressable, View } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
-import { ITEM_SIZE } from '../../screens/Home/useCarousel'
+
 const AnimatedBookFlatList: FC<{ data: BookTypes[] }> = ({ data }) => {
 	const { navigate } = useTypedNavigation()
 	const scrollX = useRef(new Animated.Value(0)).current
@@ -38,7 +27,7 @@ const AnimatedBookFlatList: FC<{ data: BookTypes[] }> = ({ data }) => {
 						outputRange: [1, 1, 1, 0],
 						extrapolate: 'clamp'
 					})
-
+					
 					return (
 						<Animated.View style={{ transform: [{ scale }], marginRight: 10 }}>
 							<Pressable onPress={() => navigate('BookPage', { id: item.id })}>

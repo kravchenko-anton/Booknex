@@ -1,4 +1,5 @@
 export interface BookTypes {
+	AutorUid: string
 	Name: string
 	id: any
 	Image: string

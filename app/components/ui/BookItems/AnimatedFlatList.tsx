@@ -1,4 +1,5 @@
-import { FC, PropsWithChildren, useRef, useState } from 'react'
+import Lottie from 'lottie-react-native'
+import { FC, PropsWithChildren, useRef } from 'react'
 import { Animated, Image, Pressable, Text, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
@@ -9,7 +10,8 @@ const AnimatedFlatList: FC<
 > = ({ children, data }) => {
 	const { navigate } = useTypedNavigation()
 	const scrollY = useRef(new Animated.Value(0)).current
-
+	const animationRef = useRef<Lottie>(null)
+	
 	return (
 		<FlatList
 			renderToHardwareTextureAndroid={true}
@@ -18,6 +20,18 @@ const AnimatedFlatList: FC<
 				[{ nativeEvent: { contentOffset: { y: scrollY } } }],
 				{ useNativeDriver: false }
 			)}
+			// ListEmptyComponent={() => (
+			// 	<View className='w-[150px] h-[250px] bg-blue rounded-lg'>
+			// 		<Lottie
+			// 			loop={false}
+			// 			autoPlay={true}
+			// 			progress={animationRef.current}
+			// 			ref={animationRef}
+			// 			onLayout={() => animationRef.current?.play(0, 340)}
+			// 			source={require('./../../../assets/98849-book-lover.json')}
+			// 		/>
+			// 	</View>
+			// )}
 			showsVerticalScrollIndicator={false}
 			ListHeaderComponent={<>{children}</>}
 			renderItem={({ item, index }) => {

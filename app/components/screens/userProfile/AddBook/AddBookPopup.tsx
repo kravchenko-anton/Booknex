@@ -1,14 +1,28 @@
 import I18n from 'i18n-js'
 import React, { FC, useRef } from 'react'
 import Toast from 'react-native-toast-message'
-import { useTypedNavigation } from '../../../hook/useTypedNavigation'
-import { useAddUserBookMutation, useSearchBookByGoogleApiMutation } from '../../../store/api/book/mutation'
-import { useFetchAllBooksNoLangQuery, useFetchAllBooksQuery } from '../../../store/api/book/query'
+import { useTypedNavigation } from '../../../../hook/useTypedNavigation'
+import {
+	useAddUserBookMutation,
+	useSearchBookByGoogleApiMutation
+} from '../../../../store/api/book/mutation'
+import {
+	useFetchAllBooksNoLangQuery,
+	useFetchAllBooksQuery
+} from '../../../../store/api/book/query'
 import { IaddBook } from './addBookPopup.interface'
 import { parseEpubMetadataPath, parseXML } from './ReadXML'
-import { UploadFile } from './uploadFile'
+import { UploadFile } from '../uploadFile'
 import { useState } from 'react'
-import { StyleSheet, Text, View, Pressable, Alert, Image, TouchableOpacity } from 'react-native'
+import {
+	StyleSheet,
+	Text,
+	View,
+	Pressable,
+	Alert,
+	Image,
+	TouchableOpacity
+} from 'react-native'
 import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system'
 var JSZip = require('jszip')
@@ -31,7 +45,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 	const [EpubBlob, setEpubBlob] = useState<Blob>()
 	const [EpubUrlPath, setEpubUrlPatch] = useState<string>()
 	const { navigate } = useTypedNavigation()
-	const {data: AllBook} = useFetchAllBooksNoLangQuery(null)
+	const { data: AllBook } = useFetchAllBooksNoLangQuery(null)
 	const pickDocument = async () => {
 		setContent({} as IMetaData)
 		const zipObj = new JSZip()
@@ -55,15 +69,27 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 										const funalFileParsed = zip.file(`${funalDataParsed.subject}`)
 										if (funalFileParsed) {
 											funalFileParsed.async('string').then((content: any) => {
-													parseXML(content).then((data: any) => {
-													GoogleBookApi({searchTerm: data.title, author:data.author, lang:data.lang}).then(({data}:any) => {
-														setImage(data.HighQualityImage)
-														setContent({
-															title: data.title,author: data.authors, description: data.description, lang: data.language,genres: data.categories,
-															antalSide: data.pageCount, publishData: data.publishedDate })
-														}).catch((err)=>
-													{
-														console.log(err)})
+												parseXML(content).then((data: any) => {
+													GoogleBookApi({
+														searchTerm: data.title,
+														author: data.author,
+														lang: data.lang
+													})
+														.then(({ data }: any) => {
+															setImage(data.HighQualityImage)
+															setContent({
+																title: data.title,
+																author: data.authors,
+																description: data.description,
+																lang: data.language,
+																genres: data.categories,
+																antalSide: data.pageCount,
+																publishData: data.publishedDate
+															})
+														})
+														.catch(err => {
+															console.log(err)
+														})
 												})
 											})
 										}
@@ -80,9 +106,18 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 	}
 	const UploadBook = async () => {
 		const epub = await UploadFile(EpubBlob, EpubUrlPath)
-			const penData = content.publishData.substring(0, 4)
+		const penData = content.publishData.substring(0, 4)
 		const includes = AllBook?.find(book => book.Name == content.title)
-		if (content.title, content.author, content.lang, epub, image, content.description, content.antalSide, content.publishData) {
+		if (
+			(content.title,
+			content.author,
+			content.lang,
+			epub,
+			image,
+			content.description,
+			content.antalSide,
+			content.publishData)
+		) {
 			console.log(includes, 'includes')
 			if (!includes) {
 				await addUserBook({
@@ -97,17 +132,17 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 						bookLanguage: content.lang,
 						antalSider: content.antalSide,
 						penData: penData,
-						AutorUid: user.uid,
+						AutorUid: user.uid
 					}
 				})
-				
+
 				setIsVisible(false)
 				setContent({} as IMetaData)
 			} else {
 				Toast.show({
 					type: 'error',
 					text1: I18n.t('Book already exists'),
-					text2: I18n.t('Please try again'),
+					text2: I18n.t('Please try again')
 				})
 				if (includes?.id) {
 					navigate('BookPage', {
@@ -121,7 +156,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 			Toast.show({
 				type: 'error',
 				text1: I18n.t('Error'),
-				text2: I18n.t('Something went wrong'),
+				text2: I18n.t('Something went wrong')
 			})
 			setIsVisible(false)
 			setContent({} as IMetaData)
@@ -175,12 +210,13 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 				</Text>
 			)}
 			<View className='mt-auto mb-8'>
-				<TouchableOpacity 	onPress={() => {
-					!content.title ? pickDocument() :  UploadBook()
-				}} className=' justify-center items-center mx-auto w-[200px] bg-blue rounded-lg h-[80px]'>
-					<Text
-						className='text-2xl text-white font-bold'
-					>
+				<TouchableOpacity
+					onPress={() => {
+						!content.title ? pickDocument() : UploadBook()
+					}}
+					className=' justify-center items-center mx-auto w-[200px] bg-blue rounded-lg h-[80px]'
+				>
+					<Text className='text-2xl text-white font-bold'>
 						{content.title ? I18n.t('Add book') : I18n.t('Select epub')}
 					</Text>
 				</TouchableOpacity>
