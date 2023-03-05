@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useIsFocused } from '@react-navigation/native'
 import I18n from 'i18n-js'
 import React, { useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
@@ -17,6 +18,7 @@ export interface IContinueRead {
 const ContinueRead = () => {
 	const [parsedBookData, setParsedBookData] = useState({} as IContinueRead)
 	const { navigate } = useTypedNavigation()
+	const isFocused = useIsFocused()
 	useEffect(() => {
 		const parseLastPage = async () => {
 			try {
@@ -27,10 +29,11 @@ const ContinueRead = () => {
 			} catch (e) {
 				console.log(e)
 			}
+			
 		}
 		parseLastPage()
 		
-	}, [])
+	}, [isFocused])
 	
 	const { data: book } = useFetchSingleBookQuery(parsedBookData.BookId, {
 		skip: !parsedBookData.BookId

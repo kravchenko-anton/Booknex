@@ -25,7 +25,6 @@ const Search = () => {
 	const { data: Users } = useFetchUserQuery(null)
 	const { data: MostPopular } = useFetchMostPopularBooksQuery(null)
 	const { data: RandomBook } = useFetchRandomBooksQuery(null)
-	console.log('RandomBook', RandomBook)
 	if (!book || !Users || !MostPopular || !RandomBook) return <Loader />
 	return (
 		<Layout className=' p-0 h-full'>

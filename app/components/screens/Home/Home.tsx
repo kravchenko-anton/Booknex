@@ -23,7 +23,6 @@ const Home = () => {
 	const { navigate } = useTypedNavigation()
 	const [selectFavoriteBook, setSelectFavoriteBook] = React.useState(true)
 	if (!CurrentUser) return <Loader />
-	
 	return (
 		<Layout className=''>
 			<StatusBar backgroundColor='#121212' />
@@ -51,8 +50,9 @@ const Home = () => {
 				<Text className='text-2xl text-white font-bold mt-4 mb-4'>{I18n.t('Library')} 📚 </Text>
 				<AnimatedHomeFlatList
 					data={CurrentUser.startReadBook && CurrentUser.startReadBook.length ? [...CurrentUser.startReadBook].reverse() : []} />
-				
-				<ContinueRead />
+				<Animatable.View delay={300} animation={selectFavoriteBook ? ElementBottomAnimation : ElementBottomToTopAnimation}>
+					<ContinueRead />
+				</Animatable.View>
 				
 				{CurrentUser.favoritesUser && CurrentUser.favoritesUser.length ? <>
 					<Text className='text-2xl text-white font-bold mt-4 mb-4'>{I18n.t('Favorite Authors')} </Text>

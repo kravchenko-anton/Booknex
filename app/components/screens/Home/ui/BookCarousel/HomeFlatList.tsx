@@ -32,7 +32,7 @@ const AnimatedHomeFlatList: FC<{ data: string[]; id?: string }> = ({ data }) => 
 			decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
 			snapToInterval={200}
 			bounces={false}
-			scrollEnabled={data.length > 2}
+			scrollEnabled={data.length > 1}
 			keyExtractor={(item, index) => {
 				return index.toString()
 			}}

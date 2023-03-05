@@ -101,5 +101,6 @@ export const ru = {
 	'Favorite Authors': 'Избранные авторы',
 	'hi': 'Привет',
 	'Finish book': 'Прочитанные книги',
-	'Name must be less than 20 characters': 'Имя должно быть меньше 20 символов'
+	'Name must be less than 20 characters': 'Имя должно быть меньше 20 символов',
+	'MaybeProblemWithGoogleApi': 'Штормит в стороне Google Api'
 }
