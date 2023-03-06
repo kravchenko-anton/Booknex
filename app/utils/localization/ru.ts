@@ -102,5 +102,6 @@ export const ru = {
 	'hi': 'Привет',
 	'Finish book': 'Прочитанные книги',
 	'Name must be less than 20 characters': 'Имя должно быть меньше 20 символов',
-	'MaybeProblemWithGoogleApi': 'Штормит в стороне Google Api'
+	'MaybeProblemWithGoogleApi': 'Штормит в стороне Google Api',
+	'They good day for read new book!': 'Хороший день для чтения новой книги!'
 }

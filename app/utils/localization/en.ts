@@ -102,5 +102,6 @@ export const en = {
 	'Continue': 'Continue',
 	'Favorite Authors': 'Favorite Authors',
 	'Name must be less than 20 characters': 'Name must be less than 20 characters',
-	'MaybeProblemWithGoogleApi': 'Maybe problem with google api'
+	'MaybeProblemWithGoogleApi': 'Maybe problem with google api',
+	'They good day for read new book!': 'They good day for read new book!'
 }

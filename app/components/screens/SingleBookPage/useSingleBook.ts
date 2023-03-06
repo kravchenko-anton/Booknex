@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 import { useState } from 'react'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
-import { useRemoveUserBookMutation } from '../../../store/api/book/mutation'
 import { useFetchSingleBookQuery } from '../../../store/api/book/query'
 import { useFetchMyProfileQuery } from '../../../store/api/user/query'
 import { useScaleOnMount } from '../../../utils/useBounces'
@@ -14,9 +13,7 @@ export const useSingleBook = (id: string) => {
 	const [isVisible, setIsVisible] = useState(false)
 	const [visibleButton, setVisibleButton] = useState(true)
 	const [lastReadPage, setLastReadPage] = useState('')
-	const [remove] = useRemoveUserBookMutation()
 	const { styleAnimation } = useScaleOnMount()
-	const [DialogPopupVisible, setDialogPopupVisible] = useState(false)
 	useFocusEffect(() => {
 		const parseLastPage = async () => {
 			try {
@@ -31,7 +28,7 @@ export const useSingleBook = (id: string) => {
 		}
 		parseLastPage()
 	})
-
+	
 	return {
 		StateUser,
 		book,
@@ -42,9 +39,6 @@ export const useSingleBook = (id: string) => {
 		isVisible,
 		visibleButton,
 		lastReadPage,
-		styleAnimation,
-		DialogPopupVisible,
-		setDialogPopupVisible,
-		remove
+		styleAnimation
 	}
 }

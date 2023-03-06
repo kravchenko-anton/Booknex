@@ -1,4 +1,3 @@
-import { AntDesign } from '@expo/vector-icons'
 import { Picker } from '@react-native-picker/picker'
 import { StatusBar } from 'expo-status-bar'
 import I18n from 'i18n-js'
@@ -28,26 +27,23 @@ const Home = () => {
 			<StatusBar backgroundColor='#121212' />
 			<ScrollView showsVerticalScrollIndicator={false} className='p-0 m-0'>
 				
-				<View className='flex-row items-center justify-between'>
-					<TouchableOpacity onPress={() => navigate('UserProfile')} className='flex-row items-center'>
-						<View className='mr-3 p-0'>
-							{CurrentUser.photoURL ? (
-								<Image
-									source={{ uri: CurrentUser.photoURL }}
-									className='w-[50px] h-[50px] rounded-lg'
-								/>
-							) : (
-								<ClearUserLogo latterSize={30} rounded={8} letter={CurrentUser.name} width={50} height={50} />
-							)}
-						</View>
+				<View className='flex-row items-center justify-between mb-5'>
+					<View>
 						<Text className='text-white text-xl font-bold'>{I18n.t('hi')}, {CurrentUser.name}</Text>
+						<Text className='text-gray text-md mt-1 font-thin'>{I18n.t('They good day for read new book!')}</Text>
+					</View>
+					<TouchableOpacity onPress={() => navigate('UserProfile')} className=' p-0'>
+						{CurrentUser.photoURL ? (
+							<Image
+								source={{ uri: CurrentUser.photoURL }}
+								className='w-[70px] h-[70px] rounded-full'
+							/>
+						) : (
+							<ClearUserLogo latterSize={30} rounded={8} letter={CurrentUser.name} width={70} height={70} />
+						)}
 					</TouchableOpacity>
-					<TouchableOpacity onPress={() => navigate('Search')} className='bg-blue p-2 rounded-lg'>
-						<AntDesign name='search1' size={24} color='white' />
-					</TouchableOpacity>
-				
 				</View>
-				<Text className='text-2xl text-white font-bold mt-4 mb-4'>{I18n.t('Library')} 📚 </Text>
+				<Text testID={'First text!!!'} className='text-2xl text-white font-bold mb-4'>{I18n.t('Library')} 📚 </Text>
 				<AnimatedHomeFlatList
 					data={CurrentUser.startReadBook && CurrentUser.startReadBook.length ? [...CurrentUser.startReadBook].reverse() : []} />
 				<Animatable.View delay={300} animation={selectFavoriteBook ? ElementBottomAnimation : ElementBottomToTopAnimation}>

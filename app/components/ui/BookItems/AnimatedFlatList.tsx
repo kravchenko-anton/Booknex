@@ -39,12 +39,15 @@ const AnimatedFlatList: FC<
 				</View>
 			)}
 			showsVerticalScrollIndicator={false}
+			invertStickyHeaders={true}
+			scrollEventThrottle={16}
+			stickyHeaderHiddenOnScroll={true}
 			ListHeaderComponent={<>{children}</>}
 			renderItem={({ item, index }) => {
-				const inputRange = [-1, 0, 150 * index, 150 * (index + 15)]
+				const inputRange = [0, index, 150 * index, 150 * (index + 10)]
 				const scale = scrollY.interpolate({
 					inputRange,
-					outputRange: [1, 1, 1, 0],
+					outputRange: [1, 0.5, 1, 1],
 					extrapolate: 'clamp'
 				})
 				return (

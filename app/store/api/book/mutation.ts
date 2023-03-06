@@ -242,7 +242,6 @@ const bookMutation = api.injectEndpoints({
 		SearchBookByGoogleApi: build.mutation({
 			async queryFn({ searchTerm, author, lang }) {
 				try {
-					
 					const ModifiedData = {
 						Mterm: searchTerm.trim()
 							.replace(/[\s_-]+/g, '+')
@@ -258,8 +257,7 @@ const bookMutation = api.injectEndpoints({
 							.replace(/\\.epub/g, '')
 					}
 					const response = await fetch(
-						`https://www.googleapis.com/books/v1/volumes?q=intitle:${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+inauthor:${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))`
-					)
+						`https://www.googleapis.com/books/v1/volumes?q=intitle:${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+inauthor:${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))`)
 					const books = await response.json()
 					const CurrentNeedBook = books.items.find((item: any) => item.volumeInfo.imageLinks !== undefined)
 					const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`

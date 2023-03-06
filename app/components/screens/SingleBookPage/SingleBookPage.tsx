@@ -1,13 +1,12 @@
-import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'
+import { FontAwesome5 } from '@expo/vector-icons'
 import I18n from 'i18n-js'
-import { Image, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Pressable, ScrollView, Text, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { AirbnbRating } from 'react-native-ratings'
 import Animated, { FadeInDown } from 'react-native-reanimated'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 
 import { animation, BottomAnimation, BottomAnimationEndToStart } from '../../../utils/TextAnimation'
-import DialogPopup from '../../ui/DialogPopup'
 import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
@@ -31,10 +30,7 @@ const SingleBookPage = ({ route }: any) => {
 		isVisible,
 		visibleButton,
 		lastReadPage,
-		styleAnimation,
-		DialogPopupVisible,
-		setDialogPopupVisible,
-		remove
+		styleAnimation
 	} = useSingleBook(id)
 	if (!book || !Profile || isLoading) return <Loader />
 	const total =
@@ -54,18 +50,6 @@ const SingleBookPage = ({ route }: any) => {
 					<AddBookRating id={id} Profile={Profile} />
 				</ModalPopup>
 				
-				<DialogPopup
-					type='danger'
-					OnPressOK={() => {
-						remove({ id: book.id }).then(() => navigate('UserProfile'))
-						setDialogPopupVisible(false)
-					}}
-					OnPressCancel={() => setDialogPopupVisible(false)}
-					isVisible={DialogPopupVisible}
-					setISVisible={setDialogPopupVisible}
-					title='DELETE BOOK!'
-					description='Are you sure you want to delete this book?'
-				/>
 				
 				<Animatable.View
 					className=' absolute z-50 bottom-3 flex-row left-28 right-28 items-center justify-between'
@@ -90,17 +74,6 @@ const SingleBookPage = ({ route }: any) => {
 					showsVerticalScrollIndicator={false}
 				>
 					<Header className='mt-4'>
-						{book.AutorUid && book.AutorUid.includes(Profile.uid) ? (
-							<TouchableOpacity
-								onPress={() => setDialogPopupVisible(true)}
-								className='flex-row gap-3 items-center'
-							>
-								<MaterialCommunityIcons name='book-remove' size={26} color='#FF0000' />
-								<Text className='text-[#FF0000] text-lg font-bold'>
-									{I18n.t('Delete book')}
-								</Text>
-							</TouchableOpacity>
-						) : null}
 						
 						<BookFavoritesButton
 							book={book}

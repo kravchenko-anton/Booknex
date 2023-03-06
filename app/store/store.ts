@@ -2,8 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { configureStore } from '@reduxjs/toolkit'
 import { persistReducer, persistStore } from 'redux-persist'
 import { api } from './api/api'
-import { bookApiSlice } from './api/book/GoogleBookApi'
-import { rtkQueryErrorLogger } from './middlewares/error.middleware'
 import { rootReducer } from './RootReducer'
 
 const persistConfig = {

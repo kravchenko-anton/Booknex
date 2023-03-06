@@ -1,31 +1,18 @@
-import I18n from 'i18n-js'
-import React, { FC, useRef } from 'react'
-import Toast from 'react-native-toast-message'
-import { useTypedNavigation } from '../../../../hook/useTypedNavigation'
-import {
-	useAddUserBookMutation,
-	useSearchBookByGoogleApiMutation
-} from '../../../../store/api/book/mutation'
-import {
-	useFetchAllBooksNoLangQuery,
-	useFetchAllBooksQuery
-} from '../../../../store/api/book/query'
-import { IaddBook } from './addBookPopup.interface'
-import { parseEpubMetadataPath, parseXML } from './ReadXML'
-import { UploadFile } from '../uploadFile'
-import { useState } from 'react'
-import {
-	StyleSheet,
-	Text,
-	View,
-	Pressable,
-	Alert,
-	Image,
-	TouchableOpacity
-} from 'react-native'
 import * as DocumentPicker from 'expo-document-picker'
 import * as FileSystem from 'expo-file-system'
+import I18n from 'i18n-js'
+import React, { FC, useState } from 'react'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
+import Toast from 'react-native-toast-message'
+import { useTypedNavigation } from '../../../../hook/useTypedNavigation'
+import { useAddUserBookMutation, useSearchBookByGoogleApiMutation } from '../../../../store/api/book/mutation'
+import { useFetchAllBooksNoLangQuery } from '../../../../store/api/book/query'
+import { UploadFile } from '../uploadFile'
+import { IaddBook } from './addBookPopup.interface'
+import { parseEpubMetadataPath, parseXML } from './ReadXML'
+
 var JSZip = require('jszip')
+
 interface IMetaData {
 	title: string
 	author: string
@@ -35,6 +22,7 @@ interface IMetaData {
 	antalSide: string
 	publishData: string
 }
+
 const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 	const [addUserBook] = useAddUserBookMutation()
 	const [image, setImage] = useState(
@@ -109,16 +97,15 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 		const penData = content.publishData.substring(0, 4)
 		const includes = AllBook?.find(book => book.Name == content.title)
 		if (
-			(content.title,
-			content.author,
-			content.lang,
-			epub,
-			image,
-			content.description,
-			content.antalSide,
-			content.publishData)
+			(content.title &&
+				content.author &&
+				content.lang &&
+				epub &&
+				image &&
+				content.description &&
+				content.antalSide &&
+				content.publishData)
 		) {
-			console.log(includes, 'includes')
 			if (!includes) {
 				await addUserBook({
 					book: {
@@ -135,7 +122,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 						AutorUid: user.uid
 					}
 				})
-
+				
 				setIsVisible(false)
 				setContent({} as IMetaData)
 			} else {
@@ -170,7 +157,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 						source={{ uri: image }}
 						className=' h-[210px] rounded-lg w-[130px]'
 					/>
-
+					
 					<View className='flex-1 ml-4'>
 						<Text numberOfLines={2} className='text-white font-bold text-2xl mt-6'>
 							{content.title ? content.title : I18n.t('None title')}
@@ -178,7 +165,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 						<Text className='text-gray  text-lg mt-2 font-semibold mb-2'>
 							{content.author ? content.author : I18n.t('None author')}
 						</Text>
-
+						
 						<Text className='text-gray text-lg'>
 							{' '}
 							{content.lang ? content.lang : I18n.t('None language')}
