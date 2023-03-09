@@ -239,9 +239,11 @@ const bookMutation = api.injectEndpoints({
 		}),
 		
 		// Get search results from google book api
+		// The results may not add up due to possible shortcomings of the google book api, this is the best solution available at the moment
 		SearchBookByGoogleApi: build.mutation({
 			async queryFn({ searchTerm, author, lang }) {
 				try {
+					
 					const ModifiedData = {
 						Mterm: searchTerm.trim()
 							.replace(/[\s_-]+/g, '+')
@@ -256,23 +258,47 @@ const bookMutation = api.injectEndpoints({
 							.replace(/\/\/\.epub/g, '')
 							.replace(/\\.epub/g, '')
 					}
-					const response = await fetch(
-						`https://www.googleapis.com/books/v1/volumes?q=intitle:${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+inauthor:${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))`)
-					const books = await response.json()
-					const CurrentNeedBook = books.items.find((item: any) => item.volumeInfo.imageLinks !== undefined)
-					const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`
-					)
-					const HightQuaittyImageJson = await HightQuaittyImage.json()
-					const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
-						? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
-						: CurrentNeedBook.volumeInfo.imageLinks.thumbnail
-					
-					const finalBook = {
-						...CurrentNeedBook.volumeInfo,
-						...{ HighQualityImage: imageSize }
+					try {
+						const response = await fetch(
+							`https://www.googleapis.com/books/v1/volumes?q=intitle:${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+inauthor:${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))&orderBy=relevance&maxResults=40`)
+						
+						
+						const books = await response.json()
+						
+						const CurrentNeedBook = books.items.find((item: any) => item.volumeInfo.imageLinks !== undefined)
+						const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`
+						)
+						const HightQuaittyImageJson = await HightQuaittyImage.json()
+						const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+							? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+							: CurrentNeedBook.volumeInfo.imageLinks.thumbnail
+						const finalBook = {
+							...CurrentNeedBook.volumeInfo,
+							...{ HighQualityImage: imageSize }
+						}
+						return { data: finalBook }
+					} catch (error) {
+						console.log(ModifiedData)
+						console.log('Тестовое чтобы чекнуть ошибку')
+						const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))&orderBy=relevance&maxResults=40`)
+						
+						const books = await response.json()
+						const CurrentNeedBook = books.items.find((item: any) => item.volumeInfo.imageLinks !== undefined)
+						console.log(CurrentNeedBook, 'CurrentNeedBook')
+						const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`)
+						const HightQuaittyImageJson = await HightQuaittyImage.json()
+						const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+							? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+							: CurrentNeedBook.volumeInfo.imageLinks.thumbnail
+						
+						const finalBook = {
+							...CurrentNeedBook.volumeInfo,
+							...{ HighQualityImage: imageSize }
+						}
+						return { data: finalBook }
 					}
-					return { data: finalBook }
 				} catch (error: any) {
+					console.log(error.message)
 					Toast.show({
 						text1: I18n.t('Something went wrong!'),
 						text2: I18n.t('MaybeProblemWithGoogleApi'),

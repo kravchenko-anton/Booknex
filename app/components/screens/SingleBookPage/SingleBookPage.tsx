@@ -92,7 +92,7 @@ const SingleBookPage = ({ route }: any) => {
 							<Text numberOfLines={2} className='text-white font-bold text-2xl mt-6'>
 								{book.Name}
 							</Text>
-							<Text className='text-gray  text-lg mt-2 font-semibold mb-2'>
+							<Text numberOfLines={1} className='text-gray  text-lg mt-2 font-semibold mb-2'>
 								{book.autor.join(', ')}
 							</Text>
 							

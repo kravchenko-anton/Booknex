@@ -57,6 +57,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 										const funalFileParsed = zip.file(`${funalDataParsed.subject}`)
 										if (funalFileParsed) {
 											funalFileParsed.async('string').then((content: any) => {
+												console.log(content)
 												parseXML(content).then((data: any) => {
 													GoogleBookApi({
 														searchTerm: data.title,
@@ -93,8 +94,18 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 		}
 	}
 	const UploadBook = async () => {
+		
 		const epub = await UploadFile(EpubBlob, EpubUrlPath)
-		const penData = content.publishData.substring(0, 4)
+		console.log({
+			title: content.title,
+			author: content.author,
+			lang: content.lang,
+			epub: epub,
+			image: image,
+			desc: content.description,
+			slide: content.antalSide ? content.antalSide : '>100',
+			data: content.publishData ? content.publishData.substring(0, 4) : '2023'
+		}, 'book data')
 		const includes = AllBook?.find(book => book.Name == content.title)
 		if (
 			(content.title &&
@@ -102,9 +113,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 				content.lang &&
 				epub &&
 				image &&
-				content.description &&
-				content.antalSide &&
-				content.publishData)
+				content.description && content.genres)
 		) {
 			if (!includes) {
 				await addUserBook({
@@ -117,8 +126,8 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 						comments: [],
 						autor: content.author,
 						bookLanguage: content.lang,
-						antalSider: content.antalSide,
-						penData: penData,
+						antalSider: content.antalSide ? content.antalSide : '>100',
+						penData: content.publishData ? content.publishData.substring(0, 4) : '2023',
 						AutorUid: user.uid
 					}
 				})

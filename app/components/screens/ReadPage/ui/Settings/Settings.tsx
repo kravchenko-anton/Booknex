@@ -1,12 +1,9 @@
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
-import BottomSheet, {
-	BottomSheetModalProvider,
-	BottomSheetScrollView
-} from '@gorhom/bottom-sheet'
+import BottomSheet, { BottomSheetModalProvider, BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import Slider from '@react-native-community/slider'
 import I18n from 'i18n-js'
 import React, { useState } from 'react'
-import { Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Pressable, Text, TouchableOpacity, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useTypedNavigation } from '../../../../../hook/useTypedNavigation'
 import { useAddBookToChatMutation } from '../../../../../store/api/book/mutation'
@@ -38,8 +35,13 @@ const Settings = (props: IReadSettings) => {
 								props.theme.body.background === '#121212' ? '#282828' : '#121212'
 						}}
 						snapPoints={[90, '50%', '70%']}
+						animateOnMount={true}
+						backdropComponent={() => <Pressable onPress={() => props.setIsVisible(!props.isVisible)} style={{
+							height: props.isVisible ? '100%' : 0
+						}}></Pressable>}
 					>
-						<BottomSheetScrollView style={{ padding: 10 }}>
+						<BottomSheetScrollView
+							style={{ padding: 10 }}>
 							{!searchState ? (
 								<>
 									<View className='flex-row justify-between mb-7'>
@@ -78,19 +80,19 @@ const Settings = (props: IReadSettings) => {
 											color='white'
 										/>
 									</View>
-
+									
 									<ChoseFont
 										setFontFamiles={props.setFontFamiles}
 										fontFamiles={props.fontFamiles}
 										changeFontFamily={props.changeFontFamily}
 									/>
-
+									
 									<ChoseColor
 										theme={props.theme}
 										setTheme={props.setTheme}
 										changeTheme={props.changeTheme}
 									/>
-
+									
 									<TocSettings
 										toc={props.toc}
 										theme={props.theme}
@@ -114,7 +116,7 @@ const Settings = (props: IReadSettings) => {
 				</BottomSheetModalProvider>
 			</GestureHandlerRootView>
 			{props.isVisible ? (
-				<View className='absolute w-full'>
+				<View className='absolute w-full h-full'>
 					<TouchableOpacity
 						style={{
 							backgroundColor:

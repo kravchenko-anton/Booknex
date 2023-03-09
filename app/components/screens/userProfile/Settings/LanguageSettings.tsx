@@ -1,13 +1,13 @@
-import { Feather, MaterialIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as Updates from 'expo-updates'
 import I18n from 'i18n-js'
-import React, { useTransition } from 'react'
+import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { en } from '../../../../utils/localization/en'
 import { ru } from '../../../../utils/localization/ru'
 import Header from '../../../ui/header'
 import Layout from '../../../ui/Layout/Layout'
-import * as Updates from 'expo-updates'
+
 const LanguageSettings = () => {
 	return (
 		<Layout>
@@ -16,7 +16,7 @@ const LanguageSettings = () => {
 					{I18n.t('LanguageSettings')}
 				</Text>
 			</Header>
-
+			
 			<Text className='mt-2 font-bold text-2xl text-white mb-8'>
 				{I18n.t('ChoseLanguage')} 👇
 			</Text>
@@ -35,7 +35,7 @@ const LanguageSettings = () => {
 						English 🌎
 					</Text>
 				</TouchableOpacity>
-
+				
 				<TouchableOpacity
 					onPress={async () => {
 						await AsyncStorage.setItem('language', 'ru')

@@ -11,7 +11,9 @@ export const ITEM_SIZE = Platform.OS === 'ios' ? width * 0.55 : width * 0.60
 export const EMPTY_ITEM_SIZE = (width - ITEM_SIZE) / 2
 
 export const useCarousel = () => {
-	const { data: book } = useFetchAllBooksQuery(null)
+	const { data: book } = useFetchAllBooksQuery(null, {
+		refetchOnFocus: true
+	})
 	const { navigate } = useTypedNavigation()
 	const CarouselBook = [
 		{ id: 'first' } as BookTypes,

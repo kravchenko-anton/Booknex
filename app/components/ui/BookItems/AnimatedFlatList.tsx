@@ -44,7 +44,7 @@ const AnimatedFlatList: FC<
 			stickyHeaderHiddenOnScroll={true}
 			ListHeaderComponent={<>{children}</>}
 			renderItem={({ item, index }) => {
-				const inputRange = [0, index * 100, 150 * index, 150 * (index + 10)]
+				const inputRange = [0, index * 50, 166 * index, 166 * (index + 2)]
 				const scale = scrollY.interpolate({
 					inputRange,
 					outputRange: [1, 0.5, 1, 1],

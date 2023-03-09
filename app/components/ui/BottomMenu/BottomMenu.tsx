@@ -1,4 +1,3 @@
-import { BlurView } from 'expo-blur'
 import { FC } from 'react'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -7,11 +6,11 @@ import ManuItem from '../../../navigation/ManuItem'
 import { menuItems } from '../../../navigation/menuItem'
 
 const BottomMenu: FC<{ currentRoute: string | undefined }> = ({
-	currentRoute
-}) => {
+	                                                              currentRoute
+                                                              }) => {
 	const { navigate } = useTypedNavigation()
 	const { bottom } = useSafeAreaInsets()
-
+	
 	return (
 		<View
 			style={{ paddingBottom: bottom + 5 }}

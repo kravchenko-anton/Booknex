@@ -61,7 +61,6 @@ const ReaderComponent = (props: {
 			<StatusBar
 				hidden={false}
 				style={theme.body.background === '#121212' ? 'light' : 'dark'}
-				// @ts-ignore, its unreal fix
 				backgroundColor={
 					theme.body.background === '#fff'
 						? '#fff'
@@ -124,7 +123,6 @@ const ReaderComponent = (props: {
 							changeFontFamily(fontFamiles)
 						}}
 						onDoublePress={() => setIsVisible(!isVisible)}
-						
 						onSwipeLeft={async () => {
 							// @ts-ignore
 							await AsyncStorage.setItem(props.epub, currentLocation.end.cfi)
@@ -172,6 +170,7 @@ const ReaderComponent = (props: {
 					/>
 				</SafeAreaView>
 			</View>
+			
 			<Settings
 				BookId={props.BookId}
 				toc={toc}
