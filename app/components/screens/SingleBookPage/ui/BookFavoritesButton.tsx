@@ -1,11 +1,9 @@
 import { AntDesign, Feather } from '@expo/vector-icons'
+import RNBounceable from '@freakycoder/react-native-bounceable'
 import { FC } from 'react'
 import { View } from 'react-native'
 import { BookTypes, Iuser } from '../../../../store/api/api.types'
-import {
-	useAddBookToFavoriteMutation,
-	useDeleteBookFromFavoriteMutation
-} from '../../../../store/api/book/mutation'
+import { useAddBookToFavoriteMutation, useDeleteBookFromFavoriteMutation } from '../../../../store/api/book/mutation'
 
 interface IFavoriteButon {
 	book: BookTypes
@@ -14,10 +12,10 @@ interface IFavoriteButon {
 }
 
 const BookFavoritesButton: FC<IFavoriteButon> = ({
-	book,
-	Profile,
-	StateUser
-}) => {
+	                                                 book,
+	                                                 Profile,
+	                                                 StateUser
+                                                 }) => {
 	const [addBook] = useAddBookToFavoriteMutation()
 	const [removeFromFavorite] = useDeleteBookFromFavoriteMutation()
 	const isFavorite = Profile?.favoritesBook?.some(item => item === book.id)
@@ -29,27 +27,27 @@ const BookFavoritesButton: FC<IFavoriteButon> = ({
 		description: book.description,
 		id: book.id
 	}
-
+	
 	return (
 		<View>
 			{!isFavorite ? (
-				<Feather
-					onPress={() =>
-						addBook({ currentUserUID: StateUser?.uid, book: Favoritedata })
-					}
-					name='heart'
-					size={24}
-					color='white'
-				/>
+				<RNBounceable bounceVelocityOut={5} onPress={() =>
+					addBook({ currentUserUID: StateUser?.uid, book: Favoritedata })}>
+					<Feather
+						name='heart'
+						size={24}
+						color='white'
+					/>
+				</RNBounceable>
 			) : (
-				<AntDesign
-					onPress={() =>
-						removeFromFavorite({ currentUserUID: StateUser?.uid, book: Favoritedata })
-					}
-					name='delete'
-					size={24}
-					color='white'
-				/>
+				<RNBounceable bounceVelocityOut={5}
+				              onPress={() => removeFromFavorite({ currentUserUID: StateUser?.uid, book: Favoritedata })}>
+					<AntDesign
+						name='delete'
+						size={24}
+						color='white'
+					/>
+				</RNBounceable>
 			)}
 		</View>
 	)

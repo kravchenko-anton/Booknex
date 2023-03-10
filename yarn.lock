@@ -2438,6 +2438,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@freakycoder/react-native-bounceable@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "@freakycoder/react-native-bounceable@npm:1.0.3"
+  checksum: c7355358e1ef025611896fe84376cb0411c26cb46dd6a8b54ab2347fdaf4cf964cd354a6f25c4460918e50c6c5dde4b8a17555bd1142a06ac7bd25fd30941191
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.0.1, @gar/promisify@npm:^1.1.3":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -4263,6 +4270,7 @@ __metadata:
     "@epubjs-react-native/core": "npm:^1.1.0"
     "@epubjs-react-native/expo-file-system": "npm:^1.0.0"
     "@expo/vector-icons": "npm:^13.0.0"
+    "@freakycoder/react-native-bounceable": "npm:^1.0.3"
     "@gorhom/bottom-sheet": "npm:^4.4.5"
     "@react-native-async-storage/async-storage": "npm:^1.17.11"
     "@react-native-community/slider": "npm:^4.4.2"

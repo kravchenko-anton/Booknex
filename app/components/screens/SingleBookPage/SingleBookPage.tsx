@@ -74,7 +74,6 @@ const SingleBookPage = ({ route }: any) => {
 					showsVerticalScrollIndicator={false}
 				>
 					<Header className='mt-4'>
-						
 						<BookFavoritesButton
 							book={book}
 							Profile={Profile}

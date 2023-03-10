@@ -1,8 +1,9 @@
+import RNBounceable from '@freakycoder/react-native-bounceable'
 import { Picker } from '@react-native-picker/picker'
 import { StatusBar } from 'expo-status-bar'
 import I18n from 'i18n-js'
 import React from 'react'
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, Text, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
@@ -32,7 +33,7 @@ const Home = () => {
 						<Text className='text-white text-xl font-bold'>{I18n.t('hi')}, {CurrentUser.name}</Text>
 						<Text className='text-gray text-md mt-1 font-thin'>{I18n.t('They good day for read new book!')}</Text>
 					</View>
-					<TouchableOpacity onPress={() => navigate('UserProfile')} className=' p-0'>
+					<RNBounceable onPress={() => navigate('UserProfile')} className=' p-0'>
 						{CurrentUser.photoURL ? (
 							<Image
 								source={{ uri: CurrentUser.photoURL }}
@@ -41,9 +42,9 @@ const Home = () => {
 						) : (
 							<ClearUserLogo latterSize={30} rounded={8} letter={CurrentUser.name} width={70} height={70} />
 						)}
-					</TouchableOpacity>
+					</RNBounceable>
 				</View>
-				<Text testID={'First text!!!'} className='text-2xl text-white font-bold mb-4'>{I18n.t('Library')} 📚 </Text>
+				<Text className='text-2xl text-white font-bold mb-4'>{I18n.t('Library')} 📚 </Text>
 				<AnimatedHomeFlatList
 					data={CurrentUser.startReadBook && CurrentUser.startReadBook.length ? [...CurrentUser.startReadBook].reverse() : []} />
 				<Animatable.View delay={300} animation={selectFavoriteBook ? ElementBottomAnimation : ElementBottomToTopAnimation}>
