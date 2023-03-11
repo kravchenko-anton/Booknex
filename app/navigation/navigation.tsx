@@ -1,9 +1,7 @@
-import {
-	NavigationContainer,
-	useNavigationContainerRef
-} from '@react-navigation/native'
+import { NavigationContainer, useNavigationContainerRef } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { useEffect, useState } from 'react'
+import { View } from 'react-native'
 import Auth from '../components/screens/Auth/Auth'
 import BottomMenu from '../components/ui/BottomMenu/BottomMenu'
 import { LanguageProvider } from '../components/ui/Layout/languageProvider'
@@ -21,12 +19,12 @@ const Navigation = () => {
 		const listener = navRef.addListener('state', () =>
 			setCurrentRoute(navRef.getCurrentRoute()?.name)
 		)
-
+		
 		return () => {
 			navRef.removeListener('state', listener)
 		}
 	}, [])
-
+	
 	return (
 		<LanguageProvider>
 			<NavigationContainer ref={navRef}>
@@ -50,7 +48,9 @@ const Navigation = () => {
 					)}
 				</Stack.Navigator>
 				{currentRoute !== 'ReadPage' && user ? (
-					<BottomMenu currentRoute={currentRoute} />
+					<View className='bg-black'>
+						<BottomMenu currentRoute={currentRoute} />
+					</View>
 				) : null}
 			</NavigationContainer>
 		</LanguageProvider>

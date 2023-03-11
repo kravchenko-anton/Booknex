@@ -36,7 +36,6 @@
 		"expo-updates": "^0.15.6",
 		"firebase": "^9.15.0",
 		"i18n-js": "3.8",
-		"install": "^0.13.0",
 		"jszip": "3.10.1",
 		"lottie-react-native": "^5.1.5",
 		"nativewind": "^2.0.11",

@@ -21,6 +21,7 @@ const Toast: FC = () => {
 		<RnToast
 			topOffset={50}
 			autoHide={true}
+			position={'top'}
 			config={{
 				success: props => <BaseToast {...props} {...options('#67E769')} />,
 				info: props => <BaseToast {...props} {...options('#65d4ff')} />,
