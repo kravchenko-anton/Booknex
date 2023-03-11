@@ -1,5 +1,4 @@
 import { AntDesign, Feather } from '@expo/vector-icons'
-import RNBounceable from '@freakycoder/react-native-bounceable'
 import { FC } from 'react'
 import { View } from 'react-native'
 import { BookTypes, Iuser } from '../../../../store/api/api.types'
@@ -31,23 +30,23 @@ const BookFavoritesButton: FC<IFavoriteButon> = ({
 	return (
 		<View>
 			{!isFavorite ? (
-				<RNBounceable bounceVelocityOut={5} onPress={() =>
-					addBook({ currentUserUID: StateUser?.uid, book: Favoritedata })}>
-					<Feather
-						name='heart'
-						size={24}
-						color='white'
-					/>
-				</RNBounceable>
+				<Feather
+					onPress={() =>
+						addBook({ currentUserUID: StateUser?.uid, book: Favoritedata })
+					}
+					name='heart'
+					size={24}
+					color='white'
+				/>
 			) : (
-				<RNBounceable bounceVelocityOut={5}
-				              onPress={() => removeFromFavorite({ currentUserUID: StateUser?.uid, book: Favoritedata })}>
-					<AntDesign
-						name='delete'
-						size={24}
-						color='white'
-					/>
-				</RNBounceable>
+				<AntDesign
+					onPress={() =>
+						removeFromFavorite({ currentUserUID: StateUser?.uid, book: Favoritedata })
+					}
+					name='delete'
+					size={24}
+					color='white'
+				/>
 			)}
 		</View>
 	)

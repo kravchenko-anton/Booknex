@@ -1,10 +1,6 @@
-import { Feather } from '@expo/vector-icons'
-import { RouteConfigComponent, RouteProp } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import RNBounceable from '@freakycoder/react-native-bounceable'
 import I18n from 'i18n-js'
-import { FC } from 'react'
 import { Image, Text, View } from 'react-native'
-import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useFetchCurrentUserBooksQuery } from '../../../store/api/book/query'
 import { useFetchSingleUserQuery } from '../../../store/api/user/query'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
@@ -19,23 +15,25 @@ const SingleUserPage = ({ route }: any) => {
 	const { uid } = route.params
 	const { data: user } = useFetchSingleUserQuery(uid)
 	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(user?.uid)
-
+	
 	if (!user) return <Loader />
 	return (
 		<Layout className='h-full'>
-			<AnimatedFlatList data={CurrentUserBook ? CurrentUserBook : []}>
+			<AnimatedFlatList contentHeight={500} data={CurrentUserBook ? CurrentUserBook : []}>
 				<Header className='mt-4'>
 					<AuthorFavoritesButton user={user} />
 				</Header>
-				<View className=' items-center mt-8'>
-					{user.photoURL ? (
-						<Image
-							source={{ uri: user.photoURL }}
-							className='w-[200px] border-2 border-primary h-[200px] rounded-full'
-						/>
-					) : (
-						<ClearUserLogo letter={user.name} width={150} height={150} />
-					)}
+				<View className='items-center mt-8'>
+					<RNBounceable>
+						{user.photoURL ? (
+							<Image
+								source={{ uri: user.photoURL }}
+								className='w-[200px] border-2 border-primary h-[200px] rounded-full'
+							/>
+						) : (
+							<ClearUserLogo letter={user.name} width={150} height={150} />
+						)}
+					</RNBounceable>
 					<Text className='text-white font-bold text-2xl mt-2'>{user.name}</Text>
 					<Text className='text-gray text-md'>{user.email}</Text>
 				</View>

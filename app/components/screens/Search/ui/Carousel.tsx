@@ -1,5 +1,6 @@
+import RNBounceable from '@freakycoder/react-native-bounceable'
 import React from 'react'
-import { Animated, Image, Platform, Pressable, Text, View } from 'react-native'
+import { Animated, Image, Platform, Text, View } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
 import { EMPTY_ITEM_SIZE, ITEM_SIZE, SPACING, useCarousel } from './useCarousel'
 
@@ -70,20 +71,20 @@ const Carousel = () => {
 								opacity
 							}}
 						>
-							<Pressable
-								className='w-full'
-								onPress={event =>
+							<View
+								className='w-full'>
+								<RNBounceable onPress={() =>
 									navigate('BookPage', {
 										id: item.id
 									})
-								}
-							>
-								<Image
-									source={{ uri: item.Image }}
-									className='w-full rounded-xl'
-									style={{ height: ITEM_SIZE * 1.4 }}
-								/>
-							</Pressable>
+								}>
+									<Image
+										source={{ uri: item.Image }}
+										className='w-full rounded-xl'
+										style={{ height: ITEM_SIZE * 1.4 }}
+									/>
+								</RNBounceable>
+							</View>
 							
 							<Animated.View style={{
 								opacity: opacityElements,

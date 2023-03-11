@@ -1,6 +1,6 @@
 import { Feather } from '@expo/vector-icons'
+import RNBounceable from '@freakycoder/react-native-bounceable'
 import { FC } from 'react'
-import { Pressable } from 'react-native'
 import { menuItems } from './menuItem'
 import { TypeRootStackParamList } from './navigationTypes'
 
@@ -16,13 +16,13 @@ interface IMenuItemProps {
 const ManuItem: FC<IMenuItemProps> = ({ nav, item, currentRoute }) => {
 	const isActive = currentRoute === item.path
 	return (
-		<Pressable onPress={() => nav(item.path)}>
+		<RNBounceable bounceEffectIn={1.2} onPress={() => nav(item.path)}>
 			<Feather
 				name={item.iconName}
 				size={30}
 				color={isActive ? 'white' : '#949494'}
 			/>
-		</Pressable>
+		</RNBounceable>
 	)
 }
 

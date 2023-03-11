@@ -1,5 +1,6 @@
+import RNBounceable from '@freakycoder/react-native-bounceable'
 import { FC, useRef } from 'react'
-import { Animated, FlatList, Image, Platform, Pressable, View } from 'react-native'
+import { Animated, FlatList, Image, Platform, View } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
 
@@ -30,12 +31,12 @@ const AnimatedBookFlatList: FC<{ data: BookTypes[] }> = ({ data }) => {
 					
 					return (
 						<Animated.View style={{ transform: [{ scale }], marginRight: 10 }}>
-							<Pressable onPress={() => navigate('BookPage', { id: item.id })}>
+							<RNBounceable onPress={() => navigate('BookPage', { id: item.id })}>
 								<Image
 									className='w-[150px] object-contain h-[250px] rounded-lg '
 									source={{ uri: item.Image }}
 								/>
-							</Pressable>
+							</RNBounceable>
 						</Animated.View>
 					)
 				}}

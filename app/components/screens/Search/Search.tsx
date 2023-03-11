@@ -25,6 +25,8 @@ const Search = () => {
 	const { data: Users } = useFetchUserQuery(null)
 	const { data: MostPopular } = useFetchMostPopularBooksQuery(null)
 	const { data: RandomBook } = useFetchRandomBooksQuery(null)
+	console.log(Users?.filter((user: { name: string }) =>
+		user.name.includes(watch('Search'))).length ? 134 : 0, 'ads')
 	if (!book || !Users || !MostPopular || !RandomBook) return <Loader />
 	return (
 		<Layout className=' p-0 h-full'>
@@ -36,10 +38,11 @@ const Search = () => {
 				/>
 			</View>
 			{watch('Search', '') !== '' ? (
-				<View className='p-3 pt-0'>
+				<View className='p-3 pt-0 flex-1'>
 					<AnimatedFlatList
 						data={book.filter(item => item.Name.includes(watch('Search')))}
-					>
+						contentHeight={Users?.filter((user: { name: string }) =>
+							user.name.includes(watch('Search'))).length ? 134 : 0}>
 						{watch('Search') != '' &&
 						Users.filter(user => user.name.includes(watch('Search'))).length > 0 ? (
 							<ScrollView

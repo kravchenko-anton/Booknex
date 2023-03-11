@@ -93,7 +93,7 @@ export const ru = {
 	'Min term length = 5': 'Минимальная длина запроса = 5',
 	'RTK error': 'Ошибка RTK',
 	'No Books': 'Нет книг',
-	'You not have books': 'У вас нет книг',
+	'You not have books': 'Нет книг',
 	'Random Books': 'Случайные книги',
 	'Library': 'Библиотека',
 	'Continue Reading': 'Продолжить чтение',

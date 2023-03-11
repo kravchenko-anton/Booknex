@@ -95,7 +95,7 @@ export const en = {
 	'Min term length = 5': 'Min term length = 5',
 	'RTK error': 'RTK error',
 	'No Books': 'No Books',
-	'You not have books': 'You not have books',
+	'You not have books': 'Not have books',
 	'Random Books': 'Random Books',
 	'Library': 'Library',
 	'Continue Reading': 'Continue Reading',

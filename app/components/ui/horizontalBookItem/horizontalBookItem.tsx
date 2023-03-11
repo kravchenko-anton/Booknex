@@ -1,3 +1,4 @@
+import RNBounceable from '@freakycoder/react-native-bounceable'
 import { FC, PropsWithChildren } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { horizontalBookItemTypes } from './horizontalBookItemTypes'
@@ -6,7 +7,9 @@ import { horizontalBookItemTypes } from './horizontalBookItemTypes'
 const HorizontalBookItem: FC<PropsWithChildren<horizontalBookItemTypes>> = (props) => {
 	return <View className=''>
 		<View className=' flex-row rounded-md'>
-			<Image source={{ uri: props.imageUrl }} className='w-[150px] rounded-lg h-[230px]' />
+			<RNBounceable>
+				<Image source={{ uri: props.imageUrl }} className='w-[150px] rounded-lg h-[230px]' />
+			</RNBounceable>
 			<View className='flex-1'>
 				<View className='ml-3 max-h-[230px] h-[230px] justify-end'>
 					<Text numberOfLines={1} className='text-white font-bold text-3xl'>{props.title}</Text>

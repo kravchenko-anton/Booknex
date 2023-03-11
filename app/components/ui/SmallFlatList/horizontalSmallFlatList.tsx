@@ -35,7 +35,7 @@ const HorizontalSmallFlatList: FC<
 			ref={ref => (listRef = ref)}
 			onContentSizeChange={() => listRef.scrollToOffset({ animated: true, offset: 0 })}
 			decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
-			scrollEnabled={data.length > 3}
+			scrollEnabled={data.length > 2}
 			snapToInterval={160}
 			bounces={false}
 			onScroll={Animated.event(

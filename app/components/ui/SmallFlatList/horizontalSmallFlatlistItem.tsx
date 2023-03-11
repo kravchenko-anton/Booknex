@@ -1,5 +1,6 @@
+import RNBounceable from '@freakycoder/react-native-bounceable'
 import { FC } from 'react'
-import { Animated, Image, Pressable } from 'react-native'
+import { Animated, Image } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useFetchSingleBookQuery } from '../../../store/api/book/query'
 import { ISmallFlatItem } from './SmallFlatlistTypes'
@@ -13,12 +14,12 @@ const HorizontalSmallFlatlistItem: FC<ISmallFlatItem> = ({ BookId, scale }) => {
 	
 	return (
 		<Animated.View style={{ transform: [{ scale: scale }], marginRight: 10 }}>
-			<Pressable onPress={() => navigate('BookPage', { id: book.id })}>
+			<RNBounceable onPress={() => navigate('BookPage', { id: book.id })}>
 				<Image
 					className='w-[150px] object-contain h-[250px] rounded-lg '
 					source={{ uri: book.Image }}
 				/>
-			</Pressable>
+			</RNBounceable>
 		</Animated.View>
 	)
 }

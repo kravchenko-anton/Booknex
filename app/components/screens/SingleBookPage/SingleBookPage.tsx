@@ -52,7 +52,9 @@ const SingleBookPage = ({ route }: any) => {
 				
 				
 				<Animatable.View
-					className=' absolute z-50 bottom-3 flex-row left-28 right-28 items-center justify-between'
+					className=' absolute z-50 bottom-3 flex-row left-28 right-28 items-center justify-between' useNativeDriver={true}
+					duration={1000}
+					renderToHardwareTextureAndroid={true}
 					animation={visibleButton ? BottomAnimation : BottomAnimationEndToStart}
 				>
 					<Pressable
@@ -70,7 +72,10 @@ const SingleBookPage = ({ route }: any) => {
 					</Pressable>
 				</Animatable.View>
 				<ScrollView
-					onTouchEndCapture={() => setVisibleButton(!visibleButton)}
+					onScroll={(event) => {
+						setVisibleButton(event.nativeEvent.contentOffset.y < 30)
+						console.log(event.nativeEvent.contentOffset.y)
+					}}
 					showsVerticalScrollIndicator={false}
 				>
 					<Header className='mt-4'>

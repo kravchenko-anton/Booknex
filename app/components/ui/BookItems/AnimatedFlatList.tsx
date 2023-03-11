@@ -8,15 +8,15 @@ import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
 
 const AnimatedFlatList: FC<
-	PropsWithChildren<{ data: BookTypes[]; id?: string }>
-> = ({ children, data }) => {
+	PropsWithChildren<{ data: BookTypes[]; id?: string, contentHeight: number }>
+> = ({ children, data, contentHeight }) => {
 	const { navigate } = useTypedNavigation()
 	const scrollY = useRef(new Animated.Value(0)).current
 	const animationRef = useRef<Lottie>(null)
 	let listRef: any = useRef<FlatList | any>(null)
+	console.log('contentHeight', contentHeight)
 	return (
 		<Animated.FlatList
-			renderToHardwareTextureAndroid={true}
 			data={data}
 			ref={ref => (listRef = ref)}
 			extraData={data}
@@ -38,16 +38,13 @@ const AnimatedFlatList: FC<
 						className='absolute bottom-5 text-2xl text-white text-center justify-center'>{I18n.t('You not have books')} 🙄</Text>
 				</View>
 			)}
-			showsVerticalScrollIndicator={false}
-			invertStickyHeaders={true}
-			scrollEventThrottle={16}
-			stickyHeaderHiddenOnScroll={true}
 			ListHeaderComponent={<>{children}</>}
 			renderItem={({ item, index }) => {
-				const inputRange = [0, index * 50, 166 * index, 166 * (index + 2)]
+				console.log(contentHeight)
+				const inputRange = [0, index, index * 166 + contentHeight, 166 * (index + 2) + contentHeight]
 				const scale = scrollY.interpolate({
 					inputRange,
-					outputRange: [1, 0.5, 1, 1],
+					outputRange: [1, 1, 1, 0],
 					extrapolate: 'clamp'
 				})
 				return (
@@ -55,10 +52,8 @@ const AnimatedFlatList: FC<
 						key={item.id}
 						style={{ transform: [{ scale: scale }], marginVertical: 8, height: 150 }}
 					>
-						<Pressable
-							onPress={() => navigate('BookPage', { id: item.id })}
-							className='flex-row'
-						>
+						
+						<Pressable onPress={() => navigate('BookPage', { id: item.id })} className='w-full flex-row'>
 							<Image
 								source={{ uri: item.Image }}
 								className='w-[100px] object-contain h-[150px] rounded-lg '
@@ -93,8 +88,7 @@ const AnimatedFlatList: FC<
 					</Animated.View>
 				)
 			}}
-		/>
-	)
+		/>)
 }
 
 export default AnimatedFlatList
