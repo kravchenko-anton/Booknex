@@ -19,6 +19,7 @@
 		"@react-native-picker/picker": "^2.4.8",
 		"@react-navigation/native": "^6.1.2",
 		"@react-navigation/native-stack": "^6.9.8",
+		"@redux-offline/redux-offline": "2.6.0-expo.0",
 		"@reduxjs/toolkit": "^1.9.1",
 		"@types/i18n": "^0.13.6",
 		"@types/i18n-js": "^3.8.4",

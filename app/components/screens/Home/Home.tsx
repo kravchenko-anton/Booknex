@@ -85,7 +85,8 @@ const Home = () => {
 						             value={false} />
 					</Picker>
 				</View>
-				<Animatable.View delay={300} animation={selectFavoriteBook ? ElementBottomAnimation : ElementBottomToTopAnimation}>
+				<Animatable.View delay={300} animation={selectFavoriteBook ? ElementBottomAnimation : ElementBottomToTopAnimation}
+				                 className='mb-3'>
 					<HorizontalSmallFlatList data={selectFavoriteBook ? CurrentUser.favoritesBook : CurrentUser.finishedBook} />
 				
 				</Animatable.View>

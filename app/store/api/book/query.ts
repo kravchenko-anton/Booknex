@@ -13,6 +13,13 @@ const bookQuery = api.injectEndpoints({
 		fetchCurrentUserBooks: build.query({
 			async queryFn(AutorUid) {
 				try {
+					//
+					// const storedBooks = await AsyncStorage.getItem('CurrentUserBooks' + AutorUid)
+					// if (storedBooks) {
+					// 	console.log('AutorUid from storage')
+					// 	return JSON.parse(storedBooks)
+					// }
+					//
 					const q = query(
 						collection(db, 'userBook'),
 						where('AutorUid', '==', AutorUid)
@@ -22,6 +29,9 @@ const bookQuery = api.injectEndpoints({
 					querySnaphot?.forEach(doc => {
 						books.push({ id: doc.id, ...doc.data() } as BookTypes)
 					})
+					
+					//
+					// await AsyncStorage.setItem('CurrentUserBooks' + AutorUid, JSON.stringify({ data: books }))
 					return { data: books }
 				} catch (error: any) {
 					Toast.show({
@@ -40,6 +50,11 @@ const bookQuery = api.injectEndpoints({
 		fetchMostPopularBooks: build.query({
 			async queryFn() {
 				try {
+					// const storedBooks = await AsyncStorage.getItem('Mostpopular')
+					// if (storedBooks) {
+					// 	console.log('Most From from storage')
+					// 	return JSON.parse(storedBooks)
+					// }
 					const userBookRef = collection(db, 'userBook')
 					const booksRef = collection(db, 'books')
 					const UserquerySnaphot = await getDocs(userBookRef)
@@ -73,6 +88,9 @@ const bookQuery = api.injectEndpoints({
 							})
 						}
 					})
+					
+					// await AsyncStorage.setItem('Mostpopular', JSON.stringify({ data: books.sort((a, b) => b.rating - a.rating) }))
+					
 					return { data: books.sort((a, b) => b.rating - a.rating) }
 				} catch (error: any) {
 					Toast.show({
@@ -90,6 +108,7 @@ const bookQuery = api.injectEndpoints({
 		fetchAllBooks: build.query({
 			async queryFn() {
 				try {
+					
 					const userBookRef = collection(db, 'userBook')
 					const booksRef = collection(db, 'books')
 					const UserquerySnaphot = await getDocs(userBookRef)
@@ -105,7 +124,6 @@ const bookQuery = api.injectEndpoints({
 							books.push({ id: doc.id, ...doc.data() } as BookTypes)
 						}
 					})
-					
 					return { data: books }
 				} catch (error: any) {
 					Toast.show({
@@ -124,6 +142,13 @@ const bookQuery = api.injectEndpoints({
 		fetchRandomBooks: build.query({
 			async queryFn() {
 				try {
+					//
+					// const storedBooks = await AsyncStorage.getItem('randomBook')
+					// if (storedBooks) {
+					// 	console.log('randomBook from storage')
+					// 	return JSON.parse(storedBooks)
+					// }
+					
 					const userBookRef = collection(db, 'userBook')
 					const booksRef = collection(db, 'books')
 					const UserquerySnaphot = await getDocs(userBookRef)
@@ -139,6 +164,7 @@ const bookQuery = api.injectEndpoints({
 							books.push({ id: doc.id, ...doc.data() } as BookTypes)
 						}
 					})
+					// await AsyncStorage.setItem('randomBook', JSON.stringify({ data: randChoice<BookTypes>(books) }))
 					return { data: randChoice<BookTypes>(books) }
 				} catch (error: any) {
 					Toast.show({

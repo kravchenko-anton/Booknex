@@ -74,7 +74,6 @@ const SingleBookPage = ({ route }: any) => {
 				<ScrollView
 					onScroll={(event) => {
 						setVisibleButton(event.nativeEvent.contentOffset.y < 30)
-						console.log(event.nativeEvent.contentOffset.y)
 					}}
 					showsVerticalScrollIndicator={false}
 				>

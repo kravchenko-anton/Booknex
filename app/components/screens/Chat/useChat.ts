@@ -8,9 +8,9 @@ import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
 import { useAddMessageToChatMutation } from '../../../store/api/book/mutation'
 import { useFetchSingleBookQuery } from '../../../store/api/book/query'
-import { db } from '../../../utils/firebase'
 import { badWords } from '../../../utils/badWords'
-import { IMessage } from './ui/Message'
+import { db } from '../../../utils/firebase'
+import { IMessage } from './ui/messageTypes'
 
 export const useChat = (BookId: string) => {
 	const [addMessage] = useAddMessageToChatMutation()
@@ -42,7 +42,7 @@ export const useChat = (BookId: string) => {
 		}
 		getChats()
 	}, [])
-
+	
 	const handeSublit = (data: any) => {
 		{
 			data.Message !== ''
@@ -51,7 +51,7 @@ export const useChat = (BookId: string) => {
 			reset()
 		}
 	}
-
+	
 	return {
 		handeSublit,
 		control,

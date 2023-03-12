@@ -1453,7 +1453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.14.0, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.14.0, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2, @babel/runtime@npm:^7.9.6":
   version: 7.21.0
   resolution: "@babel/runtime@npm:7.21.0"
   dependencies:
@@ -3142,6 +3142,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@redux-offline/redux-offline@npm:2.6.0-expo.0":
+  version: 2.6.0-expo.0
+  resolution: "@redux-offline/redux-offline@npm:2.6.0-expo.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.9.6"
+    redux-persist: "npm:^4.6.0"
+  peerDependencies:
+    redux: ">=3"
+  checksum: 730dbdc4e7c7cfe3231ee683c44468746497d4fcb6d7f0d13de24360a421d537ef1e17ef030ad3a524d3795a22f4b34b2e72622d4b297ffbb4e5c4d5957ef54d
+  languageName: node
+  linkType: hard
+
 "@reduxjs/toolkit@npm:^1.9.1":
   version: 1.9.3
   resolution: "@reduxjs/toolkit@npm:1.9.3"
@@ -4277,6 +4289,7 @@ __metadata:
     "@react-native-picker/picker": "npm:^2.4.8"
     "@react-navigation/native": "npm:^6.1.2"
     "@react-navigation/native-stack": "npm:^6.9.8"
+    "@redux-offline/redux-offline": "npm:2.6.0-expo.0"
     "@reduxjs/toolkit": "npm:^1.9.1"
     "@testing-library/jest-dom": "npm:^5.16.5"
     "@types/i18n": "npm:^0.13.6"
@@ -7878,6 +7891,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"json-stringify-safe@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "json-stringify-safe@npm:5.0.1"
+  checksum: e86f7bb748bb84f73b171bb68c8209a1e68f40d41f943952f746fa4ca3802c1edf4602e86977c2de44eba1e64e4cabe2498f4499003cc471e99db83bfba95898
+  languageName: node
+  linkType: hard
+
 "json5@npm:^0.5.1":
   version: 0.5.1
   resolution: "json5@npm:0.5.1"
@@ -8062,6 +8082,13 @@ __metadata:
   dependencies:
     p-locate: "npm:^5.0.0"
   checksum: 8a665300e1e248fe80a27db16616059dfb57d7d6cd14a9893f7b66eee097f0bdffeecdc80e8565f74b253efe6c93f46fe65f2af1513883845bcf38956d35667b
+  languageName: node
+  linkType: hard
+
+"lodash-es@npm:^4.17.4":
+  version: 4.17.21
+  resolution: "lodash-es@npm:4.17.21"
+  checksum: d1c3ee94118daeeee47c630ab5f91e94cc4e41ebe2452d837edbe599e853eb2d4be7edf82b4fe62f9fc74f27a8ed7f82fdbd9d301d0acef88f00941db64c4843
   languageName: node
   linkType: hard
 
@@ -10480,6 +10507,17 @@ __metadata:
   peerDependencies:
     redux: ">4.0.0"
   checksum: b29fe7e736dc765b8378dee3b37e48691f35d9e8e7ff98ca844769bf221d9eed4b632de737017932ec76da440745bdaad18d5181bd1405c5cde07c6f1a9b0865
+  languageName: node
+  linkType: hard
+
+"redux-persist@npm:^4.6.0":
+  version: 4.10.2
+  resolution: "redux-persist@npm:4.10.2"
+  dependencies:
+    json-stringify-safe: "npm:^5.0.1"
+    lodash: "npm:^4.17.4"
+    lodash-es: "npm:^4.17.4"
+  checksum: 42724f7850bdcdf6f813b96c2b533d5046b0b935c32b1ba18ef6bee4226ba569a7ae259c1015dedfbbb0981823bdbbd3354729d9777ab22dcb1228256ed06541
   languageName: node
   linkType: hard
 

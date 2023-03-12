@@ -24,7 +24,7 @@ const BookChat = ({ route }: any) => {
 		<Layout className='h-full'>
 			<StatusBar backgroundColor='#121212' />
 			<Header className='mb-2 mt-2'>
-				<Text className='text-2xl text-white font-bold'>{book?.Name}</Text>
+				<Text numberOfLines={1} className='text-2xl text-white font-bold'>{book?.Name}</Text>
 			</Header>
 			<ScrollView
 				ref={scrollViewRef}

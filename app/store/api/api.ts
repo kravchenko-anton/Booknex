@@ -1,4 +1,6 @@
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
+
+
 //export const db = getFirestore(app) inside firebase setting
 
 export const api = createApi({
@@ -7,3 +9,4 @@ export const api = createApi({
 	tagTypes: ['book', 'user', 'chat'],
 	endpoints: builder => ({})
 })
+

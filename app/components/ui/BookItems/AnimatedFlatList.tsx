@@ -14,7 +14,6 @@ const AnimatedFlatList: FC<
 	const scrollY = useRef(new Animated.Value(0)).current
 	const animationRef = useRef<Lottie>(null)
 	let listRef: any = useRef<FlatList | any>(null)
-	console.log('contentHeight', contentHeight)
 	return (
 		<Animated.FlatList
 			data={data}
@@ -40,7 +39,6 @@ const AnimatedFlatList: FC<
 			)}
 			ListHeaderComponent={<>{children}</>}
 			renderItem={({ item, index }) => {
-				console.log(contentHeight)
 				const inputRange = [0, index, index * 166 + contentHeight, 166 * (index + 2) + contentHeight]
 				const scale = scrollY.interpolate({
 					inputRange,
