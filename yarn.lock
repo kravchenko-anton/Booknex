@@ -1453,7 +1453,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.14.0, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2, @babel/runtime@npm:^7.9.6":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.1, @babel/runtime@npm:^7.14.0, @babel/runtime@npm:^7.6.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2, @babel/runtime@npm:^7.9.6":
   version: 7.21.0
   resolution: "@babel/runtime@npm:7.21.0"
   dependencies:
@@ -3029,6 +3029,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/netinfo@npm:^9.3.7":
+  version: 9.3.7
+  resolution: "@react-native-community/netinfo@npm:9.3.7"
+  peerDependencies:
+    react-native: ">=0.59"
+  checksum: b0bde4251e634258670834653a8274cb216d4723ed5d40901f97fee66024cc933ab97a81bcac7b15a76f8d263f02cffc08e24f9671ceb2f89371de1e6e42f379
+  languageName: node
+  linkType: hard
+
 "@react-native-community/slider@npm:^4.4.2":
   version: 4.4.2
   resolution: "@react-native-community/slider@npm:4.4.2"
@@ -3151,6 +3160,62 @@ __metadata:
   peerDependencies:
     redux: ">=3"
   checksum: 730dbdc4e7c7cfe3231ee683c44468746497d4fcb6d7f0d13de24360a421d537ef1e17ef030ad3a524d3795a22f4b34b2e72622d4b297ffbb4e5c4d5957ef54d
+  languageName: node
+  linkType: hard
+
+"@redux-saga/core@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "@redux-saga/core@npm:1.2.2"
+  dependencies:
+    "@babel/runtime": "npm:^7.6.3"
+    "@redux-saga/deferred": "npm:^1.2.1"
+    "@redux-saga/delay-p": "npm:^1.2.1"
+    "@redux-saga/is": "npm:^1.1.3"
+    "@redux-saga/symbols": "npm:^1.1.3"
+    "@redux-saga/types": "npm:^1.2.1"
+    redux: "npm:^4.0.4"
+    typescript-tuple: "npm:^2.2.1"
+  checksum: c01c0ebf27e356a453c3c3134e2e914d03614b1ea40eb6e1fbd84c55a257ad3e41a5ac63a78e80259ddd3155f03a0aa8acef3ebdaeebdc2a94b43a0726bbbd42
+  languageName: node
+  linkType: hard
+
+"@redux-saga/deferred@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@redux-saga/deferred@npm:1.2.1"
+  checksum: efc2e19f5e551169d01572bac5089b76d14c939e8ccf9e4dfe6130092b72e9ac2e5b9691d03dc1fddd07fda14e0129f8a6cac3d09176aa90b928a7d35e69ab31
+  languageName: node
+  linkType: hard
+
+"@redux-saga/delay-p@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@redux-saga/delay-p@npm:1.2.1"
+  dependencies:
+    "@redux-saga/symbols": "npm:^1.1.3"
+  checksum: f68e0f21869699414198941defeaca821bb7a7a6b3704a69013eba270780d410e095f3344723dbc4f27acbb6175b4a9f984f342508a5a02f3b81819b5e3592af
+  languageName: node
+  linkType: hard
+
+"@redux-saga/is@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@redux-saga/is@npm:1.1.3"
+  dependencies:
+    "@redux-saga/symbols": "npm:^1.1.3"
+    "@redux-saga/types": "npm:^1.2.1"
+  checksum: 99f6de35e4ab7acac3dc9117370634099e84a2c03fa1e2bb45838594f38b405294065ef53a8598ce64b67d72e3656d52ec204baa68b84b469d69e36a21e7ac36
+  languageName: node
+  linkType: hard
+
+"@redux-saga/symbols@npm:^1.1.3":
+  version: 1.1.3
+  resolution: "@redux-saga/symbols@npm:1.1.3"
+  checksum: 716a9a8be363ce9ac6b1825a2c0fb8d7576771bedb3f9357c34c441e7604ecd2a14a28a267225035e00953125f28b261067a3f0e3f27721df1d86e48da936c19
+  languageName: node
+  linkType: hard
+
+"@redux-saga/types@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@redux-saga/types@npm:1.2.1"
+  checksum: d45f477e7ef9c319e8fb955f0d09cc386edee184447eef3c566047b7867c491291799fe95271d2bc1dd41d224ee6be25c31bc7708d9ffd4f4d4ba1c9df6208e2
   languageName: node
   linkType: hard
 
@@ -4285,6 +4350,7 @@ __metadata:
     "@freakycoder/react-native-bounceable": "npm:^1.0.3"
     "@gorhom/bottom-sheet": "npm:^4.4.5"
     "@react-native-async-storage/async-storage": "npm:^1.17.11"
+    "@react-native-community/netinfo": "npm:^9.3.7"
     "@react-native-community/slider": "npm:^4.4.2"
     "@react-native-picker/picker": "npm:^2.4.8"
     "@react-navigation/native": "npm:^6.1.2"
@@ -4324,6 +4390,7 @@ __metadata:
     react-native-fs: "npm:^2.20.0"
     react-native-gesture-handler: "npm:^2.9.0"
     react-native-modal: "npm:^13.0.1"
+    react-native-offline: "npm:^6.0.2"
     react-native-popup-dialog: "npm:^0.18.3"
     react-native-ratings: "npm:^8.1.0"
     react-native-reanimated: "npm:~2.12.0"
@@ -8120,7 +8187,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.13, lodash@npm:^4.17.15, lodash@npm:^4.17.21, lodash@npm:^4.17.4":
+"lodash@npm:^4.17.11, lodash@npm:^4.17.13, lodash@npm:^4.17.15, lodash@npm:^4.17.21, lodash@npm:^4.17.4":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 3ac18e92108d68f88429fcddee609e42cf2b653583d9bac22308815a4cd6b185b89a0ad0d9b0c670c371d9d6b61571a98fee6b36e1db14e52766ca253ed9cba0
@@ -10191,6 +10258,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-offline@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "react-native-offline@npm:6.0.2"
+  dependencies:
+    lodash: "npm:^4.17.11"
+    react-redux: "npm:>=7"
+    redux: "npm:>=3"
+    redux-saga: "npm:^1.0.2"
+  peerDependencies:
+    "@react-native-community/netinfo": ">=6"
+    react-native: ">=0.60"
+    react-redux: ">=7"
+    redux: ">=3"
+    redux-saga: ">=1.x"
+  checksum: 207f1c0a81195baad1ca419a54b6710b27be79f8426bcffe4428cd972789b53cb486758daf0aadf69a67707b371d41980eebea1b21eccd87e8d64590ed2e2755
+  languageName: node
+  linkType: hard
+
 "react-native-popup-dialog@npm:^0.18.3":
   version: 0.18.3
   resolution: "react-native-popup-dialog@npm:0.18.3"
@@ -10359,7 +10444,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-redux@npm:^8.0.5":
+"react-redux@npm:>=7, react-redux@npm:^8.0.5":
   version: 8.0.5
   resolution: "react-redux@npm:8.0.5"
   dependencies:
@@ -10521,6 +10606,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"redux-saga@npm:^1.0.2":
+  version: 1.2.2
+  resolution: "redux-saga@npm:1.2.2"
+  dependencies:
+    "@redux-saga/core": "npm:^1.2.2"
+  checksum: b1f595791dfd431326775d2d4fa54be62b7b5ef84ed36e564d97d79d5826fc9f72286399b3697a7b770c5caebbdf3301df0286757f0b60922b9b68353aa73093
+  languageName: node
+  linkType: hard
+
 "redux-thunk@npm:^2.4.2":
   version: 2.4.2
   resolution: "redux-thunk@npm:2.4.2"
@@ -10530,7 +10624,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redux@npm:^4.2.0":
+"redux@npm:>=3, redux@npm:^4.0.4, redux@npm:^4.2.0":
   version: 4.2.1
   resolution: "redux@npm:4.2.1"
   dependencies:
@@ -11942,6 +12036,31 @@ __metadata:
     media-typer: "npm:0.3.0"
     mime-types: "npm:~2.1.24"
   checksum: 1cf58e1d0c2129201bee6abe8029f5dda621f86a1094955b6510c9baf879a45f725b2e19c7dc1f04a623a0edd8f3cc39cc4d4899287c805b6b1177c961f46564
+  languageName: node
+  linkType: hard
+
+"typescript-compare@npm:^0.0.2":
+  version: 0.0.2
+  resolution: "typescript-compare@npm:0.0.2"
+  dependencies:
+    typescript-logic: "npm:^0.0.0"
+  checksum: c9945b8084819b9bb7aa6a370d570cdc47b7498dc3f1aba16376d4d6f05c3ad7324c5f54903534f30986cfdec90775f281f6769f399aa9d77bcf54300f40cb92
+  languageName: node
+  linkType: hard
+
+"typescript-logic@npm:^0.0.0":
+  version: 0.0.0
+  resolution: "typescript-logic@npm:0.0.0"
+  checksum: 3b2ed9aeb4a0abc7c422b46d0c09edae5053ddb0723e359b9e2f709655c5c42256cf9db0b390706f4066daaf46252900c95fd21f0b19a97d3e06e311addba219
+  languageName: node
+  linkType: hard
+
+"typescript-tuple@npm:^2.2.1":
+  version: 2.2.1
+  resolution: "typescript-tuple@npm:2.2.1"
+  dependencies:
+    typescript-compare: "npm:^0.0.2"
+  checksum: 53f3b380618ef56eb7c58f5cf027baf547416d8ef8145ac0b053e4f61bbef581c0f018393868e4cfa02c281d2250a9b8fd21d12615db992033e100702f4dea61
   languageName: node
   linkType: hard
 

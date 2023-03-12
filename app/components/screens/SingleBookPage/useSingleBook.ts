@@ -23,7 +23,7 @@ export const useSingleBook = (id: string) => {
 					setLastReadPage(value)
 				}
 			} catch (e) {
-				console.log(e)
+				// It not matters needed to be catched
 			}
 		}
 		parseLastPage()

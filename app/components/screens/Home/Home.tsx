@@ -40,7 +40,7 @@ const Home = () => {
 								className='w-[70px] h-[70px] rounded-full'
 							/>
 						) : (
-							<ClearUserLogo latterSize={30} rounded={8} letter={CurrentUser.name} width={70} height={70} />
+							<ClearUserLogo latterSize={30} rounded={100} letter={CurrentUser.name} width={70} height={70} />
 						)}
 					</RNBounceable>
 				</View>

@@ -3,6 +3,8 @@ import { ComponentType } from 'react'
 export type TypeRootStackParamList = {
 	Home: undefined
 	Search: undefined
+	NoInternet: undefined
+	
 	BookPage: {
 		id?: number | string
 		uid?: number | string

@@ -10,6 +10,7 @@ import PasswordChange from '../components/screens/userProfile/Settings/PasswordS
 import Settings from '../components/screens/userProfile/Settings/Settings'
 import UserSettings from '../components/screens/userProfile/Settings/UserSettings'
 import userProfile from '../components/screens/userProfile/userProfile'
+import NoInternet from '../components/ui/noInternet'
 import { iRoutes } from './navigationTypes'
 
 export const userRoutes: iRoutes[] = [
@@ -20,6 +21,10 @@ export const userRoutes: iRoutes[] = [
 	{
 		name: 'Chat',
 		component: BookChat
+	},
+	{
+		name: 'NoInternet',
+		component: NoInternet
 	},
 	{
 		name: 'Settings',
