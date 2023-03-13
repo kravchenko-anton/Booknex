@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
+import I18n from 'i18n-js'
+import Toast from 'react-native-toast-message'
 import { db } from '../../../utils/firebase'
 import { api } from '../api'
 import { Iuser } from '../api.types'
@@ -12,8 +14,15 @@ const userQueryApi = api.injectEndpoints({
 			async queryFn() {
 				try {
 					const isConnetcted = await NetInfo.fetch()
-					console.log(isConnetcted.isConnected)
 					const storedBooks = await AsyncStorage.getItem('allUsers')
+					if (!storedBooks && !isConnetcted.isConnected) {
+						console.log('No internet connection for new content!')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: [] as Iuser[] }
+					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('allUsers from storage')
 						console.log(await JSON.parse(storedBooks))
@@ -41,8 +50,16 @@ const userQueryApi = api.injectEndpoints({
 			async queryFn(uid) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
-					console.log(isConnetcted.isConnected)
+					
 					const storedBooks = await AsyncStorage.getItem('singleUsers' + uid)
+					if (!storedBooks && !isConnetcted.isConnected) {
+						console.log('No internet connection for new content!')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: {} as Iuser }
+					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('singleUsers from storage')
 						console.log(await JSON.parse(storedBooks))
@@ -65,8 +82,15 @@ const userQueryApi = api.injectEndpoints({
 			async queryFn(uid) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
-					console.log(isConnetcted.isConnected)
 					const storedBooks = await AsyncStorage.getItem('MyProfile' + uid)
+					if (!storedBooks && !isConnetcted.isConnected) {
+						console.log('No internet connection for new content!')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: {} as Iuser }
+					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('MyProfile from storage')
 						console.log(await JSON.parse(storedBooks))
@@ -75,8 +99,12 @@ const userQueryApi = api.injectEndpoints({
 						console.log('MyProfile from firebase')
 						const docRef = doc(db, 'users', uid)
 						const snapshot = await getDoc(docRef)
-						await AsyncStorage.setItem('MyProfile' + uid, JSON.stringify({ data: { uid, ...snapshot.data() } })).then(() => console.log('MyProfile stored'))
-						return { data: { uid, ...snapshot.data() } as Iuser }
+						const Userdata = { uid, ...snapshot.data() } as Iuser
+						console.log(Userdata)
+						console.log({ ...snapshot.data() })
+						
+						await AsyncStorage.setItem('MyProfile' + uid, JSON.stringify({ data: Userdata })).then(() => console.log('MyProfile stored ', Userdata))
+						return { data: Userdata }
 					}
 				} catch (error) {
 					return { error }

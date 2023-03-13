@@ -1,4 +1,5 @@
 import RNBounceable from '@freakycoder/react-native-bounceable'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Picker } from '@react-native-picker/picker'
 import { StatusBar } from 'expo-status-bar'
 import I18n from 'i18n-js'

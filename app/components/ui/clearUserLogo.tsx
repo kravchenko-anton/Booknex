@@ -10,7 +10,7 @@ export interface IClearUserLogo {
 }
 
 const ClearUserLogo: FC<IClearUserLogo> = (props: IClearUserLogo) => {
-	const FirstLatter = props.letter.charAt(0).toUpperCase() || 'L'
+	const FirstLatter = props.letter ? props.letter.charAt(0).toUpperCase() : 'L'
 	return (
 		<View
 			style={{ width: props.width, height: props.height, borderRadius: props.rounded ? props.rounded : 10000 }}

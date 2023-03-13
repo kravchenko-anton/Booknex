@@ -16,9 +16,14 @@ const bookQuery = api.injectEndpoints({
 			async queryFn(AutorUid) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
-					console.log(isConnetcted.isConnected)
 					const storedBooks = await AsyncStorage.getItem('CurrentUserBooks' + AutorUid)
-					
+					if (!storedBooks && !isConnetcted.isConnected) {
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: [] }
+					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('CurrentUserBooks from storage')
 						console.log(await JSON.parse(storedBooks))
@@ -34,7 +39,7 @@ const bookQuery = api.injectEndpoints({
 						querySnaphot?.forEach(doc => {
 							books.push({ id: doc.id, ...doc.data() } as BookTypes)
 						})
-						await AsyncStorage.setItem('CurrentUserBooks' + AutorUid, JSON.stringify({ data: books })).then(() => console.log('CurrentUserBooks stored' + AutorUid))
+						await AsyncStorage.setItem('CurrentUserBooks' + AutorUid, JSON.stringify({ data: books })).then(() => console.log('CurrentUserBooks stored ' + AutorUid))
 						return { data: books }
 					}
 				} catch (error: any) {
@@ -55,9 +60,14 @@ const bookQuery = api.injectEndpoints({
 			async queryFn() {
 				try {
 					const isConnetcted = await NetInfo.fetch()
-					console.log(isConnetcted.isConnected)
 					const storedBooks = await AsyncStorage.getItem('PopularBooks')
-					
+					if (!storedBooks && !isConnetcted.isConnected) {
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: [] }
+					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('PopularBooks from storage')
 						console.log(await JSON.parse(storedBooks))
@@ -117,8 +127,15 @@ const bookQuery = api.injectEndpoints({
 			async queryFn() {
 				try {
 					const isConnetcted = await NetInfo.fetch()
-					console.log(isConnetcted.isConnected)
+					console.log('isConnetcted', isConnetcted)
 					const storedBooks = await AsyncStorage.getItem('AllBooks')
+					if (!storedBooks && !isConnetcted.isConnected) {
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: [] }
+					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('AllBooks from storage')
 						console.log(await JSON.parse(storedBooks))
@@ -161,12 +178,18 @@ const bookQuery = api.injectEndpoints({
 			async queryFn() {
 				try {
 					const isConnetcted = await NetInfo.fetch()
-					console.log(isConnetcted.isConnected)
 					const storedBooks = await AsyncStorage.getItem('randomBook')
+					if (!storedBooks && !isConnetcted.isConnected) {
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: {} as BookTypes }
+					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('randomBook from storage')
 						console.log(await JSON.parse(storedBooks))
-						return { data: await JSON.parse(storedBooks).data as BookTypes[] }
+						return { data: await JSON.parse(storedBooks).data as BookTypes }
 					} else {
 						console.log('randomBook from firebase')
 						const userBookRef = collection(db, 'userBook')
@@ -185,7 +208,7 @@ const bookQuery = api.injectEndpoints({
 							}
 						})
 						await AsyncStorage.setItem('randomBook', JSON.stringify({ data: randChoice<BookTypes>(books) ? randChoice<BookTypes>(books) : [books[0]] })).then(() => console.log(' randomBook stored'))
-						return { data: randChoice<BookTypes>(books) ? randChoice<BookTypes>(books) : [books[0]] }
+						return { data: randChoice<BookTypes>(books) ? randChoice<BookTypes>(books) : books[0] }
 					}
 				} catch (error: any) {
 					Toast.show({
@@ -205,8 +228,14 @@ const bookQuery = api.injectEndpoints({
 			async queryFn() {
 				try {
 					const isConnetcted = await NetInfo.fetch()
-					console.log(isConnetcted.isConnected)
 					const storedBooks = await AsyncStorage.getItem('AllBooksNoLang')
+					if (!storedBooks && !isConnetcted.isConnected) {
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: [] }
+					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('AllBooksNoLang from storage')
 						console.log(await JSON.parse(storedBooks))
@@ -244,8 +273,14 @@ const bookQuery = api.injectEndpoints({
 			async queryFn(id) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
-					console.log(isConnetcted.isConnected)
 					const storedBooks = await AsyncStorage.getItem('singleBook' + id)
+					if (!storedBooks && !isConnetcted.isConnected) {
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: {} as BookTypes }
+					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('singleBook from storage')
 						console.log(await JSON.parse(storedBooks))

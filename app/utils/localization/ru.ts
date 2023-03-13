@@ -103,5 +103,6 @@ export const ru = {
 	'Finish book': 'Прочитанные книги',
 	'Name must be less than 20 characters': 'Имя должно быть меньше 20 символов',
 	'MaybeProblemWithGoogleApi': 'Штормит в стороне Google Api',
-	'They good day for read new book!': 'Хороший день для чтения новой книги!'
+	'They good day for read new book!': 'Хороший день для чтения новой книги!',
+	'No internet connection for new content!': 'Нет интернета для нового контента!',
 }
