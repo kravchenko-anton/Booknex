@@ -15,16 +15,14 @@ const Navigation = () => {
 	const [currentRoute, setCurrentRoute] = useState<string | undefined>(undefined)
 	const { user } = useTypedSelector(state => state.auth)
 	useEffect(() => {
-		setCurrentRoute(navRef.getCurrentRoute()?.name)
-		const listener = navRef.addListener('state', () =>
+		const listener = navRef.addListener('state', () => {
 			setCurrentRoute(navRef.getCurrentRoute()?.name)
-		)
+		})
 		
 		return () => {
 			navRef.removeListener('state', listener)
 		}
 	}, [])
-	
 	return (
 		<LanguageProvider>
 			<NavigationContainer ref={navRef}>
@@ -37,11 +35,7 @@ const Navigation = () => {
 				>
 					{user ? (
 						userRoutes.map(route => (
-							<Stack.Screen
-								name={route.name}
-								key={route.name}
-								component={route.component}
-							/>
+							<Stack.Screen name={route.name} key={route.name} component={route.component} />
 						))
 					) : (
 						<Stack.Screen name={'Auth'} component={Auth} />

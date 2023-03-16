@@ -3,6 +3,7 @@ import NetInfo from '@react-native-community/netinfo'
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
 import I18n from 'i18n-js'
 import Toast from 'react-native-toast-message'
+import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { db } from '../../../utils/firebase'
 import { randChoice } from '../../../utils/randomElelementFromArray'
 import { api } from '../api'
@@ -59,13 +60,15 @@ const bookQuery = api.injectEndpoints({
 		fetchMostPopularBooks: build.query({
 			async queryFn() {
 				try {
-					const isConnetcted = await NetInfo.fetch()
+					const isConnetcted = await NetInfo.fetch() // NetInfo работает
+					const { navigate } = useTypedNavigation() // useTypedNavigation не работает
 					const storedBooks = await AsyncStorage.getItem('PopularBooks')
 					if (!storedBooks && !isConnetcted.isConnected) {
 						Toast.show({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
+						navigate('NoInternet') // navigate не работает
 						return { data: [] }
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
@@ -111,6 +114,7 @@ const bookQuery = api.injectEndpoints({
 						return { data: books.sort((a, b) => b.rating - a.rating) }
 					}
 				} catch (error: any) {
+					console.log(error)
 					Toast.show({
 						text1: I18n.t('Book not loaded!'),
 						text2: error.message,

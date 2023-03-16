@@ -52,7 +52,8 @@ const SingleBookPage = ({ route }: any) => {
 				
 				
 				<Animatable.View
-					className=' absolute z-50 bottom-3 flex-row left-28 right-28 items-center justify-between' useNativeDriver={true}
+					className=' w-[150px] absolute z-50 bottom-3 flex-row items-center justify-between'
+					useNativeDriver={true}
 					duration={1000}
 					renderToHardwareTextureAndroid={true}
 					animation={visibleButton ? BottomAnimation : BottomAnimationEndToStart}
@@ -63,7 +64,8 @@ const SingleBookPage = ({ route }: any) => {
 							navigate('ReadPage', {
 								epub: book.epubDoc,
 								LastReadPage: lastReadPage,
-								BookId: book.id
+								BookId: book.id,
+								bookName: book.Name
 							})
 						}
 					>

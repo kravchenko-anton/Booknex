@@ -44,6 +44,7 @@ const ContinueRead = () => {
 		<Text className='text-2xl text-white font-bold mt-8 mb-4'>{I18n.t('Continue Reading')} 📰 </Text>
 		<HorizontalBookItem imageUrl={book.Image} navigate={() => navigate('ReadPage', {
 			BookId: book.id,
+			bookName: book.Name,
 			epub: book.epubDoc,
 			LastReadPage: parsedBookData.LastReadPage
 		})} title={book.Name} author={book.autor} buttonText={I18n.t('Continue')}>

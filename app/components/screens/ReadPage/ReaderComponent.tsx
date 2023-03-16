@@ -15,7 +15,8 @@ import { light } from './ui/Theme'
 const ReaderComponent = (props: {
 	LastReadPage: string
 	epub: string
-	BookId: string | number
+	BookId: string | number,
+	ReadEpub: string
 }) => {
 	const { width, height } = useWindowDimensions()
 	const [theme, setTheme] = useState(light)
@@ -28,6 +29,7 @@ const ReaderComponent = (props: {
 	const [fontFamiles, setFontFamiles] = useState('Arial')
 	const [startBookMutation] = useAddBookToStartReadingMutation()
 	const [EndBookMutation] = useAddBookToEndedBookMutation()
+	
 	const {
 		changeFontSize,
 		currentLocation,
@@ -80,8 +82,9 @@ const ReaderComponent = (props: {
 			>
 				<SafeAreaView>
 					<Reader
+						enableSelection={false}
 						initialLocation={props.LastReadPage}
-						src={props.epub + '.epub'}
+						src={props.ReadEpub + '.epub'}
 						renderOpeningBookComponent={() => (
 							<Loader
 								style={{

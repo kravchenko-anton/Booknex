@@ -35,7 +35,8 @@ export type TypeRootStackParamList = {
 	ReadPage: {
 		epub: string | number
 		LastReadPage: string | number
-		BookId: string | number
+		BookId: string | number,
+		bookName: string
 	}
 }
 

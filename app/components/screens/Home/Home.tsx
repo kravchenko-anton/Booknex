@@ -1,5 +1,4 @@
 import RNBounceable from '@freakycoder/react-native-bounceable'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Picker } from '@react-native-picker/picker'
 import { StatusBar } from 'expo-status-bar'
 import I18n from 'i18n-js'
@@ -29,12 +28,14 @@ const Home = () => {
 			<StatusBar backgroundColor='#121212' />
 			<ScrollView showsVerticalScrollIndicator={false} className='p-0 m-0'>
 				
-				<View className='flex-row items-center justify-between mb-5'>
-					<View>
-						<Text className='text-white text-xl font-bold'>{I18n.t('hi')}, {CurrentUser.name}</Text>
-						<Text className='text-gray text-md mt-1 font-thin'>{I18n.t('They good day for read new book!')}</Text>
+				<View className='flex-row w-full items-center justify-between mb-5'>
+					<View className=' w-3/4'>
+						<Text numberOfLines={1}
+						      className='text-white text-xl font-bold'>{I18n.t('hi')}, {CurrentUser.name}</Text>
+						<Text
+							className='text-gray text-md mt-1 font-thin'>{I18n.t('They good day for read new book!')}</Text>
 					</View>
-					<RNBounceable onPress={() => navigate('UserProfile')} className=' p-0'>
+					<RNBounceable onPress={() => navigate('UserProfile')} className='w-full p-0'>
 						{CurrentUser.photoURL ? (
 							<Image
 								source={{ uri: CurrentUser.photoURL }}

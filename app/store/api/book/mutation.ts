@@ -1,15 +1,6 @@
+import NetInfo from '@react-native-community/netinfo'
 import firebase from 'firebase/compat'
-import {
-	addDoc,
-	arrayRemove,
-	arrayUnion,
-	collection,
-	deleteDoc,
-	doc,
-	getDoc,
-	setDoc,
-	updateDoc
-} from 'firebase/firestore'
+import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import I18n from 'i18n-js'
 import Toast from 'react-native-toast-message'
 import { db } from '../../../utils/firebase'
@@ -17,41 +8,28 @@ import { api } from '../api'
 
 const bookMutation = api.injectEndpoints({
 	endpoints: build => ({
-		// Fetch appBooks book
-		RemoveUserBook: build.mutation({
-			async queryFn({ id }) {
-				try {
-					const userBookRef = doc(db, 'userBook', id)
-					deleteDoc(userBookRef).then(() => {
-						Toast.show({
-							text1: I18n.t('You delete book!'),
-							type: 'success'
-						})
-					})
-					return { data: 'Ok' }
-				} catch (error: any) {
-					console.log(error)
-					Toast.show({
-						text1: I18n.t('Something went wrong'),
-						text2: error.message,
-						type: 'error'
-					})
-					return { error }
-				}
-			},
-			invalidatesTags: () => [{ type: 'book' }, { type: 'user' }]
-		}),
 		
 		//Add Chat to book
 		AddBookToChat: build.mutation({
 			async queryFn({ id }) {
 				try {
-					const BookRef = doc(db, 'BookChats', id)
-					const docSnap = await getDoc(BookRef)
-					if (!docSnap.exists()) {
-						await setDoc(BookRef, { message: [] })
+					const isConnetcted = await NetInfo.fetch()
+					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
+						console.log(' AddBookToChat Error With enter	to internet')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: 'No Internet' }
+					} else {
+						console.log(' AddBookToChat Work')
+						const BookRef = doc(db, 'BookChats', id)
+						const docSnap = await getDoc(BookRef)
+						if (!docSnap.exists()) {
+							await setDoc(BookRef, { message: [] })
+						}
+						return { data: 'Ok' }
 					}
-					return { data: 'Ok' }
 				} catch (error: any) {
 					return { error }
 				}
@@ -63,16 +41,28 @@ const bookMutation = api.injectEndpoints({
 		AddMessageToChat: build.mutation({
 			async queryFn({ id, message, uid }) {
 				try {
-					const BookRef = doc(db, 'BookChats', id)
-					await updateDoc(BookRef, {
-						comments: arrayUnion({
-							uid,
-							message,
-							timeStamp: new Date().toISOString()
-						})
-					})
 					
-					return { data: 'Ok' }
+					const isConnetcted = await NetInfo.fetch()
+					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
+						console.log(' AddMessageToChat Error With enter	to internet')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: 'No Internet' }
+					} else {
+						console.log('AddMessageToChat Work')
+						const BookRef = doc(db, 'BookChats', id)
+						await updateDoc(BookRef, {
+							comments: arrayUnion({
+								uid,
+								message,
+								timeStamp: new Date().toISOString()
+							})
+						})
+						
+						return { data: 'Ok' }
+					}
 				} catch (error: any) {
 					Toast.show({
 						text1: I18n.t('Error in message!'),
@@ -89,16 +79,27 @@ const bookMutation = api.injectEndpoints({
 		RemoveMessageFromChat: build.mutation({
 			async queryFn({ id, message, uid, timeStamp }) {
 				try {
-					const BookRef = doc(db, 'BookChats', id)
-					await updateDoc(BookRef, {
-						comments: arrayRemove({
-							uid,
-							message,
-							timeStamp
+					const isConnetcted = await NetInfo.fetch()
+					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
+						console.log(' RemoveMessageFromChat Error With enter	to internet')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
 						})
-					})
-					
-					return { data: 'Ok' }
+						return { data: 'No Internet' }
+					} else {
+						console.log('RemoveMessageFromChat Work')
+						const BookRef = doc(db, 'BookChats', id)
+						await updateDoc(BookRef, {
+							comments: arrayRemove({
+								uid,
+								message,
+								timeStamp
+							})
+						})
+						
+						return { data: 'Ok' }
+					}
 				} catch (error: any) {
 					Toast.show({
 						text1: I18n.t('Error in message!'),
@@ -115,22 +116,33 @@ const bookMutation = api.injectEndpoints({
 		addBookReview: build.mutation({
 			async queryFn({ id, rating, profile }) {
 				try {
-					const docRef = doc(db, 'books', id)
-					const docUserRef = doc(db, 'userBook', id)
-					const bookGetRef = await getDoc(docRef)
-					const UserRef = doc(db, 'users', profile.uid)
-					const CurrentRef = bookGetRef.exists() ? docRef : docUserRef
-					await updateDoc(CurrentRef, {
-						comments: arrayUnion(rating)
-					})
-					await updateDoc(UserRef, {
-						revieCount: firebase.firestore.FieldValue.increment(1)
-					})
-					Toast.show({
-						text1: I18n.t('You add book review!'),
-						type: 'success'
-					})
-					return { data: 'ok' }
+					const isConnetcted = await NetInfo.fetch()
+					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
+						console.log(' addBookReview Error With enter	to internet')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: 'No Internet' }
+					} else {
+						console.log('addBookReview Work')
+						const docRef = doc(db, 'books', id)
+						const docUserRef = doc(db, 'userBook', id)
+						const bookGetRef = await getDoc(docRef)
+						const UserRef = doc(db, 'users', profile.uid)
+						const CurrentRef = bookGetRef.exists() ? docRef : docUserRef
+						await updateDoc(CurrentRef, {
+							comments: arrayUnion(rating)
+						})
+						await updateDoc(UserRef, {
+							revieCount: firebase.firestore.FieldValue.increment(1)
+						})
+						Toast.show({
+							text1: I18n.t('You add book review!'),
+							type: 'success'
+						})
+						return { data: 'ok' }
+					}
 				} catch (error: any) {
 					Toast.show({
 						text1: I18n.t('Something went wrong!'),
@@ -147,15 +159,26 @@ const bookMutation = api.injectEndpoints({
 		addBookToFavorite: build.mutation({
 			async queryFn({ currentUserUID, book }) {
 				try {
-					const reference = doc(db, 'users', currentUserUID)
-					await updateDoc(reference, {
-						favoritesBook: arrayUnion(book.id)
-					})
-					Toast.show({
-						text1: I18n.t('You add book to favorites!'),
-						type: 'success'
-					})
-					return { data: 'ok' }
+					const isConnetcted = await NetInfo.fetch()
+					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
+						console.log(' addBookToFavorite Error With enter	to internet')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: 'No Internet' }
+					} else {
+						console.log('addBookToFavorite Work')
+						const reference = doc(db, 'users', currentUserUID)
+						await updateDoc(reference, {
+							favoritesBook: arrayUnion(book.id)
+						})
+						Toast.show({
+							text1: I18n.t('You add book to favorites!'),
+							type: 'success'
+						})
+						return { data: 'ok' }
+					}
 				} catch (error: any) {
 					Toast.show({
 						text1: I18n.t('Something went wrong!'),
@@ -172,11 +195,23 @@ const bookMutation = api.injectEndpoints({
 		addBookToStartReading: build.mutation({
 			async queryFn({ currentUserUID, book }) {
 				try {
-					const reference = doc(db, 'users', currentUserUID)
-					await updateDoc(reference, {
-						startReadBook: arrayUnion(book.id)
-					})
-					return { data: 'ok' }
+					const isConnetcted = await NetInfo.fetch()
+					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
+						console.log(' addBookToStartReading Error With enter	to internet')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: 'No Internet' }
+					} else {
+						console.log('addBookToStartReading Work')
+						
+						const reference = doc(db, 'users', currentUserUID)
+						await updateDoc(reference, {
+							startReadBook: arrayUnion(book.id)
+						})
+						return { data: 'ok' }
+					}
 				} catch (error: any) {
 					Toast.show({
 						text1: I18n.t('Something went wrong!'),
@@ -193,16 +228,28 @@ const bookMutation = api.injectEndpoints({
 		addBookToEndedBook: build.mutation({
 			async queryFn({ currentUserUID, book }) {
 				try {
-					const reference = doc(db, 'users', currentUserUID)
-					await updateDoc(reference, {
-						startReadBook: arrayRemove(book.id),
-						finishedBook: arrayUnion(book.id)
-					})
-					Toast.show({
-						text1: I18n.t('You finish book!'),
-						type: 'success'
-					})
-					return { data: 'ok' }
+					const isConnetcted = await NetInfo.fetch()
+					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
+						console.log(' addBookToEndedBook Error With enter	to internet')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: 'No Internet' }
+					} else {
+						console.log('addBookToEndedBook Work')
+						
+						const reference = doc(db, 'users', currentUserUID)
+						await updateDoc(reference, {
+							startReadBook: arrayRemove(book.id),
+							finishedBook: arrayUnion(book.id)
+						})
+						Toast.show({
+							text1: I18n.t('You finish book!'),
+							type: 'success'
+						})
+						return { data: 'ok' }
+					}
 				} catch (error: any) {
 					Toast.show({
 						text1: I18n.t('Something went wrong!'),
@@ -219,12 +266,24 @@ const bookMutation = api.injectEndpoints({
 		addUserBook: build.mutation({
 			async queryFn({ book }) {
 				try {
-					await addDoc(collection(db, 'userBook'), book)
-					Toast.show({
-						text1: I18n.t('You add book!'),
-						type: 'success'
-					})
-					return { data: 'ok' }
+					const isConnetcted = await NetInfo.fetch()
+					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
+						console.log(' addUserBook Error With enter	to internet')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: 'No Internet' }
+					} else {
+						console.log('addUserBook Work')
+						
+						await addDoc(collection(db, 'userBook'), book)
+						Toast.show({
+							text1: I18n.t('You add book!'),
+							type: 'success'
+						})
+						return { data: 'ok' }
+					}
 				} catch (error: any) {
 					console.log(error)
 					Toast.show({
@@ -243,58 +302,71 @@ const bookMutation = api.injectEndpoints({
 		SearchBookByGoogleApi: build.mutation({
 			async queryFn({ searchTerm, author, lang }) {
 				try {
-					const ModifiedData = {
-						Mterm: searchTerm.trim()
-							.replace(/[\s_-]+/g, '+')
-							.replace(/\[.*?\]/g, '')
-							.replace(/\(.*?\)/g, '')
-							.replace(/\/\/\.epub/g, '')
-							.replace(/\\.epub/g, ''),
-						Mauthor: author.trim()
-							.replace(/[\s_-]+/g, '+')
-							.replace(/\[.*?\]/g, '')
-							.replace(/\(.*?\)/g, '')
-							.replace(/\/\/\.epub/g, '')
-							.replace(/\\.epub/g, '')
-					}
-					try {
-						const response = await fetch(
-							`https://www.googleapis.com/books/v1/volumes?q=intitle:${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+inauthor:${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))&orderBy=relevance&maxResults=40`)
+					const isConnetcted = await NetInfo.fetch()
+					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
+						console.log(' SearchBookByGoogleApi Error With enter	to internet')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: 'No Internet' }
+					} else {
+						console.log('SearchBookByGoogleApi Work')
 						
 						
-						const books = await response.json()
-						
-						const CurrentNeedBook = books.items.find((item: any) => item.volumeInfo.imageLinks !== undefined)
-						const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`
-						)
-						const HightQuaittyImageJson = await HightQuaittyImage.json()
-						const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
-							? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
-							: CurrentNeedBook.volumeInfo.imageLinks.thumbnail
-						const finalBook = {
-							...CurrentNeedBook.volumeInfo,
-							...{ HighQualityImage: imageSize }
+						const ModifiedData = {
+							Mterm: searchTerm.trim()
+								.replace(/[\s_-]+/g, '+')
+								.replace(/\[.*?\]/g, '')
+								.replace(/\(.*?\)/g, '')
+								.replace(/\/\/\.epub/g, '')
+								.replace(/\\.epub/g, ''),
+							Mauthor: author.trim()
+								.replace(/[\s_-]+/g, '+')
+								.replace(/\[.*?\]/g, '')
+								.replace(/\(.*?\)/g, '')
+								.replace(/\/\/\.epub/g, '')
+								.replace(/\\.epub/g, '')
 						}
-						return { data: finalBook }
-					} catch (error) {
-						console.log(ModifiedData)
-						console.log('Тестовое чтобы чекнуть ошибку')
-						const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))&orderBy=relevance&maxResults=40`)
-						
-						const books = await response.json()
-						const CurrentNeedBook = books.items.find((item: any) => item.volumeInfo.imageLinks !== undefined)
-						console.log(CurrentNeedBook, 'CurrentNeedBook')
-						const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`)
-						const HightQuaittyImageJson = await HightQuaittyImage.json()
-						const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
-							? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
-							: CurrentNeedBook.volumeInfo.imageLinks.thumbnail
-						
-						const finalBook = {
-							...CurrentNeedBook.volumeInfo,
-							...{ HighQualityImage: imageSize }
+						try {
+							const response = await fetch(
+								`https://www.googleapis.com/books/v1/volumes?q=intitle:${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+inauthor:${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))&orderBy=relevance&maxResults=40`)
+							
+							
+							const books = await response.json()
+							
+							const CurrentNeedBook = books.items.find((item: any) => item.volumeInfo.imageLinks !== undefined)
+							const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`
+							)
+							const HightQuaittyImageJson = await HightQuaittyImage.json()
+							const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+								? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+								: CurrentNeedBook.volumeInfo.imageLinks.thumbnail
+							const finalBook = {
+								...CurrentNeedBook.volumeInfo,
+								...{ HighQualityImage: imageSize }
+							}
+							return { data: finalBook }
+						} catch (error) {
+							console.log(ModifiedData)
+							console.log('Тестовое чтобы чекнуть ошибку')
+							const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))&orderBy=relevance&maxResults=40`)
+							
+							const books = await response.json()
+							const CurrentNeedBook = books.items.find((item: any) => item.volumeInfo.imageLinks !== undefined)
+							console.log(CurrentNeedBook, 'CurrentNeedBook')
+							const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`)
+							const HightQuaittyImageJson = await HightQuaittyImage.json()
+							const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+								? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
+								: CurrentNeedBook.volumeInfo.imageLinks.thumbnail
+							
+							const finalBook = {
+								...CurrentNeedBook.volumeInfo,
+								...{ HighQualityImage: imageSize }
+							}
+							return { data: finalBook }
 						}
-						return { data: finalBook }
 					}
 				} catch (error: any) {
 					console.log(error.message)
@@ -313,15 +385,27 @@ const bookMutation = api.injectEndpoints({
 		deleteBookFromFavorite: build.mutation({
 			async queryFn({ currentUserUID, book }) {
 				try {
-					const reference = doc(db, 'users', currentUserUID)
-					await updateDoc(reference, {
-						favoritesBook: arrayRemove(book.id)
-					})
-					Toast.show({
-						text1: I18n.t('You book remove from favorites!'),
-						type: 'success'
-					})
-					return { data: 'ok' }
+					const isConnetcted = await NetInfo.fetch()
+					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
+						console.log(' deleteBookFromFavorite Error With enter	to internet')
+						Toast.show({
+							text1: I18n.t('No internet connection for new content!'),
+							type: 'error'
+						})
+						return { data: 'No Internet' }
+					} else {
+						console.log('deleteBookFromFavorite Work')
+						
+						const reference = doc(db, 'users', currentUserUID)
+						await updateDoc(reference, {
+							favoritesBook: arrayRemove(book.id)
+						})
+						Toast.show({
+							text1: I18n.t('You book remove from favorites!'),
+							type: 'success'
+						})
+						return { data: 'ok' }
+					}
 				} catch (error: any) {
 					Toast.show({
 						text1: I18n.t('Something went wrong!'),
@@ -338,7 +422,6 @@ const bookMutation = api.injectEndpoints({
 export const {
 	useDeleteBookFromFavoriteMutation,
 	useRemoveMessageFromChatMutation,
-	useRemoveUserBookMutation,
 	useAddMessageToChatMutation,
 	useAddBookReviewMutation,
 	useAddBookToStartReadingMutation,
