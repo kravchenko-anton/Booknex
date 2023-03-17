@@ -16,11 +16,11 @@ import { UploadFile } from '../uploadFile'
 
 const UserSettings = ({ route }: any) => {
 	const { uid } = route.params
-	const { data } = useFetchSingleUserQuery(uid)
+	const { goBack, navigate } = useTypedNavigation()
+	const { data } = useFetchSingleUserQuery({ uid, navigate })
 	const [selectedImage, setSelectedImage] = useState(null)
 	const [selectedBlob, setSelectedBlob] = useState<Blob>()
 	const [UpdateProfile] = useUpdateProfileMutation()
-	const { goBack } = useTypedNavigation()
 	const { control, handleSubmit } = useForm()
 	const pickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({

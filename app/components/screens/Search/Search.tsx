@@ -21,10 +21,10 @@ import Carousel from './ui/Carousel'
 const Search = () => {
 	const { control, watch } = useForm()
 	const { navigate } = useTypedNavigation()
-	const { data: book } = useFetchAllBooksQuery(null)
-	const { data: Users } = useFetchUserQuery(null)
-	const { data: MostPopular } = useFetchMostPopularBooksQuery(null)
-	const { data: RandomBook } = useFetchRandomBooksQuery(null)
+	const { data: book } = useFetchAllBooksQuery(navigate)
+	const { data: Users } = useFetchUserQuery(navigate)
+	const { data: MostPopular } = useFetchMostPopularBooksQuery(navigate)
+	const { data: RandomBook } = useFetchRandomBooksQuery(navigate)
 	if (!book || !Users || !MostPopular || !RandomBook) return <Loader />
 	return (
 		<Layout className=' p-0 h-full'>

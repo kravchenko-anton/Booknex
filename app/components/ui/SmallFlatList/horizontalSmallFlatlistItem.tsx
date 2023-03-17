@@ -7,8 +7,8 @@ import { ISmallFlatItem } from './SmallFlatlistTypes'
 
 
 const HorizontalSmallFlatlistItem: FC<ISmallFlatItem> = ({ BookId, scale }) => {
-	const { data: book } = useFetchSingleBookQuery(BookId)
 	const { navigate } = useTypedNavigation()
+	const { data: book } = useFetchSingleBookQuery({ id: BookId, navigate })
 	if (!book?.Name) return null
 	
 	

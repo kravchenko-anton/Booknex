@@ -11,7 +11,7 @@ const userQueryApi = api.injectEndpoints({
 	endpoints: build => ({
 		//Fetch all users
 		fetchUser: build.query({
-			async queryFn() {
+			async queryFn(navigate) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('allUsers')
@@ -21,6 +21,7 @@ const userQueryApi = api.injectEndpoints({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
+						navigate('NoInternet')
 						return { data: [] as Iuser[] }
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
@@ -47,7 +48,7 @@ const userQueryApi = api.injectEndpoints({
 		
 		// Fetch single user
 		fetchSingleUser: build.query({
-			async queryFn(uid) {
+			async queryFn({ uid, navigate }) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					
@@ -58,6 +59,8 @@ const userQueryApi = api.injectEndpoints({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
+						navigate('NoInternet')
+						
 						return { data: {} as Iuser }
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
@@ -79,7 +82,7 @@ const userQueryApi = api.injectEndpoints({
 		}),
 		
 		fetchMyProfile: build.query({
-			async queryFn(uid) {
+			async queryFn({ uid, navigate }) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('MyProfile' + uid)
@@ -89,6 +92,7 @@ const userQueryApi = api.injectEndpoints({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
+						navigate('NoInternet')
 						return { data: {} as Iuser }
 					}
 					if (storedBooks && !isConnetcted.isConnected) {

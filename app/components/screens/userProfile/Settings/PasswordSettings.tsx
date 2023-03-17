@@ -1,4 +1,3 @@
-import { updatePassword } from 'firebase/auth'
 import I18n from 'i18n-js'
 import { useForm } from 'react-hook-form'
 import { Text, TouchableOpacity, View } from 'react-native'
@@ -11,10 +10,10 @@ import Layout from '../../../ui/Layout/Layout'
 
 const PasswordSettings = ({ route }: any) => {
 	const { uid } = route.params
-	const { data: user } = useFetchSingleUserQuery(uid)
+	const { goBack, navigate } = useTypedNavigation()
+	const { data: user } = useFetchSingleUserQuery({ uid, navigate })
 	const [UpdatePassword] = useUpdatePasswordMutation()
 	const { control, handleSubmit } = useForm()
-	const { goBack } = useTypedNavigation()
 	const handleUpdatePassword = async (data: any) => {
 		await UpdatePassword({
 			email: user?.email,
@@ -44,7 +43,7 @@ const PasswordSettings = ({ route }: any) => {
 					placeholder={I18n.t('EnterNewPassword')}
 				/>
 			</View>
-
+			
 			<TouchableOpacity
 				onPress={handleSubmit(handleUpdatePassword)}
 				className='bg-primary p-2 mt-2 w-[50%] mx-auto rounded-md text-center justify-center items-center'

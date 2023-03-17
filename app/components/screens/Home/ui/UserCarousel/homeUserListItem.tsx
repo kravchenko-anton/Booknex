@@ -8,8 +8,8 @@ import { IUserHomeItem } from './homeUserItemTypes'
 
 
 const HomeUserListItem: FC<IUserHomeItem> = ({ uid, scale }) => {
-	const { data: user } = useFetchSingleUserQuery(uid)
 	const { navigate } = useTypedNavigation()
+	const { data: user } = useFetchSingleUserQuery({ uid, navigate })
 	if (!user?.uid) return null
 	return (
 		<Animated.View className=' bg-blue p-4 rounded-lg'

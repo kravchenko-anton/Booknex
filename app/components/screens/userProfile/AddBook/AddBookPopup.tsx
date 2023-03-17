@@ -33,7 +33,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 	const [EpubBlob, setEpubBlob] = useState<Blob>()
 	const [EpubUrlPath, setEpubUrlPatch] = useState<string>()
 	const { navigate } = useTypedNavigation()
-	const { data: AllBook } = useFetchAllBooksNoLangQuery(null)
+	const { data: AllBook } = useFetchAllBooksNoLangQuery(navigate)
 	const pickDocument = async () => {
 		setContent({} as IMetaData)
 		const zipObj = new JSZip()

@@ -35,7 +35,7 @@ const ContinueRead = () => {
 		
 	}, [isFocused])
 	
-	const { data: book } = useFetchSingleBookQuery(parsedBookData.BookId, {
+	const { data: book } = useFetchSingleBookQuery({ id: parsedBookData.BookId, navigate }, {
 		skip: !parsedBookData.BookId
 	})
 	if (!book || !parsedBookData) return null

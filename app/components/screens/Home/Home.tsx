@@ -19,8 +19,8 @@ import AnimatedUserHomeFlatList from './ui/UserCarousel/homeUserFlatList'
 
 const Home = () => {
 	const { user } = useTypedSelector(state => state.auth)
-	const { data: CurrentUser } = useFetchMyProfileQuery(user?.uid)
 	const { navigate } = useTypedNavigation()
+	const { data: CurrentUser } = useFetchMyProfileQuery({ uid: user?.uid, navigate })
 	const [selectFavoriteBook, setSelectFavoriteBook] = React.useState(true)
 	if (!CurrentUser) return <Loader />
 	return (
@@ -29,7 +29,7 @@ const Home = () => {
 			<ScrollView showsVerticalScrollIndicator={false} className='p-0 m-0'>
 				
 				<View className='flex-row w-full items-center justify-between mb-5'>
-					<View className=' w-3/4'>
+					<View className='w-3/4'>
 						<Text numberOfLines={1}
 						      className='text-white text-xl font-bold'>{I18n.t('hi')}, {CurrentUser.name}</Text>
 						<Text

@@ -19,8 +19,8 @@ export const useChat = (BookId: string) => {
 	})
 	const { user } = useTypedSelector(state => state.auth)
 	const [chats, setChats] = useState<IMessage[]>([])
-	const { goBack } = useTypedNavigation()
-	const { data: book } = useFetchSingleBookQuery(BookId)
+	const { navigate } = useTypedNavigation()
+	const { data: book } = useFetchSingleBookQuery({ id: BookId, navigate })
 	const scrollViewRef = useRef<ScrollView | any>()
 	const validateText = (value: string[]) => {
 		for (let i = 0; i < badWords.length; i++) {

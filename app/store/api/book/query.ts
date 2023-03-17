@@ -2,8 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo'
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
 import I18n from 'i18n-js'
+
 import Toast from 'react-native-toast-message'
-import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { db } from '../../../utils/firebase'
 import { randChoice } from '../../../utils/randomElelementFromArray'
 import { api } from '../api'
@@ -14,7 +14,7 @@ const bookQuery = api.injectEndpoints({
 		
 		// Fetch CurrentUserBooks
 		fetchCurrentUserBooks: build.query({
-			async queryFn(AutorUid) {
+			async queryFn({ AutorUid, navigate }) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('CurrentUserBooks' + AutorUid)
@@ -23,6 +23,7 @@ const bookQuery = api.injectEndpoints({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
+						navigate('NoInternet')
 						return { data: [] }
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
@@ -58,17 +59,16 @@ const bookQuery = api.injectEndpoints({
 		
 		//Fetch Most popular book
 		fetchMostPopularBooks: build.query({
-			async queryFn() {
+			async queryFn(navigate) {
 				try {
 					const isConnetcted = await NetInfo.fetch() // NetInfo работает
-					const { navigate } = useTypedNavigation() // useTypedNavigation не работает
 					const storedBooks = await AsyncStorage.getItem('PopularBooks')
 					if (!storedBooks && !isConnetcted.isConnected) {
 						Toast.show({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
-						navigate('NoInternet') // navigate не работает
+						navigate('NoInternet')
 						return { data: [] }
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
@@ -128,7 +128,7 @@ const bookQuery = api.injectEndpoints({
 		
 		// Fetch AllBooks
 		fetchAllBooks: build.query({
-			async queryFn() {
+			async queryFn(navigate) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					console.log('isConnetcted', isConnetcted)
@@ -138,6 +138,7 @@ const bookQuery = api.injectEndpoints({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
+						navigate('NoInternet')
 						return { data: [] }
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
@@ -179,7 +180,7 @@ const bookQuery = api.injectEndpoints({
 		
 		// Fetch random book
 		fetchRandomBooks: build.query({
-			async queryFn() {
+			async queryFn(navigate) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('randomBook')
@@ -188,6 +189,7 @@ const bookQuery = api.injectEndpoints({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
+						navigate('NoInternet')
 						return { data: {} as BookTypes }
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
@@ -229,7 +231,7 @@ const bookQuery = api.injectEndpoints({
 		
 		// Fetch AllBooks no by language
 		fetchAllBooksNoLang: build.query({
-			async queryFn() {
+			async queryFn(navigate) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('AllBooksNoLang')
@@ -238,6 +240,7 @@ const bookQuery = api.injectEndpoints({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
+						navigate('NoInternet')
 						return { data: [] }
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
@@ -274,7 +277,7 @@ const bookQuery = api.injectEndpoints({
 		
 		//Fetch single book
 		fetchSingleBook: build.query({
-			async queryFn(id) {
+			async queryFn({ id, navigate }) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('singleBook' + id)
@@ -283,6 +286,7 @@ const bookQuery = api.injectEndpoints({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
+						navigate('NoInternet')
 						return { data: {} as BookTypes }
 					}
 					if (storedBooks && !isConnetcted.isConnected) {

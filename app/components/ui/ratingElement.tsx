@@ -7,8 +7,8 @@ import { useFetchSingleUserQuery } from '../../store/api/user/query'
 import ClearUserLogo from './clearUserLogo'
 
 const CommentElement: FC<Comment> = props => {
-	const { data: user } = useFetchSingleUserQuery(props.userUid)
 	const { navigate } = useTypedNavigation()
+	const { data: user } = useFetchSingleUserQuery({ uid: props.userUid, navigate })
 	if (!user) return null
 	return (
 		<View>
@@ -28,7 +28,7 @@ const CommentElement: FC<Comment> = props => {
 				) : (
 					<ClearUserLogo letter={user.name} width={70} height={70} />
 				)}
-
+				
 				<View className='flex-1 ml-2'>
 					<View className='flex-row justify-between items-center'>
 						<Text
@@ -37,7 +37,7 @@ const CommentElement: FC<Comment> = props => {
 						>
 							{user.name}
 						</Text>
-
+						
 						<View className='justify-between gap-2 items-center flex-row'>
 							<FontAwesome name='star' size={20} color='#702DF5' />
 							<Text className='text-white font-bold text-xl'>{props.rating} /5</Text>

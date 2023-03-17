@@ -105,4 +105,5 @@ export const ru = {
 	'MaybeProblemWithGoogleApi': 'Штормит в стороне Google Api',
 	'They good day for read new book!': 'Хороший день для чтения новой книги!',
 	'No internet connection for new content!': 'Нет интернета для нового контента!',
+	'dontHaveInternetAndSavedData': 'Похоже у вас нет интернета и сохраненных данных'
 }

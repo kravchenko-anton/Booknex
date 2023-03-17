@@ -1,27 +1,28 @@
 import { Feather } from '@expo/vector-icons'
+import RNBounceable from '@freakycoder/react-native-bounceable'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import * as Clipboard from 'expo-clipboard'
 import I18n from 'i18n-js'
 import { useState } from 'react'
-import { Image, Pressable, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { useTypedNavigation } from '../../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../../hook/useTypedSelector'
 import { useRemoveMessageFromChatMutation } from '../../../../store/api/book/mutation'
 import { useFetchSingleUserQuery } from '../../../../store/api/user/query'
-import Loader from '../../../ui/Loader'
 import ClearUserLogo from '../../../ui/clearUserLogo'
+import Loader from '../../../ui/Loader'
 import ModalPopup from '../../../ui/modal'
 import { IMessage } from './messageTypes'
+
 dayjs.extend(relativeTime)
 const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
+	const { navigate } = useTypedNavigation()
 	const { user: CurrentUser } = useTypedSelector(state => state.auth)
-	const { data: user } = useFetchSingleUserQuery(uid)
+	const { data: user } = useFetchSingleUserQuery({ uid, navigate })
 	const [removeMessage] = useRemoveMessageFromChatMutation()
 	const [isVisible, setIsVisible] = useState(false)
-	const { navigate } = useTypedNavigation()
-
 	if (!user) return <Loader />
 	return (
 		<View
@@ -59,7 +60,7 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 							<Text className='text-2xl text-white'>{I18n.t('Delete')}</Text>
 						</View>
 					</TouchableOpacity>
-
+					
 					<TouchableOpacity
 						onPress={() => {
 							Clipboard.setStringAsync(message)
@@ -77,7 +78,7 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 					</TouchableOpacity>
 				</View>
 			</ModalPopup>
-			<Pressable
+			<RNBounceable
 				onLongPress={() =>
 					uid === CurrentUser?.uid ? setIsVisible(!isVisible) : null
 				}
@@ -86,9 +87,11 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 					marginLeft: uid === CurrentUser?.uid ? 'auto' : 10,
 					marginRight: uid === CurrentUser?.uid ? 10 : 'auto',
 					borderBottomLeftRadius: uid === CurrentUser?.uid ? 5 : 0,
-					borderBottomRightRadius: uid === CurrentUser?.uid ? 0 : 5
+					borderBottomRightRadius: uid === CurrentUser?.uid ? 0 : 5,
+					maxWidth: '80%',
+					borderRadius: 5,
+					padding: 10
 				}}
-				className={'p-3 max-w-[80%] rounded-md'}
 			>
 				{uid !== CurrentUser?.uid ? (
 					<Text className='text-primary text-md'>{user?.name}</Text>
@@ -99,7 +102,7 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 				<Text className='text-white font-bold text-xs'>
 					{dayjs(timeStamp).format('hh:mm')}
 				</Text>
-			</Pressable>
+			</RNBounceable>
 			<TouchableOpacity onPress={() => navigate('AutorProfile', { uid: uid })}>
 				{user?.photoURL ? (
 					<Image

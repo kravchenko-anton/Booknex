@@ -4,12 +4,8 @@ import { useFetchSingleUserQuery } from '../../store/api/user/query'
 import ClearUserLogo from './clearUserLogo'
 
 const UserMapElement = ({ userUId }: { userUId: string }) => {
-	const {
-		data: CurrentUser,
-		isLoading,
-		error
-	} = useFetchSingleUserQuery(userUId)
 	const { navigate } = useTypedNavigation()
+	const { data: CurrentUser } = useFetchSingleUserQuery({ uid: userUId, navigate })
 	if (!CurrentUser) return null
 	return (
 		<View>

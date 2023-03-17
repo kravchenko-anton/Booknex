@@ -19,14 +19,19 @@ import Statistics from '../../ui/statistics'
 import AddBookPopup from './AddBook/AddBookPopup'
 
 const UserProfilePages = () => {
-	const { goBack } = useTypedNavigation()
 	const { user } = useTypedSelector(state => state.auth)
-	const { data: CurrentUser } = useFetchSingleUserQuery(user?.uid)
+	const { navigate } = useTypedNavigation()
+	const { data: CurrentUser } = useFetchSingleUserQuery({
+		uid: user?.uid
+		, navigate
+	})
 	const [isVisible, setIsVisible] = useState(false)
 	const { styleAnimation } = useScaleOnMount()
-	const { navigate } = useTypedNavigation()
 	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(
-		CurrentUser?.uid,
+		{
+			AutorUid: CurrentUser?.uid
+			, navigate
+		},
 		{
 			skip: !CurrentUser
 		}

@@ -40,7 +40,7 @@ const SingleBookPage = ({ route }: any) => {
 			: book.comments.constructor.length)
 	return (
 		<Layout>
-			<View className='h-full'>
+			<View className='h-full justify-center items-center'>
 				<ModalPopup
 					height={300}
 					isVisible={isVisible}
@@ -52,7 +52,7 @@ const SingleBookPage = ({ route }: any) => {
 				
 				
 				<Animatable.View
-					className=' w-[150px] absolute z-50 bottom-3 flex-row items-center justify-between'
+					className='w-[150px] absolute z-50 bottom-3 flex-row items-center justify-between'
 					useNativeDriver={true}
 					duration={1000}
 					renderToHardwareTextureAndroid={true}

@@ -1,6 +1,7 @@
 import RNBounceable from '@freakycoder/react-native-bounceable'
 import I18n from 'i18n-js'
 import { Image, Text, View } from 'react-native'
+import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useFetchCurrentUserBooksQuery } from '../../../store/api/book/query'
 import { useFetchSingleUserQuery } from '../../../store/api/user/query'
 import AnimatedFlatList from '../../ui/BookItems/AnimatedFlatList'
@@ -13,8 +14,11 @@ import AuthorFavoritesButton from './ui/AuthorFavoritesButton'
 
 const SingleUserPage = ({ route }: any) => {
 	const { uid } = route.params
-	const { data: user } = useFetchSingleUserQuery(uid)
-	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery(user?.uid)
+	const { navigate } = useTypedNavigation()
+	const { data: user } = useFetchSingleUserQuery({ uid, navigate })
+	const { data: CurrentUserBook } = useFetchCurrentUserBooksQuery({
+		AutorUid: user?.uid, navigate
+	})
 	
 	if (!user) return <Loader />
 	return (

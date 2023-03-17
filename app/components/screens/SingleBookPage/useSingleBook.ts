@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useFocusEffect } from '@react-navigation/native'
 import { useState } from 'react'
+import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useTypedSelector } from '../../../hook/useTypedSelector'
 import { useFetchSingleBookQuery } from '../../../store/api/book/query'
 import { useFetchMyProfileQuery } from '../../../store/api/user/query'
@@ -8,8 +9,11 @@ import { useScaleOnMount } from '../../../utils/useBounces'
 
 export const useSingleBook = (id: string) => {
 	const { user: StateUser } = useTypedSelector(state => state.auth)
-	const { data: book, isLoading } = useFetchSingleBookQuery(id)
-	const { data: Profile } = useFetchMyProfileQuery(StateUser?.uid)
+	const { navigate } = useTypedNavigation()
+	const { data: book, isLoading } = useFetchSingleBookQuery({ id, navigate })
+	const { data: Profile } = useFetchMyProfileQuery({
+		uid: StateUser?.uid, navigate
+	})
 	const [isVisible, setIsVisible] = useState(false)
 	const [visibleButton, setVisibleButton] = useState(true)
 	const [lastReadPage, setLastReadPage] = useState('')
