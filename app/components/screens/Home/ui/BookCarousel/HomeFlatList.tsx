@@ -14,6 +14,7 @@ const AnimatedHomeFlatList: FC<{ data: string[]; id?: string }> = ({ data }) => 
 			horizontal
 			ref={ref => (listRef = ref)}
 			extraData={data}
+			initialNumToRender={30}
 			renderToHardwareTextureAndroid={true}
 			ListEmptyComponent={() => (
 				<View className='w-[200px] h-[290px] bg-blue rounded-lg items-center'>
@@ -46,7 +47,7 @@ const AnimatedHomeFlatList: FC<{ data: string[]; id?: string }> = ({ data }) => 
 				const inputRange = [0, 0, 200 * index, 200 * (index * 1.1 + 1)]
 				const scale = scrollX.interpolate({
 					inputRange,
-					outputRange: [1, 1, 1, 0],
+					outputRange: [1, 1, 1, 0.3],
 					extrapolate: 'extend'
 				})
 				

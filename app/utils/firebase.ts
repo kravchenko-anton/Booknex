@@ -1,3 +1,4 @@
+import { API_KEY, APP_ID, AUTH_DOMAIN, MEASUREMENT_ID, MESSAGING_SENDER_ID, PROJECT_ID, STORAGE_BUCKET } from '@env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
@@ -6,13 +7,13 @@ import { getFirestore } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw',
-	authDomain: 'ntbook-eed11.firebaseapp.com',
-	projectId: 'ntbook-eed11',
-	storageBucket: 'ntbook-eed11.appspot.com',
-	messagingSenderId: '211267715326',
-	appId: '1:211267715326:web:be4c607d05d94af911a5af',
-	measurementId: 'G-055NZBC83H'
+	apiKey: API_KEY,
+	authDomain: AUTH_DOMAIN,
+	projectId: PROJECT_ID,
+	storageBucket: STORAGE_BUCKET,
+	messagingSenderId: MESSAGING_SENDER_ID,
+	appId: APP_ID,
+	measurementId: MEASUREMENT_ID
 }
 
 const app = initializeApp(firebaseConfig)

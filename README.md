@@ -2,7 +2,7 @@
 
 A react native (expo) app for read book
 
-## Demo
+# Demo
 
 Here you can see link to my app
 

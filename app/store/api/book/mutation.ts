@@ -1,3 +1,4 @@
+import { GOOGLE_API_KEY } from '@env'
 import NetInfo from '@react-native-community/netinfo'
 import firebase from 'firebase/compat'
 import { addDoc, arrayRemove, arrayUnion, collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
@@ -330,13 +331,13 @@ const bookMutation = api.injectEndpoints({
 						}
 						try {
 							const response = await fetch(
-								`https://www.googleapis.com/books/v1/volumes?q=intitle:${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+inauthor:${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))&orderBy=relevance&maxResults=40`)
+								`https://www.googleapis.com/books/v1/volumes?q=intitle:${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+inauthor:${ModifiedData.Mauthor}` : ''}&key=${GOOGLE_API_KEY}&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))&orderBy=relevance&maxResults=40`)
 							
 							
 							const books = await response.json()
 							
 							const CurrentNeedBook = books.items.find((item: any) => item.volumeInfo.imageLinks !== undefined)
-							const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`
+							const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=${GOOGLE_API_KEY}`
 							)
 							const HightQuaittyImageJson = await HightQuaittyImage.json()
 							const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
@@ -350,12 +351,12 @@ const bookMutation = api.injectEndpoints({
 						} catch (error) {
 							console.log(ModifiedData)
 							console.log('Тестовое чтобы чекнуть ошибку')
-							const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+${ModifiedData.Mauthor}` : ''}&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))&orderBy=relevance&maxResults=40`)
+							const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${ModifiedData.Mterm}${ModifiedData.Mauthor ? `+${ModifiedData.Mauthor}` : ''}&key=${GOOGLE_API_KEY}&langRestrict=${lang}&hl=${lang}&printType=all&fields=items(id, volumeInfo(imageLinks, title, publishedDate, description, authors, categories, language, pageCount, categories))&orderBy=relevance&maxResults=40`)
 							
 							const books = await response.json()
 							const CurrentNeedBook = books.items.find((item: any) => item.volumeInfo.imageLinks !== undefined)
 							console.log(CurrentNeedBook, 'CurrentNeedBook')
-							const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=AIzaSyDQMGETJt4y9-beaw4EMRBQp53jimFNuFw`)
+							const HightQuaittyImage = await fetch(`https://www.googleapis.com/books/v1/volumes/${CurrentNeedBook.id}?fields=id,volumeInfo(imageLinks)&key=${GOOGLE_API_KEY}`)
 							const HightQuaittyImageJson = await HightQuaittyImage.json()
 							const imageSize = HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
 								? HightQuaittyImageJson.volumeInfo.imageLinks.extraLarge
