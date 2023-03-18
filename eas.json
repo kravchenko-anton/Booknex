@@ -1,18 +1,18 @@
 {
+	"cli": {
+		"version": ">= 0.38.2"
+	},
 	"build": {
 		"root": {
 			"android": {
 				"buildType": "apk"
 			}
 		},
-		"preview2": {
-			"android": {
-				"gradleCommand": ":app:assembleRelease"
-			}
+		"development": {
+			"developmentClient": true,
+			"distribution": "internal"
 		},
-		"preview3": {
-			"developmentClient": true
-		},
+		
 		"production": {}
 	}
 }

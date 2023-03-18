@@ -107,7 +107,7 @@ const userQueryApi = api.injectEndpoints({
 						console.log(Userdata)
 						console.log({ ...snapshot.data() })
 						
-						await AsyncStorage.setItem('MyProfile' + uid, JSON.stringify({ data: Userdata })).then(() => console.log('MyProfile stored ', Userdata))
+						await AsyncStorage.setItem('MyProfile' + uid, JSON.stringify({ data: Userdata })).then(() => console.log('MyProfile stored '))
 						return { data: Userdata }
 					}
 				} catch (error) {

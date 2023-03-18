@@ -11,19 +11,13 @@ const ReadPage = ({ route }: any) => {
 	const { isConnected } = NetInfo.useNetInfo()
 	const { epub, LastReadPage, BookId, bookName } = route.params
 	const [OfflineEpub, setOfflineEpub] = useState(epub)
-	const [Permission, setPermission] = useState<any>()
 	const { StorageAccessFramework } = FileSystem
 	const downloadPath = FileSystem.documentDirectory + (Platform.OS == 'android' ? '' : '')
 	const { navigate } = useTypedNavigation()
+	const [Permission, setPermission] = useState('')
 	useLayoutEffect(() => {
 		const FetchEpub = async () => {
 			const data = await AsyncStorage.getItem('OfflineEpub' + epub)
-			const permission = await AsyncStorage.getItem('permissionWay')
-			if (permission) {
-				console.log('permission', permission)
-				setPermission(permission)
-			}
-			
 			if (!isConnected) {
 				if (data != null) {
 					await FileSystem.getInfoAsync(data).then((response) => {
@@ -49,14 +43,20 @@ const ReadPage = ({ route }: any) => {
 		try {
 			const fileString = await FileSystem.readAsStringAsync(fileUri, { encoding: FileSystem.EncodingType.Base64 })
 			
-			const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync()
-			if (permissions.granted) {
-				await AsyncStorage.setItem('permissionWay', permissions.directoryUri)
-			} else {
-				return
-			}
 			try {
-				await StorageAccessFramework.createFileAsync(Permission ? Permission : permissions.directoryUri, fileName, 'application/epub+zip')
+				const directoryUri = await AsyncStorage.getItem('permissionDirectoryUrl')
+				if (!directoryUri) {
+					const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync()
+					if (!permissions.granted) {
+						return
+					} else {
+						await AsyncStorage.setItem('permissionDirectoryUrl', permissions.directoryUri)
+						setPermission(permissions.directoryUri)
+					}
+				} else {
+					setPermission(directoryUri)
+				}
+				await StorageAccessFramework.createFileAsync(Permission, fileName, 'application/epub+zip')
 					.then(async (uri) => {
 						await FileSystem.writeAsStringAsync(uri, fileString, { encoding: FileSystem.EncodingType.Base64 })
 					})
