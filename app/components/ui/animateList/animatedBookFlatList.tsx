@@ -1,6 +1,6 @@
 import RNBounceable from '@freakycoder/react-native-bounceable'
 import { FC, useRef } from 'react'
-import { Animated, FlatList, Image, Platform, View } from 'react-native'
+import { Animated, Image, Platform, View } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
 
@@ -9,14 +9,14 @@ const AnimatedBookFlatList: FC<{ data: BookTypes[] }> = ({ data }) => {
 	const scrollX = useRef(new Animated.Value(0)).current
 	return (
 		<View>
-			<FlatList
+			<Animated.FlatList
 				horizontal
 				decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
 				snapToInterval={160}
 				bounces={false}
 				onScroll={Animated.event(
 					[{ nativeEvent: { contentOffset: { x: scrollX } } }],
-					{ useNativeDriver: false }
+					{ useNativeDriver: true }
 				)}
 				scrollEventThrottle={1}
 				showsHorizontalScrollIndicator={false}

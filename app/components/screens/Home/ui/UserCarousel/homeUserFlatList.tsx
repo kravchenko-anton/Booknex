@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren, useRef } from 'react'
 import { Animated, Platform } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
 import { Iuser } from '../../../../../store/api/api.types'
 import HomeUserListItem from './homeUserListItem'
 
@@ -10,14 +9,14 @@ const AnimatedUserHomeFlatList: FC<
 	
 	const scrollX = useRef(new Animated.Value(0)).current
 	return (
-		<FlatList
+		<Animated.FlatList
 			horizontal
 			decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
 			snapToInterval={122}
 			bounces={false}
 			onScroll={Animated.event(
 				[{ nativeEvent: { contentOffset: { x: scrollX } } }],
-				{ useNativeDriver: false }
+				{ useNativeDriver: true }
 			)}
 			scrollEventThrottle={1}
 			showsHorizontalScrollIndicator={false}

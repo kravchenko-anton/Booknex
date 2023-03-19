@@ -47,6 +47,7 @@ const Home = () => {
 					</RNBounceable>
 				</View>
 				<Text className='text-2xl text-white font-bold mb-4'>{I18n.t('Library')} 📚 </Text>
+				
 				<AnimatedHomeFlatList
 					data={CurrentUser.startReadBook && CurrentUser.startReadBook.length ? [...CurrentUser.startReadBook].reverse() : []} />
 				<Animatable.View delay={300} animation={selectFavoriteBook ? ElementBottomAnimation : ElementBottomToTopAnimation}>
@@ -68,9 +69,9 @@ const Home = () => {
 						collapsable={true}
 						accessibilityLiveRegion={'none'}
 						selectedValue={selectFavoriteBook}
-						onValueChange={(itemValue) =>
+						onValueChange={(itemValue) => {
 							setSelectFavoriteBook(itemValue)
-						}>
+						}}>
 						<Picker.Item label={I18n.t('Favorite') + ' ❤'} color='white' value={true}
 						             style={{
 							             backgroundColor: '#121212',

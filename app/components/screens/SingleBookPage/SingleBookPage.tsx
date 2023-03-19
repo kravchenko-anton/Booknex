@@ -40,7 +40,7 @@ const SingleBookPage = ({ route }: any) => {
 			: book.comments.constructor.length)
 	return (
 		<Layout>
-			<View className='h-full justify-center items-center'>
+			<View className='h-full justify-center items-center w-full'>
 				<ModalPopup
 					height={300}
 					isVisible={isVisible}
@@ -53,7 +53,7 @@ const SingleBookPage = ({ route }: any) => {
 				
 				<Animatable.View
 					className='w-[150px] absolute z-50 bottom-3 flex-row items-center justify-between'
-					useNativeDriver={true}
+					useNativeDriver={false}
 					duration={1000}
 					renderToHardwareTextureAndroid={true}
 					animation={visibleButton ? BottomAnimation : BottomAnimationEndToStart}
@@ -73,11 +73,11 @@ const SingleBookPage = ({ route }: any) => {
 						<FontAwesome5 name='book-reader' size={24} color='white' />
 					</Pressable>
 				</Animatable.View>
-				<ScrollView
-					onScroll={(event) => {
-						setVisibleButton(event.nativeEvent.contentOffset.y < 30)
-					}}
-					showsVerticalScrollIndicator={false}
+				<ScrollView className='w-full'
+				            onScroll={(event) => {
+					            setVisibleButton(event.nativeEvent.contentOffset.y < 30)
+				            }}
+				            showsVerticalScrollIndicator={false}
 				>
 					<Header className='mt-4'>
 						<BookFavoritesButton

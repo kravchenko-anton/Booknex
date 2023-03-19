@@ -1,5 +1,5 @@
 import RNBounceable from '@freakycoder/react-native-bounceable'
-import React, { FC } from 'react'
+import React, { FC, memo } from 'react'
 import { Animated, Image } from 'react-native'
 import { useTypedNavigation } from '../../../../../hook/useTypedNavigation'
 import { useFetchSingleUserQuery } from '../../../../../store/api/user/query'
@@ -28,4 +28,4 @@ const HomeUserListItem: FC<IUserHomeItem> = ({ uid, scale }) => {
 	)
 }
 
-export default HomeUserListItem
+export default memo(HomeUserListItem)

@@ -17,11 +17,12 @@ const AnimatedFlatList: FC<
 	return (
 		<Animated.FlatList
 			data={data}
+			initialNumToRender={3}
 			ref={ref => (listRef = ref)}
 			extraData={data}
 			onScroll={Animated.event(
 				[{ nativeEvent: { contentOffset: { y: scrollY } } }],
-				{ useNativeDriver: false }
+				{ useNativeDriver: true }
 			)}
 			ListEmptyComponent={() => (
 				<View className='w-[100%] mt-4 h-[250px] bg-blue rounded-lg items-center'>

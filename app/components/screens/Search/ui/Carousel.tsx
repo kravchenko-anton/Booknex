@@ -21,7 +21,7 @@ const Carousel = () => {
 			data={CarouselBook}
 			onScroll={Animated.event(
 				[{ nativeEvent: { contentOffset: { x: scrollX } } }],
-				{ useNativeDriver: false }
+				{ useNativeDriver: true }
 			)}
 			renderItem={({ item, index }) => {
 				if (!item.Name) return <View style={{ width: EMPTY_ITEM_SIZE }} />

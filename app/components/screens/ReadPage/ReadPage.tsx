@@ -2,7 +2,7 @@ import { ReaderProvider } from '@epubjs-react-native/core'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo'
 import * as FileSystem from 'expo-file-system'
-import { useLayoutEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import ReaderComponent from './ReaderComponent'
@@ -15,7 +15,7 @@ const ReadPage = ({ route }: any) => {
 	const downloadPath = FileSystem.documentDirectory + (Platform.OS == 'android' ? '' : '')
 	const { navigate } = useTypedNavigation()
 	const [Permission, setPermission] = useState('')
-	useLayoutEffect(() => {
+	useEffect(() => {
 		const FetchEpub = async () => {
 			const data = await AsyncStorage.getItem('OfflineEpub' + epub)
 			if (!isConnected) {
@@ -101,4 +101,4 @@ const ReadPage = ({ route }: any) => {
 	)
 }
 
-export default ReadPage
+export default memo(ReadPage)

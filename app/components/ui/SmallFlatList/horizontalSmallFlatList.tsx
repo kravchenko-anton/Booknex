@@ -13,8 +13,9 @@ const HorizontalSmallFlatList: FC<
 	const scrollX = useRef(new Animated.Value(0)).current
 	let animationRef = useRef<Lottie>(null)
 	return (
-		<FlatList
+		<Animated.FlatList
 			horizontal
+			initialNumToRender={3}
 			extraData={data}
 			renderToHardwareTextureAndroid={true}
 			ListEmptyComponent={() => <View className='w-[150px] h-[250px] items-center bg-blue rounded-lg'>
@@ -39,7 +40,7 @@ const HorizontalSmallFlatList: FC<
 			bounces={false}
 			onScroll={Animated.event(
 				[{ nativeEvent: { contentOffset: { x: scrollX } } }],
-				{ useNativeDriver: false }
+				{ useNativeDriver: true }
 			)}
 			scrollEventThrottle={1}
 			showsHorizontalScrollIndicator={false}

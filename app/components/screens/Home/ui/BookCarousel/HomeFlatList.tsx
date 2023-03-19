@@ -12,9 +12,9 @@ const AnimatedHomeFlatList: FC<{ data: string[]; id?: string }> = ({ data }) => 
 	return (
 		<Animated.FlatList
 			horizontal
-			ref={ref => (listRef = ref)}
+			initialNumToRender={3}
+			ref={(ref: any) => (listRef = ref)}
 			extraData={data}
-			initialNumToRender={30}
 			renderToHardwareTextureAndroid={true}
 			ListEmptyComponent={() => (
 				<View className='w-[200px] h-[290px] bg-blue rounded-lg items-center'>
@@ -39,19 +39,29 @@ const AnimatedHomeFlatList: FC<{ data: string[]; id?: string }> = ({ data }) => 
 			}}
 			onScroll={Animated.event(
 				[{ nativeEvent: { contentOffset: { x: scrollX } } }],
-				{ useNativeDriver: false }
+				{ useNativeDriver: true }
 			)}
 			showsHorizontalScrollIndicator={false}
 			data={data}
 			renderItem={({ item, index }) => {
-				const inputRange = [0, 0, 200 * index, 200 * (index * 1.1 + 1)]
+				const inputRange =
+					[0, 0, 200 * index, 200 * (index * 1.1 + 1)]
 				const scale = scrollX.interpolate({
 					inputRange,
-					outputRange: [1, 1, 1, 0.3],
+					outputRange: [1, 1, 1, 0],
 					extrapolate: 'extend'
 				})
-				
-				return <HomeListItem scale={scale} BookId={item} />
+				const rotateY = scrollX.interpolate({
+					inputRange,
+					outputRange: ['0deg', '0deg', '0deg', '120deg'],
+					extrapolate: 'extend'
+				})
+				const rotateX = scrollX.interpolate({
+					inputRange,
+					outputRange: ['0deg', '0deg', '0deg', '60deg'],
+					extrapolate: 'extend'
+				})
+				return <HomeListItem scale={scale} rotateY={rotateY} rotateX={rotateX} BookId={item} />
 			}}
 		/>
 	)

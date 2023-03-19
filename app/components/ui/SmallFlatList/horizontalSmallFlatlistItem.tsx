@@ -1,5 +1,5 @@
 import RNBounceable from '@freakycoder/react-native-bounceable'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import { Animated, Image } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { useFetchSingleBookQuery } from '../../../store/api/book/query'
@@ -24,4 +24,4 @@ const HorizontalSmallFlatlistItem: FC<ISmallFlatItem> = ({ BookId, scale }) => {
 	)
 }
 
-export default HorizontalSmallFlatlistItem
+export default memo(HorizontalSmallFlatlistItem)

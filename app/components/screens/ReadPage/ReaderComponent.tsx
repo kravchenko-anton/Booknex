@@ -2,7 +2,7 @@ import { Reader, useReader } from '@epubjs-react-native/core'
 import { useFileSystem } from '@epubjs-react-native/expo-file-system'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StatusBar } from 'expo-status-bar'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { memo, useLayoutEffect, useState } from 'react'
 import { Text, useWindowDimensions, View } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
@@ -203,4 +203,4 @@ const ReaderComponent = (props: {
 	)
 }
 
-export default ReaderComponent
+export default memo(ReaderComponent)

@@ -1,3 +1,4 @@
+import { StatusBar } from 'expo-status-bar'
 import I18n from 'i18n-js'
 import Lottie from 'lottie-react-native'
 import { useRef } from 'react'
@@ -7,6 +8,7 @@ import Layout from './Layout/Layout'
 const NoInternet = () => {
 	let animationRef = useRef<Lottie>(null)
 	return <Layout className='h-full'>
+		<StatusBar backgroundColor='#121212' />
 		<View className='flex-1 mt-4 rounded-lg justify-center items-center'>
 			<Lottie
 				renderMode={Platform.OS === 'ios' ? 'HARDWARE' : 'SOFTWARE'}

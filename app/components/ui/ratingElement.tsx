@@ -35,7 +35,7 @@ const CommentElement: FC<Comment> = props => {
 							numberOfLines={1}
 							className='text-white font-bold text-xl flex-wrap max-w-[190px] whitespace-normal'
 						>
-							{user.name}
+							{user.name ? user.name : 'Anonim'}
 						</Text>
 						
 						<View className='justify-between gap-2 items-center flex-row'>
