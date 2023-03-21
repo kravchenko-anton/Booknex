@@ -3213,13 +3213,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-picker/picker@npm:^2.4.8":
-  version: 2.4.8
-  resolution: "@react-native-picker/picker@npm:2.4.8"
+"@react-native-picker/picker@npm:^2.4.9":
+  version: 2.4.9
+  resolution: "@react-native-picker/picker@npm:2.4.9"
   peerDependencies:
     react: ">=16"
     react-native: ">=0.57"
-  checksum: 47f0794b135207d3faea3e913735e9e73317deece390801e19d9ba47322c964faa3c22446bdd71959a3d4fc0bcff4bc78d85b316a71eab98ddf2f6f12e662826
+  checksum: 0477cca925938729172564a3c5b4d3cf59a48f227db768352713aa63b2cf0b58a81968cb026c1ee53aeff1f32c82b09b9fc2fb253886911c3b0c7b2553a50764
   languageName: node
   linkType: hard
 
@@ -4452,7 +4452,7 @@ __metadata:
     "@react-native-async-storage/async-storage": "npm:^1.17.11"
     "@react-native-community/netinfo": "npm:6.2.0"
     "@react-native-community/slider": "npm:^4.4.2"
-    "@react-native-picker/picker": "npm:^2.4.8"
+    "@react-native-picker/picker": "npm:^2.4.9"
     "@react-navigation/native": "npm:^6.1.2"
     "@react-navigation/native-stack": "npm:^6.9.8"
     "@reduxjs/toolkit": "npm:^1.9.1"
@@ -4473,6 +4473,8 @@ __metadata:
     expo-asset: "npm:^8.9.1"
     expo-clipboard: "npm:4.0.1"
     expo-document-picker: "npm:~11.0.1"
+    expo-image: "npm:^1.0.0"
+    expo-image-loader: "npm:^4.1.1"
     expo-image-picker: "npm:14.1.0"
     expo-permissions: "npm:^14.1.1"
     expo-progress: "npm:^0.0.2"
@@ -6063,6 +6065,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-image-loader@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "expo-image-loader@npm:4.1.1"
+  peerDependencies:
+    expo: "*"
+  checksum: 224e37268da709f9910b588694bb5a4eebf46a2d6a2ff71fc5c8674acda772f251935402bedcb530f6ecfc5af55ce078acbbd4f30f68305433a298a64706ad84
+  languageName: node
+  linkType: hard
+
 "expo-image-loader@npm:~4.0.0":
   version: 4.0.0
   resolution: "expo-image-loader@npm:4.0.0"
@@ -6080,6 +6091,15 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 2d56e6ced56038eb5c9ca4dba269a2167fd38b8796ac50a7223efc68093658e7280a04dc3ff376defb57889f7313e4fd73e24350f973e0a2c0843e50ab8cda6b
+  languageName: node
+  linkType: hard
+
+"expo-image@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "expo-image@npm:1.0.0"
+  peerDependencies:
+    expo: "*"
+  checksum: ef6996d7587b39a0cd264c821a67815add45307f1d21a92b58cf8583f077b99c2be40b59796a2baf0c7f0bf7ba96f5318dc09a99818e51891c9b6ab3265f144c
   languageName: node
   linkType: hard
 

@@ -56,6 +56,8 @@ const ReadPage = ({ route }: any) => {
 				} else {
 					setPermission(directoryUri)
 				}
+				
+				
 				await StorageAccessFramework.createFileAsync(Permission, fileName, 'application/epub+zip')
 					.then(async (uri) => {
 						await FileSystem.writeAsStringAsync(uri, fileString, { encoding: FileSystem.EncodingType.Base64 })
@@ -75,8 +77,7 @@ const ReadPage = ({ route }: any) => {
 		const downloadResumable = FileSystem.createDownloadResumable(
 			fileUrl,
 			downloadPath + fileName,
-			{}
-		)
+			{ cache: true })
 		
 		try {
 			const downloadResult = await downloadResumable.downloadAsync()
@@ -88,7 +89,6 @@ const ReadPage = ({ route }: any) => {
 				AsyncStorage.setItem('OfflineEpub' + epub, downloadResult?.uri as string)
 			})
 		} catch (e) {
-			console.log(e)
 			navigate('NoInternet')
 		}
 		

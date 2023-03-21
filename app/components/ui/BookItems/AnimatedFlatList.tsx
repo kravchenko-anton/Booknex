@@ -2,10 +2,11 @@ import I18n from 'i18n-js'
 import LottieView from 'lottie-react-native'
 import Lottie from 'lottie-react-native'
 import { FC, PropsWithChildren, useRef } from 'react'
-import { Animated, Image, Platform, Pressable, Text, View } from 'react-native'
+import { Animated, Platform, Pressable, Text, View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import { BookTypes } from '../../../store/api/api.types'
+import ProgressiveCover from '../ProgressiveImages/progressiveCover'
 
 const AnimatedFlatList: FC<
 	PropsWithChildren<{ data: BookTypes[]; id?: string, contentHeight: number }>
@@ -17,7 +18,7 @@ const AnimatedFlatList: FC<
 	return (
 		<Animated.FlatList
 			data={data}
-			initialNumToRender={3}
+			showsVerticalScrollIndicator={false}
 			ref={ref => (listRef = ref)}
 			extraData={data}
 			onScroll={Animated.event(
@@ -53,10 +54,8 @@ const AnimatedFlatList: FC<
 					>
 						
 						<Pressable onPress={() => navigate('BookPage', { id: item.id })} className='w-full flex-row'>
-							<Image
-								source={{ uri: item.Image }}
-								className='w-[100px] object-contain h-[150px] rounded-lg '
-							/>
+							<ProgressiveCover uri={item.Image} borderRadius={8} bookAuthor={item.autor} width={100} height={150}
+							                  bookName={item.Name} />
 							<View className='pl-4 flex-1'>
 								<Text
 									className='text-white overflow-ellipsis mt-2 text-2xl  font-bold'

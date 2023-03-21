@@ -65,13 +65,9 @@ const Home = () => {
 						mode='dropdown'
 						dropdownIconColor='white'
 						dropdownIconRippleColor='#121212'
-						accessibilityIgnoresInvertColors={true}
-						collapsable={true}
-						accessibilityLiveRegion={'none'}
 						selectedValue={selectFavoriteBook}
-						onValueChange={(itemValue) => {
-							setSelectFavoriteBook(itemValue)
-						}}>
+						onValueChange={(itemValue) => setSelectFavoriteBook(itemValue)
+						}>
 						<Picker.Item label={I18n.t('Favorite') + ' ❤'} color='white' value={true}
 						             style={{
 							             backgroundColor: '#121212',

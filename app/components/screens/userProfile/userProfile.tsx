@@ -85,13 +85,13 @@ const UserProfilePages = () => {
 				<Statistics
 					FirstDescription={I18n.t('Favorites')}
 					FirstHeading={
-						CurrentUser.favoritesBook.length.toString()
+						CurrentUser.favoritesBook
 							? CurrentUser.favoritesBook.length.toString()
 							: '0'
 					}
-					SecondHeading={CurrentUser.revieCount.toString()}
+					SecondHeading={CurrentUser.revieCount ? CurrentUser.revieCount.toString() : '0'}
 					SecondDescription={I18n.t('UserReviews')}
-					ThirdHeading={CurrentUserBook?.length}
+					ThirdHeading={CurrentUserBook?.length ? CurrentUserBook?.length : '0'}
 					ThirdDescription={I18n.t('UserBooks')}
 				/>
 				

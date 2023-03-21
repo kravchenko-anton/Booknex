@@ -1,6 +1,8 @@
 import { FontAwesome5 } from '@expo/vector-icons'
+import { useNetInfo } from '@react-native-community/netinfo'
 import I18n from 'i18n-js'
-import { Image, Pressable, ScrollView, Text, View } from 'react-native'
+import React from 'react'
+import { Pressable, ScrollView, Text, View } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { AirbnbRating } from 'react-native-ratings'
 import Animated, { FadeInDown } from 'react-native-reanimated'
@@ -11,6 +13,7 @@ import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import ModalPopup from '../../ui/modal'
+import ProgressiveCover from '../../ui/ProgressiveImages/progressiveCover'
 import CommentElement from '../../ui/ratingElement'
 import Statistics from '../../ui/statistics'
 import AddBookRating from './ui/AddBookRating'
@@ -32,6 +35,7 @@ const SingleBookPage = ({ route }: any) => {
 		lastReadPage,
 		styleAnimation
 	} = useSingleBook(id)
+	const { isConnected } = useNetInfo()
 	if (!book || !Profile || isLoading) return <Loader />
 	const total =
 		Object.values(book.comments).reduce((t, { rating }) => t + rating, 0) /
@@ -88,10 +92,9 @@ const SingleBookPage = ({ route }: any) => {
 					</Header>
 					<View className='flex-row  justify-between mt-8'>
 						<Animated.View entering={FadeInDown} style={styleAnimation}>
-							<Image
-								source={{ uri: book.Image }}
-								className='w-[150px] mr-3 h-[250px] rounded-xl'
-							/>
+							<ProgressiveCover bookAuthor={book.autor} uri={book.Image} bookName={book.Name} width={150} height={250}
+							                  borderRadius={12}
+							                  className='mr-3 ' />
 						</Animated.View>
 						<Animatable.View animation={animation} className='flex-1'>
 							<Text numberOfLines={2} className='text-white font-bold text-2xl mt-6'>
@@ -144,36 +147,37 @@ const SingleBookPage = ({ route }: any) => {
 					>
 						{book.description}
 					</Animatable.Text>
-					<View
-						className='flex-row justify-between
-			items-center'
-					>
-						<Text className='text-white  font-bold  text-2xl mt-6'>
-							{I18n.t('Reviews')}
-						</Text>
-						<Text
-							onPress={() => setIsVisible(true)}
-							className='text-gray text-lg mt-6'
-						>
-							{I18n.t('add')}
-						</Text>
-					</View>
-					<Animatable.View animation={animation} className='mb-2 flex-1'>
-						{book.comments.length ? (
-							book.comments.map(comments => (
-								<CommentElement
-									key={comments.create_At}
-									rating={comments.rating}
-									BookId={comments.BookId}
-									create_At={comments.create_At}
-									message={comments.message}
-									userUid={comments.userUid}
-								/>
-							))
-						) : (
-							<Text className='text-gray text-xl'>{I18n.t('None review!')}</Text>
-						)}
-					</Animatable.View>
+					{isConnected ? <View>
+						<View
+							className='flex-row justify-between
+			items-center'>
+							<Text className='text-white  font-bold  text-2xl mt-6'>
+								{I18n.t('Reviews')}
+							</Text>
+							<Text
+								onPress={() => setIsVisible(true)}
+								className='text-gray text-lg mt-6'
+							>
+								{I18n.t('add')}
+							</Text>
+						</View>
+						<Animatable.View animation={animation} className='mb-2 flex-1'>
+							{book.comments.length ? (
+								book.comments.map(comments => (
+									<CommentElement
+										key={comments.create_At}
+										rating={comments.rating}
+										BookId={comments.BookId}
+										create_At={comments.create_At}
+										message={comments.message}
+										userUid={comments.userUid}
+									/>
+								))
+							) : (
+								<Text className='text-gray text-xl'>{I18n.t('None review!')}</Text>
+							)}
+						</Animatable.View>
+					</View> : null}
 				</ScrollView>
 			</View>
 		</Layout>

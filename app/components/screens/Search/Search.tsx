@@ -1,3 +1,4 @@
+import { useNetInfo } from '@react-native-community/netinfo'
 import I18n from 'i18n-js'
 import { useForm } from 'react-hook-form'
 import { Image, Pressable, ScrollView, Text, View } from 'react-native'
@@ -25,6 +26,7 @@ const Search = () => {
 	const { data: Users } = useFetchUserQuery(navigate)
 	const { data: MostPopular } = useFetchMostPopularBooksQuery(navigate)
 	const { data: RandomBook } = useFetchRandomBooksQuery(navigate)
+	const { isConnected } = useNetInfo()
 	if (!book || !Users || !MostPopular || !RandomBook) return <Loader />
 	return (
 		<Layout className=' p-0 h-full'>
@@ -86,9 +88,10 @@ const Search = () => {
 						<Text className='text-2xl text-center mb-4 text-white font-bold'>{I18n.t('MayBeYouLike')} 🥰</Text>
 						<Carousel />
 						
-						<Text className='text-white ml-3 text-2xl font-bold mt-4 mb-2'>
-							{I18n.t('Random Books')} 😜</Text>
+						
 						<View className='p-3'>
+							<Text className='text-white  text-2xl font-bold mt-4 mb-4'>
+								{I18n.t('Random Books')} 😜</Text>
 							
 							<HorizontalBookItem imageUrl={RandomBook.Image} navigate={() => navigate('BookPage', { id: RandomBook.id })}
 							                    title={RandomBook.Name} author={RandomBook.autor} buttonText={'Read'}>
@@ -109,7 +112,7 @@ const Search = () => {
 								
 								<Text numberOfLines={2} className='mb-[9px] text-gray text-lg'> {RandomBook.description}</Text>
 							</HorizontalBookItem>
-							<Text className='text-white text-2xl font-bold mt-10 mb-4'>
+							<Text className='text-white text-2xl font-bold mt-5 mb-4'>
 								{I18n.t('MostPopularBooks')} 😎
 							</Text>
 							<AnimatedBookFlatList data={MostPopular.slice(0, 10)} />

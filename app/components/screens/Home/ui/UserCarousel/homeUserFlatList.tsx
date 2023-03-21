@@ -22,7 +22,7 @@ const AnimatedUserHomeFlatList: FC<
 			showsHorizontalScrollIndicator={false}
 			data={data}
 			renderItem={({ item, index }) => {
-				const inputRange = [0, 0, 150 * index, 150 * (index + 10)]
+				const inputRange = [0, 0, 150 * index, 150 * (index + 1)]
 				const scale = scrollX.interpolate({
 					inputRange,
 					outputRange: [1, 1, 1, 0],

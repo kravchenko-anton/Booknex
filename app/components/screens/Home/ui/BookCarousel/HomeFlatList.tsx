@@ -12,7 +12,6 @@ const AnimatedHomeFlatList: FC<{ data: string[]; id?: string }> = ({ data }) => 
 	return (
 		<Animated.FlatList
 			horizontal
-			initialNumToRender={3}
 			ref={(ref: any) => (listRef = ref)}
 			extraData={data}
 			renderToHardwareTextureAndroid={true}
@@ -45,7 +44,7 @@ const AnimatedHomeFlatList: FC<{ data: string[]; id?: string }> = ({ data }) => 
 			data={data}
 			renderItem={({ item, index }) => {
 				const inputRange =
-					[0, 0, 200 * index, 200 * (index * 1.1 + 1)]
+					[0, 0, 200 * index, 200 * (index + 1)]
 				const scale = scrollX.interpolate({
 					inputRange,
 					outputRange: [1, 1, 1, 0],

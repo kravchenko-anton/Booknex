@@ -3,21 +3,18 @@ import LottieView from 'lottie-react-native'
 import Lottie from 'lottie-react-native'
 import { FC, PropsWithChildren, useRef } from 'react'
 import { Animated, Platform, Text, View } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
 import HorizontalSmallFlatlistItem from './horizontalSmallFlatlistItem'
 
 const HorizontalSmallFlatList: FC<
 	PropsWithChildren<{ data: string[]; id?: string }>
 > = ({ children, data }) => {
-	let listRef: any = useRef<FlatList | any>(null)
+	const flatListRef = useRef<any>()
 	const scrollX = useRef(new Animated.Value(0)).current
 	let animationRef = useRef<Lottie>(null)
 	return (
 		<Animated.FlatList
 			horizontal
-			initialNumToRender={3}
 			extraData={data}
-			renderToHardwareTextureAndroid={true}
 			ListEmptyComponent={() => <View className='w-[150px] h-[250px] items-center bg-blue rounded-lg'>
 				<LottieView
 					loop={true}
@@ -33,8 +30,8 @@ const HorizontalSmallFlatList: FC<
 			</View>
 			}
 			
-			ref={ref => (listRef = ref)}
-			onContentSizeChange={() => listRef.scrollToOffset({ animated: true, offset: 0 })}
+			ref={flatListRef}
+			onContentSizeChange={() => flatListRef.current.scrollToOffset({ animated: true, offset: 0 })}
 			decelerationRate={Platform.OS == 'ios' ? 0 : 0.92}
 			snapToInterval={160}
 			bounces={false}
@@ -42,14 +39,13 @@ const HorizontalSmallFlatList: FC<
 				[{ nativeEvent: { contentOffset: { x: scrollX } } }],
 				{ useNativeDriver: true }
 			)}
-			scrollEventThrottle={1}
 			showsHorizontalScrollIndicator={false}
 			data={data}
 			renderItem={({ item, index }) => {
-				const inputRange = [0, 0, 150 * index, 150 * (index + 10)]
+				const inputRange = [0, 150 * index, 150 * (index + 1)]
 				const scale = scrollX.interpolate({
 					inputRange,
-					outputRange: [1, 1, 1, 0],
+					outputRange: [1, 1, 0.8],
 					extrapolate: 'clamp'
 				})
 				

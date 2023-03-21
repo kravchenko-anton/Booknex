@@ -1,7 +1,8 @@
 import RNBounceable from '@freakycoder/react-native-bounceable'
 import React from 'react'
-import { Animated, Image, Platform, Text, View } from 'react-native'
+import { Animated, Platform, Text, View } from 'react-native'
 import { AirbnbRating } from 'react-native-ratings'
+import ProgressiveCover from '../../../ui/ProgressiveImages/progressiveCover'
 import { EMPTY_ITEM_SIZE, ITEM_SIZE, SPACING, useCarousel } from './useCarousel'
 
 const Carousel = () => {
@@ -78,11 +79,9 @@ const Carousel = () => {
 										id: item.id
 									})
 								}>
-									<Image
-										source={{ uri: item.Image }}
-										className='w-full rounded-xl'
-										style={{ height: ITEM_SIZE * 1.4 }}
-									/>
+									<ProgressiveCover uri={item.Image} bookName={item.Name} width={'100%'} height={ITEM_SIZE * 1.4}
+									                  bookAuthor={item.autor}
+									                  borderRadius={12} />
 								</RNBounceable>
 							</View>
 							

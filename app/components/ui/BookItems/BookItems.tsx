@@ -1,6 +1,7 @@
 import { FC } from 'react'
-import { Image, Pressable, Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
+import ProgressiveCover from '../ProgressiveImages/progressiveCover'
 
 export interface BookItem {
 	image: string
@@ -20,10 +21,8 @@ const BookItems: FC<BookItem> = props => {
 				onPress={() => navigate('BookPage', { id: props.id })}
 				className='flex-row mt-4 mb-4'
 			>
-				<Image
-					source={{ uri: props.image }}
-					className='w-[100px] object-contain h-[150px] rounded-lg '
-				/>
+				<ProgressiveCover uri={props.image} width={100} height={150} bookName={props.name} bookAuthor={props.autor}
+				                  borderRadius={8} />
 				<View className='pl-4 flex-1'>
 					<Text
 						className='text-white overflow-ellipsis mt-2 text-2xl  font-bold'
