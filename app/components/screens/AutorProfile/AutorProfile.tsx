@@ -9,6 +9,7 @@ import ClearUserLogo from '../../ui/clearUserLogo'
 import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
+import ProgressiveUserLogo from '../../ui/ProgressiveImages/ProgressiveUserIcon'
 import Statistics from '../../ui/statistics'
 import AuthorFavoritesButton from './ui/AuthorFavoritesButton'
 
@@ -29,14 +30,11 @@ const SingleUserPage = ({ route }: any) => {
 				</Header>
 				<View className='items-center mt-8'>
 					<RNBounceable>
-						{user.photoURL ? (
-							<Image
-								source={{ uri: user.photoURL }}
-								className='w-[200px] border-2 border-primary h-[200px] rounded-full'
-							/>
-						) : (
-							<ClearUserLogo letter={user.name} width={150} height={150} />
-						)}
+						<ProgressiveUserLogo
+							userName={user.name}
+							height={200}
+							width={200}
+							uri={user.photoURL}/>
 					</RNBounceable>
 					<Text className='text-white font-bold text-2xl mt-2'>{user.name}</Text>
 					<Text className='text-gray text-md'>{user.email}</Text>

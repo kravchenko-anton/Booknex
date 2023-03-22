@@ -3,8 +3,8 @@ import { Text, View } from 'react-native'
 
 export interface IClearUserLogo {
 	letter: string
-	width: number
-	height: number
+	width: number | string
+	height: number | string
 	latterSize?: number
 	rounded?: number
 }

@@ -2,14 +2,14 @@ import { ReaderProvider } from '@epubjs-react-native/core'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo'
 import * as FileSystem from 'expo-file-system'
-import { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useLayoutEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { useTypedNavigation } from '../../../hook/useTypedNavigation'
 import ReaderComponent from './ReaderComponent'
 
 const ReadPage = ({ route }: any) => {
-	const { isConnected } = NetInfo.useNetInfo()
 	const { epub, LastReadPage, BookId, bookName } = route.params
+	const { isConnected } = NetInfo.useNetInfo()
 	const [OfflineEpub, setOfflineEpub] = useState(epub)
 	const { StorageAccessFramework } = FileSystem
 	const downloadPath = FileSystem.documentDirectory + (Platform.OS == 'android' ? '' : '')
@@ -63,11 +63,14 @@ const ReadPage = ({ route }: any) => {
 						await FileSystem.writeAsStringAsync(uri, fileString, { encoding: FileSystem.EncodingType.Base64 })
 					})
 					.catch((e) => {
+						console.log(e, 'error 1')
 					})
 			} catch (e) {
+				console.log(e, 'error 2')
 			}
 			
 		} catch (err) {
+			console.log(err, 'error 3')
 		}
 	}
 	
@@ -84,9 +87,9 @@ const ReadPage = ({ route }: any) => {
 			await saveAndroidFile(downloadResult?.uri, fileName)
 			await FileSystem.readAsStringAsync(downloadResult?.uri as string, {
 				encoding: FileSystem.EncodingType.Base64
-			}).then((response) => {
+			}).then(async (response) => {
 				setOfflineEpub(response)
-				AsyncStorage.setItem('OfflineEpub' + epub, downloadResult?.uri as string)
+				await AsyncStorage.setItem('OfflineEpub' + epub, downloadResult?.uri as string)
 			})
 		} catch (e) {
 			navigate('NoInternet')

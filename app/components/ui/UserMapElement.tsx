@@ -2,6 +2,7 @@ import { Image, Pressable, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../hook/useTypedNavigation'
 import { useFetchSingleUserQuery } from '../../store/api/user/query'
 import ClearUserLogo from './clearUserLogo'
+import ProgressiveUserLogo from './ProgressiveImages/ProgressiveUserIcon'
 
 const UserMapElement = ({ userUId }: { userUId: string }) => {
 	const { navigate } = useTypedNavigation()
@@ -17,14 +18,7 @@ const UserMapElement = ({ userUId }: { userUId: string }) => {
 				}
 				className='items-center text-center h-full mr-3'
 			>
-				{CurrentUser.photoURL ? (
-					<Image
-						source={{ uri: CurrentUser.photoURL }}
-						className='w-[100px] border-2 border-primary h-[100px] rounded-full'
-					/>
-				) : (
-					<ClearUserLogo letter={CurrentUser.name} width={100} height={100} />
-				)}
+				<ProgressiveUserLogo userName={CurrentUser.name} height={100} width={100} uri={CurrentUser.photoURL} />
 				<Text
 					numberOfLines={1}
 					className='mt-1 max-w-[80px] text-center text-white font-bold'

@@ -1,10 +1,12 @@
 import { AntDesign, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import BottomSheet, { BottomSheetModalProvider, BottomSheetScrollView } from '@gorhom/bottom-sheet'
+import { useNetInfo } from '@react-native-community/netinfo'
 import Slider from '@react-native-community/slider'
 import I18n from 'i18n-js'
-import React, { useState } from 'react'
+import React, { memo, useState } from 'react'
 import { Pressable, Text, TouchableOpacity, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import Toast from 'react-native-toast-message'
 import { useTypedNavigation } from '../../../../../hook/useTypedNavigation'
 import { useAddBookToChatMutation } from '../../../../../store/api/book/mutation'
 import ChoseColor from './components/ChoseColor'
@@ -16,6 +18,7 @@ import { IReadSettings } from './readerTypes'
 const Settings = (props: IReadSettings) => {
 	const [searchState, setSearchState] = useState(false)
 	const [term, setTerm] = React.useState('')
+	const {isConnected} = useNetInfo()
 	const { navigate } = useTypedNavigation()
 	const [addChat] = useAddBookToChatMutation()
 	return (
@@ -128,13 +131,13 @@ const Settings = (props: IReadSettings) => {
 						<AntDesign name='arrowleft' size={24} color='white' />
 					</TouchableOpacity>
 					<View>
+						{isConnected ?
 						<TouchableOpacity
 							style={{
 								backgroundColor:
 									props.theme.body.background === '#121212' ? 'gray' : '#121212'
 							}}
 							onPress={async () => {
-								console.log(props.BookId)
 								await addChat({ id: props.BookId }).then(() =>
 									navigate('Chat', { BookId: props.BookId })
 								)
@@ -142,7 +145,8 @@ const Settings = (props: IReadSettings) => {
 							className='absolute right-16 top-10 p-3 rounded-full bg-blue z-[50]'
 						>
 							<Ionicons name='chatbubbles-outline' size={24} color='white' />
-						</TouchableOpacity>
+						</TouchableOpacity> : null
+						}
 						<TouchableOpacity
 							onPress={() => setSearchState(!searchState)}
 							style={{
@@ -164,4 +168,4 @@ const Settings = (props: IReadSettings) => {
 	)
 }
 
-export default Settings
+export default memo(Settings)

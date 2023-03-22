@@ -14,6 +14,7 @@ import { useFetchSingleUserQuery } from '../../../../store/api/user/query'
 import ClearUserLogo from '../../../ui/clearUserLogo'
 import Loader from '../../../ui/Loader'
 import ModalPopup from '../../../ui/modal'
+import ProgressiveUserLogo from '../../../ui/ProgressiveImages/ProgressiveUserIcon'
 import { IMessage } from './messageTypes'
 
 dayjs.extend(relativeTime)
@@ -104,14 +105,9 @@ const Message = ({ uid, message, timeStamp, BookId }: IMessage) => {
 				</Text>
 			</RNBounceable>
 			<TouchableOpacity onPress={() => navigate('AutorProfile', { uid: uid })}>
-				{user?.photoURL ? (
-					<Image
-						source={{ uri: user.photoURL }}
-						className='w-[30px] border-2 border-primary h-[30px] rounded-full'
-					/>
-				) : (
-					<ClearUserLogo letter={user.name} latterSize={15} width={30} height={30} />
-				)}
+				<ProgressiveUserLogo
+					uri={user.photoURL} userName={user.name} width={30} height={30}/>
+			
 			</TouchableOpacity>
 		</View>
 	)

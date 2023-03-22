@@ -17,6 +17,7 @@ import Field from '../../ui/field/field'
 import HorizontalBookItem from '../../ui/horizontalBookItem/horizontalBookItem'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
+import ProgressiveUserLogo from '../../ui/ProgressiveImages/ProgressiveUserIcon'
 import Carousel from './ui/Carousel'
 
 const Search = () => {
@@ -26,7 +27,6 @@ const Search = () => {
 	const { data: Users } = useFetchUserQuery(navigate)
 	const { data: MostPopular } = useFetchMostPopularBooksQuery(navigate)
 	const { data: RandomBook } = useFetchRandomBooksQuery(navigate)
-	const { isConnected } = useNetInfo()
 	if (!book || !Users || !MostPopular || !RandomBook) return <Loader />
 	return (
 		<Layout className=' p-0 h-full'>
@@ -40,11 +40,11 @@ const Search = () => {
 			{watch('Search', '') !== '' ? (
 				<View className='p-3 pt-0 flex-1'>
 					<AnimatedFlatList
-						data={book.filter((item: { Name: string }) => item.Name.includes(watch('Search')))}
+						data={book.filter((item: { Name: string }) => item.Name.toLowerCase().includes(watch('Search').toLowerCase()))}
 						contentHeight={Users?.filter((user: { name: string }) =>
-							user.name.includes(watch('Search'))).length ? 134 : 0}>
+							user.name.toLowerCase().includes(watch('Search').toLowerCase())).length ? 134 : 0}>
 						{watch('Search') != '' &&
-						Users.filter(user => user.name.includes(watch('Search'))).length > 0 ? (
+						Users.filter(user => user.name.toLowerCase().includes(watch('Search').toLowerCase())).length > 0 ? (
 							<ScrollView
 								horizontal={true}
 								className='h-[130px] mt-1'
@@ -62,14 +62,7 @@ const Search = () => {
 										key={user.uid}
 										className='items-center text-center h-full mr-3'
 									>
-										{user.photoURL ? (
-											<Image
-												source={{ uri: user.photoURL }}
-												className='w-[100px] border-2 border-primary h-[100px] rounded-full'
-											/>
-										) : (
-											<ClearUserLogo letter={user.name} width={100} height={100} />
-										)}
+										<ProgressiveUserLogo uri={user.photoURL} userName={user.name} width={100} height={100} />
 										<Text
 											numberOfLines={1}
 											className='mt-1 max-w-[80px] text-center text-white font-bold'

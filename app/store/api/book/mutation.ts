@@ -16,12 +16,12 @@ const bookMutation = api.injectEndpoints({
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
-						console.log(' AddBookToChat Error With enter	to internet')
+						console.log('AddBookToChat Error With enter	to internet')
 						Toast.show({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
-						return { data: 'No Internet' }
+						return {	data: null }
 					} else {
 						console.log(' AddBookToChat Work')
 						const BookRef = doc(db, 'BookChats', id)

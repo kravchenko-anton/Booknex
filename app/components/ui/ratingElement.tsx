@@ -5,6 +5,7 @@ import { useTypedNavigation } from '../../hook/useTypedNavigation'
 import { Comment } from '../../store/api/api.types'
 import { useFetchSingleUserQuery } from '../../store/api/user/query'
 import ClearUserLogo from './clearUserLogo'
+import ProgressiveUserLogo from './ProgressiveImages/ProgressiveUserIcon'
 
 const CommentElement: FC<Comment> = props => {
 	const { navigate } = useTypedNavigation()
@@ -20,15 +21,7 @@ const CommentElement: FC<Comment> = props => {
 				}
 				className='mt-4 flex-row'
 			>
-				{user.photoURL ? (
-					<Image
-						source={{ uri: user.photoURL }}
-						className='w-[70px] mr-3 h-[70px] rounded-full'
-					/>
-				) : (
-					<ClearUserLogo letter={user.name} width={70} height={70} />
-				)}
-				
+			<ProgressiveUserLogo	userName={user.name} height={70} width={70} uri={user.photoURL} />
 				<View className='flex-1 ml-2'>
 					<View className='flex-row justify-between items-center'>
 						<Text

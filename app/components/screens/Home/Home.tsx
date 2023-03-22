@@ -12,6 +12,7 @@ import { ElementBottomAnimation, ElementBottomToTopAnimation } from '../../../ut
 import ClearUserLogo from '../../ui/clearUserLogo'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
+import ProgressiveUserLogo from '../../ui/ProgressiveImages/ProgressiveUserIcon'
 import HorizontalSmallFlatList from '../../ui/SmallFlatList/horizontalSmallFlatList'
 import AnimatedHomeFlatList from './ui/BookCarousel/HomeFlatList'
 import ContinueRead from './ui/continueRead'
@@ -36,14 +37,7 @@ const Home = () => {
 							className='text-gray text-md mt-1 font-thin'>{I18n.t('They good day for read new book!')}</Text>
 					</View>
 					<RNBounceable onPress={() => navigate('UserProfile')} className='w-full p-0'>
-						{CurrentUser.photoURL ? (
-							<Image
-								source={{ uri: CurrentUser.photoURL }}
-								className='w-[70px] h-[70px] rounded-full'
-							/>
-						) : (
-							<ClearUserLogo latterSize={30} rounded={100} letter={CurrentUser.name} width={70} height={70} />
-						)}
+						<ProgressiveUserLogo userName={CurrentUser.name} height={70} width={70} uri={CurrentUser.photoURL} />
 					</RNBounceable>
 				</View>
 				<Text className='text-2xl text-white font-bold mb-4'>{I18n.t('Library')} 📚 </Text>

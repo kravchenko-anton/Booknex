@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import NetInfo from '@react-native-community/netinfo'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import I18n from 'i18n-js'
-import Toast from 'react-native-toast-message'
 import { db } from '../../../utils/firebase'
 import { api } from '../api'
 import { Iuser } from '../api.types'
@@ -16,13 +15,8 @@ const userQueryApi = api.injectEndpoints({
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('allUsers')
 					if (!storedBooks && !isConnetcted.isConnected) {
-						console.log('No internet connection for new content!')
-						Toast.show({
-							text1: I18n.t('No internet connection for new content!'),
-							type: 'error'
-						})
-						navigate('NoInternet')
-						return { data: [] as Iuser[] }
+						await navigate('NoInternet')
+						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('allUsers from storage')
@@ -54,14 +48,8 @@ const userQueryApi = api.injectEndpoints({
 					
 					const storedBooks = await AsyncStorage.getItem('singleUsers' + uid)
 					if (!storedBooks && !isConnetcted.isConnected) {
-						console.log('No internet connection for new content!')
-						Toast.show({
-							text1: I18n.t('No internet connection for new content!'),
-							type: 'error'
-						})
-						navigate('NoInternet')
-						
-						return { data: {} as Iuser }
+						await navigate('NoInternet')
+						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('singleUsers from storage')
@@ -87,13 +75,8 @@ const userQueryApi = api.injectEndpoints({
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('MyProfile' + uid)
 					if (!storedBooks && !isConnetcted.isConnected) {
-						console.log('No internet connection for new content!')
-						Toast.show({
-							text1: I18n.t('No internet connection for new content!'),
-							type: 'error'
-						})
-						navigate('NoInternet')
-						return { data: {} as Iuser }
+						await navigate('NoInternet')
+						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('MyProfile from storage')

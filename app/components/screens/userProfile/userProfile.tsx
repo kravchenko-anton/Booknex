@@ -15,6 +15,7 @@ import Header from '../../ui/header'
 import Layout from '../../ui/Layout/Layout'
 import Loader from '../../ui/Loader'
 import ModalPopup from '../../ui/modal'
+import ProgressiveUserLogo from '../../ui/ProgressiveImages/ProgressiveUserIcon'
 import Statistics from '../../ui/statistics'
 import AddBookPopup from './AddBook/AddBookPopup'
 
@@ -66,14 +67,11 @@ const UserProfilePages = () => {
 				<View className=' items-center mt-2'>
 					<Animated.View style={styleAnimation}>
 						<RNBounceable>
-							{CurrentUser.photoURL ? (
-								<Image
-									source={{ uri: CurrentUser.photoURL }}
-									className='w-[130px] border-2 border-primary h-[130px] rounded-full'
-								/>
-							) : (
-								<ClearUserLogo letter={CurrentUser.name} width={130} height={130} />
-							)}
+							<ProgressiveUserLogo
+								userName={CurrentUser.name}
+								height={130}
+								width={130}
+								uri={CurrentUser.photoURL}/>
 						</RNBounceable>
 					</Animated.View>
 					

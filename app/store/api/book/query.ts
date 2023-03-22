@@ -19,12 +19,8 @@ const bookQuery = api.injectEndpoints({
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('CurrentUserBooks' + AutorUid)
 					if (!storedBooks && !isConnetcted.isConnected) {
-						Toast.show({
-							text1: I18n.t('No internet connection for new content!'),
-							type: 'error'
-						})
-						navigate('NoInternet')
-						return { data: [] }
+						await navigate('NoInternet')
+						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('CurrentUserBooks from storage')
@@ -64,12 +60,8 @@ const bookQuery = api.injectEndpoints({
 					const isConnetcted = await NetInfo.fetch() // NetInfo работает
 					const storedBooks = await AsyncStorage.getItem('PopularBooks')
 					if (!storedBooks && !isConnetcted.isConnected) {
-						Toast.show({
-							text1: I18n.t('No internet connection for new content!'),
-							type: 'error'
-						})
-						navigate('NoInternet')
-						return { data: [] }
+						await navigate('NoInternet')
+						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('PopularBooks from storage')
@@ -134,12 +126,8 @@ const bookQuery = api.injectEndpoints({
 					console.log('isConnetcted', isConnetcted)
 					const storedBooks = await AsyncStorage.getItem('AllBooks')
 					if (!storedBooks && !isConnetcted.isConnected) {
-						Toast.show({
-							text1: I18n.t('No internet connection for new content!'),
-							type: 'error'
-						})
-						navigate('NoInternet')
-						return { data: [] }
+						await navigate('NoInternet')
+						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('AllBooks from storage')
@@ -185,12 +173,8 @@ const bookQuery = api.injectEndpoints({
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('randomBook')
 					if (!storedBooks && !isConnetcted.isConnected) {
-						Toast.show({
-							text1: I18n.t('No internet connection for new content!'),
-							type: 'error'
-						})
-						navigate('NoInternet')
-						return { data: {} as BookTypes }
+						await navigate('NoInternet')
+						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('randomBook from storage')
@@ -236,12 +220,8 @@ const bookQuery = api.injectEndpoints({
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('AllBooksNoLang')
 					if (!storedBooks && !isConnetcted.isConnected) {
-						Toast.show({
-							text1: I18n.t('No internet connection for new content!'),
-							type: 'error'
-						})
-						navigate('NoInternet')
-						return { data: [] }
+						await navigate('NoInternet')
+						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('AllBooksNoLang from storage')
@@ -282,12 +262,8 @@ const bookQuery = api.injectEndpoints({
 					const isConnetcted = await NetInfo.fetch()
 					const storedBooks = await AsyncStorage.getItem('singleBook' + id)
 					if (!storedBooks && !isConnetcted.isConnected) {
-						Toast.show({
-							text1: I18n.t('No internet connection for new content!'),
-							type: 'error'
-						})
-						navigate('NoInternet')
-						return { data: {} as BookTypes }
+						await navigate('NoInternet')
+						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
 						console.log('singleBook from storage')

@@ -37,11 +37,11 @@ const SingleBookPage = ({ route }: any) => {
 	} = useSingleBook(id)
 	const { isConnected } = useNetInfo()
 	if (!book || !Profile || isLoading) return <Loader />
-	const total =
-		Object.values(book.comments).reduce((t, { rating }) => t + rating, 0) /
+	console.log(book)
+	const total = book.comments ? Object.values(book.comments).reduce((t, { rating }) => t + rating, 0) /
 		(book.comments.length
 			? book.comments.length
-			: book.comments.constructor.length)
+			: book.comments.constructor.length) : 0
 	return (
 		<Layout>
 			<View className='h-full justify-center items-center w-full'>
@@ -101,9 +101,8 @@ const SingleBookPage = ({ route }: any) => {
 								{book.Name}
 							</Text>
 							<Text numberOfLines={1} className='text-gray  text-lg mt-2 font-semibold mb-2'>
-								{book.autor.join(', ')}
+								{book.autor ? book.autor.join(', ') : 'None Author'}
 							</Text>
-							
 							<View className='flex-row items-center mb-2'>
 								<AirbnbRating
 									size={20}
