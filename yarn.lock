@@ -4483,10 +4483,8 @@ __metadata:
     expo-document-picker: "npm:11.0.1"
     expo-file-system: "npm:^15.2.2"
     expo-image: "npm:^1.0.0"
-    expo-image-loader: "npm:^4.1.1"
     expo-image-picker: "npm:14.1.0"
     expo-permissions: "npm:^14.1.1"
-    expo-progress: "npm:^0.0.2"
     expo-splash-screen: "npm:~0.17.5"
     expo-status-bar: "npm:~1.4.2"
     expo-updates: "npm:^0.15.6"
@@ -4511,7 +4509,6 @@ __metadata:
     react-native-svg: "npm:13.4.0"
     react-native-toast-message: "npm:^2.1.5"
     react-native-webview: "npm:^11.26.1"
-    react-navigation-helpers: "npm:^2.2.0"
     react-redux: "npm:^8.0.5"
     redux-persist: "npm:^6.0.0"
     redux-persist-expo-filesystem: "npm:^2.0.0"
@@ -6075,15 +6072,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-image-loader@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "expo-image-loader@npm:4.1.1"
-  peerDependencies:
-    expo: "*"
-  checksum: 224e37268da709f9910b588694bb5a4eebf46a2d6a2ff71fc5c8674acda772f251935402bedcb530f6ecfc5af55ce078acbbd4f30f68305433a298a64706ad84
-  languageName: node
-  linkType: hard
-
 "expo-image-loader@npm:~4.0.0":
   version: 4.0.0
   resolution: "expo-image-loader@npm:4.0.0"
@@ -6169,19 +6157,6 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 8d753d1a4d11d7d5541378d9d3f7070e3e3e61f965c32fce373ccb03e8596f1fe08ea2ab7b7a3501de1c918fa122985a8d0bba23c7ca94ca8f9688c7de9beaed
-  languageName: node
-  linkType: hard
-
-"expo-progress@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "expo-progress@npm:0.0.2"
-  peerDependencies:
-    react-native: "*"
-    react-native-gesture-handler: ^1.6.1
-    react-native-reanimated: ^1.9.0
-    react-native-redash: ^14.1.1
-    react-native-svg: ^10.1.0
-  checksum: 4f41aaccdc6b5a18def2d413191ad74db83e0631cfe7fd2389ee30896aeba0dac33988b2b3c54f2060569f11347fbcf60578852112b02bfb97d3526d6fe09d62
   languageName: node
   linkType: hard
 
@@ -10603,15 +10578,6 @@ __metadata:
   bin:
     react-native: cli.js
   checksum: 5ee38f2ac883aa19b02a537325d1e56abc98b6713f43c84475cce24d27b94147e50f2588a3cc0caad85fd73d8020e927c3b14f1b2a35722e74fdf0ed420d316f
-  languageName: node
-  linkType: hard
-
-"react-navigation-helpers@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "react-navigation-helpers@npm:2.2.0"
-  peerDependencies:
-    "@react-navigation/native": ">= 4.x.x"
-  checksum: 38b5d30352d514a0f12fad5d91657841a0ea1c9b74675144ab6293aee1a4d675c799b8de0a85c05bb2116647252cb294dbd235ee4de3192339bbc9a2a63bd4f3
   languageName: node
   linkType: hard
 
