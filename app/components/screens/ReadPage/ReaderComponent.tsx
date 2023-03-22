@@ -2,6 +2,7 @@ import { Reader, useReader } from '@epubjs-react-native/core'
 import { useFileSystem } from '@epubjs-react-native/expo-file-system'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StatusBar } from 'expo-status-bar'
+import I18n from 'i18n-js'
 import React, { memo, useLayoutEffect, useState } from 'react'
 import { Text, useWindowDimensions, View } from 'react-native'
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
@@ -52,7 +53,7 @@ const ReaderComponent = (props: {
 					setFontFamiles(fontfamily ? fontfamily : 'Arial')
 				}
 			} catch (e) {
-				console.log(e)
+				// console.log(e)
 			}
 		}
 		parseLastPage()
@@ -197,7 +198,7 @@ const ReaderComponent = (props: {
 			<Text className='bottom-0 right-1 z-[10] absolute p-1 text-gray text-md'>
 				{currentLocation?.end.percentage
 					? (currentLocation.end.percentage * 100).toString().slice(0, 4) + '%'
-					: 'Consider pages...'}
+					: I18n.t('Consider pages')}
 			</Text>
 		</SafeAreaProvider>
 	)

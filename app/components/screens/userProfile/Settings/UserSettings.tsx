@@ -39,7 +39,7 @@ const UserSettings = ({ route }: any) => {
 		}
 	}
 	const handleUpdate = async ({ Name, Email, ConfirmPassword }: any) => {
-		console.log(Name, 'name', Email, 'email', ConfirmPassword, 'password')
+		// console.log(Name, 'name', Email, 'email', ConfirmPassword, 'password')
 		if (selectedBlob) {
 			const image = await UploadFile(selectedBlob, Name + '.jpg')
 			await UpdateProfile({

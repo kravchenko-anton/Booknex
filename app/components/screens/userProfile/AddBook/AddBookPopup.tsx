@@ -1,4 +1,6 @@
+import { Asset } from 'expo-asset'
 import * as DocumentPicker from 'expo-document-picker'
+import { StorageAccessFramework } from 'expo-file-system'
 import * as FileSystem from 'expo-file-system'
 import I18n from 'i18n-js'
 import React, { FC, useState } from 'react'
@@ -7,6 +9,7 @@ import Toast from 'react-native-toast-message'
 import { useTypedNavigation } from '../../../../hook/useTypedNavigation'
 import { useAddUserBookMutation, useSearchBookByGoogleApiMutation } from '../../../../store/api/book/mutation'
 import { useFetchAllBooksNoLangQuery } from '../../../../store/api/book/query'
+import { encode } from '../../../../utils/encode'
 import { UploadFile } from '../uploadFile'
 import { IaddBook } from './addBookPopup.interface'
 import { parseEpubMetadataPath, parseXML } from './ReadXML'
@@ -38,14 +41,20 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 		setContent({} as IMetaData)
 		const zipObj = new JSZip()
 		let result = await DocumentPicker.getDocumentAsync({
-			type: ['application/epub+zip', 'application/oebps-package+xml']
+			type: ['application/epub+zip'],
+			multiple: false,
+			copyToCacheDirectory: false
 		})
 		if (result.type !== 'cancel') {
+			// What worked yesterday is no longer working (fixed) 🤬
+		const tempUri = FileSystem.cacheDirectory + 'temp_img';
+		await FileSystem.copyAsync({from: result.uri, to: tempUri});
+		// it
 			const uri = await fetch(result.uri)
 			const blob = await uri.blob()
 			setEpubBlob(blob)
 			setEpubUrlPatch(result.name)
-			FileSystem.readAsStringAsync(result.uri, { encoding: 'base64' }).then(
+			FileSystem.readAsStringAsync(tempUri, { encoding: FileSystem.EncodingType.Base64 }).then(
 				data => {
 					zipObj
 						.loadAsync(data, { base64: true })
@@ -57,7 +66,6 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 										const funalFileParsed = zip.file(`${funalDataParsed.subject}`)
 										if (funalFileParsed) {
 											funalFileParsed.async('string').then((content: any) => {
-												console.log(content)
 												parseXML(content).then((data: any) => {
 													GoogleBookApi({
 														searchTerm: data.title,
@@ -77,7 +85,7 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 															})
 														})
 														.catch(err => {
-															console.log(err)
+															// console.log(err)
 														})
 												})
 											})
@@ -87,25 +95,27 @@ const AddBookPopup: FC<IaddBook> = ({ user, setIsVisible, CurrentUser }) => {
 							}
 						})
 						.catch((err: any) => {
-							console.log(err, 'error')
+							// console.log(err, 'error')
 						})
 				}
-			)
+			).catch(err => {
+				console.error(err)
+			})
 		}
 	}
 	const UploadBook = async () => {
 		
 		const epub = await UploadFile(EpubBlob, EpubUrlPath)
-		console.log({
-			title: content.title,
-			author: content.author,
-			lang: content.lang,
-			epub: epub,
-			image: image,
-			desc: content.description,
-			slide: content.antalSide ? content.antalSide : '>100',
-			data: content.publishData ? content.publishData.substring(0, 4) : '2023'
-		}, 'book data')
+		// console.log({
+		// 	title: content.title,
+		// 	author: content.author,
+		// 	lang: content.lang,
+		// 	epub: epub,
+		// 	image: image,
+		// 	desc: content.description,
+		// 	slide: content.antalSide ? content.antalSide : '>100',
+		// 	data: content.publishData ? content.publishData.substring(0, 4) : '2023'
+		// }, 'book data')
 		const includes = AllBook?.find(book => book.Name == content.title)
 		if (
 			(content.title &&

@@ -17,7 +17,7 @@ import HorizontalSmallFlatList from '../../ui/SmallFlatList/horizontalSmallFlatL
 import AnimatedHomeFlatList from './ui/BookCarousel/HomeFlatList'
 import ContinueRead from './ui/continueRead'
 import AnimatedUserHomeFlatList from './ui/UserCarousel/homeUserFlatList'
-
+import * as stringSimilarity from 'string-similarity'
 const Home = () => {
 	const { user } = useTypedSelector(state => state.auth)
 	const { navigate } = useTypedNavigation()

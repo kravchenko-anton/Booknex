@@ -14,14 +14,14 @@ const userMutationApi = api.injectEndpoints({
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
-						console.log(' removeUserToFavorite Error With enter	to internet')
+						// console.log(' removeUserToFavorite Error With enter	to internet')
 						Toast.show({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
 						return { data: 'No Internet' }
 					} else {
-						console.log('removeUserToFavorite Work')
+						// console.log('removeUserToFavorite Work')
 						const reference = doc(db, 'users', currentUserUID)
 						await updateDoc(reference, {
 							favoritesUser: arrayRemove(favoriteUser)
@@ -48,14 +48,14 @@ const userMutationApi = api.injectEndpoints({
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
-						console.log(' addUserToFavorite Error With enter	to internet')
+						// console.log(' addUserToFavorite Error With enter	to internet')
 						Toast.show({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
 						return { data: 'No Internet' }
 					} else {
-						console.log('addUserToFavorite Work')
+						// console.log('addUserToFavorite Work')
 						const reference = doc(db, 'users', currentUserUID)
 						await updateDoc(reference, {
 							favoritesUser: arrayUnion(favoriteUser)
@@ -82,14 +82,14 @@ const userMutationApi = api.injectEndpoints({
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
-						console.log(' UpdateProfile Error With enter	to internet')
+						// console.log(' UpdateProfile Error With enter	to internet')
 						Toast.show({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
 						return { data: 'No Internet' }
 					} else {
-						console.log('UpdateProfile Work')
+						// console.log('UpdateProfile Work')
 						await signInWithEmailAndPassword(auth, oldEmail, ConfirmPassword).then(
 							function(userCredential) {
 								updateEmail(userCredential.user, email)
@@ -108,7 +108,7 @@ const userMutationApi = api.injectEndpoints({
 						return { data: 'ok' }
 					}
 				} catch (error: any) {
-					console.log(error)
+					// console.log(error)
 					Toast.show({
 						text1: I18n.t('Something went wrong'),
 						text2: error.message,
@@ -125,14 +125,14 @@ const userMutationApi = api.injectEndpoints({
 				try {
 					const isConnetcted = await NetInfo.fetch()
 					if (!isConnetcted.isInternetReachable && !isConnetcted.isConnected) {
-						console.log(' UpdatePassword Error With enter	to internet')
+						// console.log(' UpdatePassword Error With enter	to internet')
 						Toast.show({
 							text1: I18n.t('No internet connection for new content!'),
 							type: 'error'
 						})
 						return { data: 'No Internet' }
 					} else {
-						console.log('UpdatePassword Work')
+						// console.log('UpdatePassword Work')
 						await signInWithEmailAndPassword(auth, email, OldPassword).then(function(
 							userCredential
 						) {
@@ -145,7 +145,7 @@ const userMutationApi = api.injectEndpoints({
 						return { data: 'ok' }
 					}
 				} catch (error: any) {
-					console.log(error)
+					// console.log(error)
 					Toast.show({
 						text1: I18n.t('Something went wrong'),
 						text2: error.message,

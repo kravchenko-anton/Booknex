@@ -19,18 +19,18 @@ const userQueryApi = api.injectEndpoints({
 						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
-						console.log('allUsers from storage')
-						console.log(await JSON.parse(storedBooks))
+						// console.log('allUsers from storage')
+						// console.log(await JSON.parse(storedBooks))
 						return { data: await JSON.parse(storedBooks).data as Iuser[] }
 					} else {
-						console.log('allUsers from firebase')
+						// console.log('allUsers from firebase')
 						const blogRef = collection(db, 'users')
 						const querySnaphot = await getDocs(blogRef)
 						let user: Iuser[] = []
 						querySnaphot?.forEach(doc => {
 							user.push({ uid: doc.id, ...doc.data() } as Iuser)
 						})
-						await AsyncStorage.setItem('allUsers', JSON.stringify({ data: user })).then(() => console.log('allUsers stored'))
+						await AsyncStorage.setItem('allUsers', JSON.stringify({ data: user }))
 						return { data: user }
 					}
 				} catch (error) {
@@ -52,14 +52,14 @@ const userQueryApi = api.injectEndpoints({
 						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
-						console.log('singleUsers from storage')
-						console.log(await JSON.parse(storedBooks))
+						// console.log('singleUsers from storage')
+						// console.log(await JSON.parse(storedBooks))
 						return { data: await JSON.parse(storedBooks).data as Iuser }
 					} else {
-						console.log('singleUsers from firebase')
+						// console.log('singleUsers from firebase')
 						const docRef = doc(db, 'users', uid)
 						const snapshot = await getDoc(docRef)
-						await AsyncStorage.setItem('singleUsers' + uid, JSON.stringify({ data: { uid, ...snapshot.data() } })).then(() => console.log('singleUsers stored'))
+						await AsyncStorage.setItem('singleUsers' + uid, JSON.stringify({ data: { uid, ...snapshot.data() } }))
 						return { data: { uid, ...snapshot.data() } as Iuser }
 					}
 				} catch (error) {
@@ -79,18 +79,18 @@ const userQueryApi = api.injectEndpoints({
 						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
-						console.log('MyProfile from storage')
-						console.log(await JSON.parse(storedBooks))
+						// console.log('MyProfile from storage')
+						// console.log(await JSON.parse(storedBooks))
 						return { data: await JSON.parse(storedBooks).data as Iuser }
 					} else {
-						console.log('MyProfile from firebase')
+						// console.log('MyProfile from firebase')
 						const docRef = doc(db, 'users', uid)
 						const snapshot = await getDoc(docRef)
 						const Userdata = { uid, ...snapshot.data() } as Iuser
-						console.log(Userdata)
-						console.log({ ...snapshot.data() })
+						// console.log(Userdata)
+						// console.log({ ...snapshot.data() })
 						
-						await AsyncStorage.setItem('MyProfile' + uid, JSON.stringify({ data: Userdata })).then(() => console.log('MyProfile stored '))
+						await AsyncStorage.setItem('MyProfile' + uid, JSON.stringify({ data: Userdata }))
 						return { data: Userdata }
 					}
 				} catch (error) {

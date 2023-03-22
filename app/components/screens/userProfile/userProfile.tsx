@@ -1,5 +1,6 @@
 import { Feather } from '@expo/vector-icons'
 import RNBounceable from '@freakycoder/react-native-bounceable'
+import { useNetInfo } from '@react-native-community/netinfo'
 import I18n from 'i18n-js'
 import { useState } from 'react'
 import { Image, Text, View } from 'react-native'
@@ -22,6 +23,7 @@ import AddBookPopup from './AddBook/AddBookPopup'
 const UserProfilePages = () => {
 	const { user } = useTypedSelector(state => state.auth)
 	const { navigate } = useTypedNavigation()
+	const {isConnected} = useNetInfo()
 	const { data: CurrentUser } = useFetchSingleUserQuery({
 		uid: user?.uid
 		, navigate
@@ -95,12 +97,14 @@ const UserProfilePages = () => {
 				
 				<View className='flex-row justify-between items-center mt-6'>
 					<Text className='text-white  font-bold  text-2xl'>{I18n.t('Books')}</Text>
+					{isConnected &&
 					<Text
 						className='text-gray  text-lg'
 						onPress={() => setIsVisible(!isVisible)}
 					>
 						{I18n.t('addBook')}
 					</Text>
+					}
 				</View>
 			</AnimatedFlatList>
 		</Layout>

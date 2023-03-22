@@ -27,7 +27,7 @@ const ContinueRead = () => {
 					setParsedBookData(JSON.parse(data))
 				}
 			} catch (e) {
-				console.log(e)
+				// console.log(e)
 			}
 			
 		}

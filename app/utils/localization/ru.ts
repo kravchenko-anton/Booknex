@@ -105,5 +105,10 @@ export const ru = {
 	'MaybeProblemWithGoogleApi': 'Штормит в стороне Google Api',
 	'They good day for read new book!': 'Хороший день для чтения новой книги!',
 	'No internet connection for new content!': 'Нет интернета для нового контента!',
-	'dontHaveInternetAndSavedData': 'Похоже у вас нет интернета и сохраненных данных'
+	'dontHaveInternetAndSavedData': 'Похоже у вас нет интернета и сохраненных данных',
+	'Consider pages': 'Считаем страницы...',
+	'Anonim': 'Аноним',
+	'NoneAuthor': 'Без автора',
+	'by': 'от',
+	'NoHaveBookInLibrary': 'У нас нет книг в библиотеке по вашему запросу',
 }

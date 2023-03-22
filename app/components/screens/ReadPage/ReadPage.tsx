@@ -63,14 +63,11 @@ const ReadPage = ({ route }: any) => {
 						await FileSystem.writeAsStringAsync(uri, fileString, { encoding: FileSystem.EncodingType.Base64 })
 					})
 					.catch((e) => {
-						console.log(e, 'error 1')
 					})
 			} catch (e) {
-				console.log(e, 'error 2')
 			}
 			
 		} catch (err) {
-			console.log(err, 'error 3')
 		}
 	}
 	

@@ -1,4 +1,5 @@
 import { FontAwesome } from '@expo/vector-icons'
+import I18n from 'i18n-js'
 import { FC } from 'react'
 import { Image, Pressable, Text, View } from 'react-native'
 import { useTypedNavigation } from '../../hook/useTypedNavigation'
@@ -28,7 +29,7 @@ const CommentElement: FC<Comment> = props => {
 							numberOfLines={1}
 							className='text-white font-bold text-xl flex-wrap max-w-[190px] whitespace-normal'
 						>
-							{user.name ? user.name : 'Anonim'}
+							{user.name ? user.name : I18n.t('Anonim')}
 						</Text>
 						
 						<View className='justify-between gap-2 items-center flex-row'>

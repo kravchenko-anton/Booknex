@@ -23,11 +23,11 @@ const bookQuery = api.injectEndpoints({
 						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
-						console.log('CurrentUserBooks from storage')
-						console.log(await JSON.parse(storedBooks))
+						// console.log('CurrentUserBooks from storage')
+						// console.log(await JSON.parse(storedBooks))
 						return { data: await JSON.parse(storedBooks).data as BookTypes[] }
 					} else {
-						console.log('CurrentUserBooks from firebase')
+						// console.log('CurrentUserBooks from firebase')
 						const q = query(
 							collection(db, 'userBook'),
 							where('AutorUid', '==', AutorUid)
@@ -37,7 +37,7 @@ const bookQuery = api.injectEndpoints({
 						querySnaphot?.forEach(doc => {
 							books.push({ id: doc.id, ...doc.data() } as BookTypes)
 						})
-						await AsyncStorage.setItem('CurrentUserBooks' + AutorUid, JSON.stringify({ data: books })).then(() => console.log('CurrentUserBooks stored ' + AutorUid))
+						await AsyncStorage.setItem('CurrentUserBooks' + AutorUid, JSON.stringify({ data: books }))
 						return { data: books }
 					}
 				} catch (error: any) {
@@ -64,11 +64,11 @@ const bookQuery = api.injectEndpoints({
 						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
-						console.log('PopularBooks from storage')
-						console.log(await JSON.parse(storedBooks))
+						// console.log('PopularBooks from storage')
+						// console.log(await JSON.parse(storedBooks))
 						return { data: await JSON.parse(storedBooks).data as BookTypes[] }
 					} else {
-						console.log('PopularBooks from firebase')
+						// console.log('PopularBooks from firebase')
 						const userBookRef = collection(db, 'userBook')
 						const booksRef = collection(db, 'books')
 						const UserquerySnaphot = await getDocs(userBookRef)
@@ -102,11 +102,11 @@ const bookQuery = api.injectEndpoints({
 								})
 							}
 						})
-						await AsyncStorage.setItem('PopularBooks', JSON.stringify({ data: books.sort((a, b) => b.rating - a.rating) })).then(() => console.log(' PopularBooks stored'))
+						await AsyncStorage.setItem('PopularBooks', JSON.stringify({ data: books.sort((a, b) => b.rating - a.rating) }))
 						return { data: books.sort((a, b) => b.rating - a.rating) }
 					}
 				} catch (error: any) {
-					console.log(error)
+					// console.log(error)
 					Toast.show({
 						text1: I18n.t('Book not loaded!'),
 						text2: error.message,
@@ -123,18 +123,17 @@ const bookQuery = api.injectEndpoints({
 			async queryFn(navigate) {
 				try {
 					const isConnetcted = await NetInfo.fetch()
-					console.log('isConnetcted', isConnetcted)
 					const storedBooks = await AsyncStorage.getItem('AllBooks')
 					if (!storedBooks && !isConnetcted.isConnected) {
 						await navigate('NoInternet')
 						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
-						console.log('AllBooks from storage')
-						console.log(await JSON.parse(storedBooks))
+						// console.log('AllBooks from storage')
+						// console.log(await JSON.parse(storedBooks))
 						return { data: await JSON.parse(storedBooks).data as BookTypes[] }
 					} else {
-						console.log('AllBooks from firebase')
+						// console.log('AllBooks from firebase')
 						const userBookRef = collection(db, 'userBook')
 						const booksRef = collection(db, 'books')
 						const UserquerySnaphot = await getDocs(userBookRef)
@@ -150,7 +149,7 @@ const bookQuery = api.injectEndpoints({
 								books.push({ id: doc.id, ...doc.data() } as BookTypes)
 							}
 						})
-						await AsyncStorage.setItem('AllBooks', JSON.stringify({ data: books })).then(() => console.log(' AllBooks stored'))
+						await AsyncStorage.setItem('AllBooks', JSON.stringify({ data: books }))
 						return { data: books }
 					}
 				} catch (error: any) {
@@ -177,11 +176,11 @@ const bookQuery = api.injectEndpoints({
 						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
-						console.log('randomBook from storage')
-						console.log(await JSON.parse(storedBooks))
+						// console.log('randomBook from storage')
+						// console.log(await JSON.parse(storedBooks))
 						return { data: await JSON.parse(storedBooks).data as BookTypes }
 					} else {
-						console.log('randomBook from firebase')
+						// console.log('randomBook from firebase')
 						const userBookRef = collection(db, 'userBook')
 						const booksRef = collection(db, 'books')
 						const UserquerySnaphot = await getDocs(userBookRef)
@@ -197,7 +196,7 @@ const bookQuery = api.injectEndpoints({
 								books.push({ id: doc.id, ...doc.data() } as BookTypes)
 							}
 						})
-						await AsyncStorage.setItem('randomBook', JSON.stringify({ data: randChoice<BookTypes>(books) ? randChoice<BookTypes>(books) : [books[0]] })).then(() => console.log(' randomBook stored'))
+						await AsyncStorage.setItem('randomBook', JSON.stringify({ data: randChoice<BookTypes>(books) ? randChoice<BookTypes>(books) : [books[0]] }))
 						return { data: randChoice<BookTypes>(books) ? randChoice<BookTypes>(books) : books[0] }
 					}
 				} catch (error: any) {
@@ -224,11 +223,11 @@ const bookQuery = api.injectEndpoints({
 						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
-						console.log('AllBooksNoLang from storage')
-						console.log(await JSON.parse(storedBooks))
+						// console.log('AllBooksNoLang from storage')
+						// console.log(await JSON.parse(storedBooks))
 						return { data: await JSON.parse(storedBooks).data as BookTypes[] }
 					} else {
-						console.log('AllBooksNoLang from firebase')
+						// console.log('AllBooksNoLang from firebase')
 						const userBookRef = collection(db, 'userBook')
 						const booksRef = collection(db, 'books')
 						const UserquerySnaphot = await getDocs(userBookRef)
@@ -240,7 +239,7 @@ const bookQuery = api.injectEndpoints({
 						BooksquerySnaphot?.forEach(doc => {
 							books.push({ id: doc.id, ...doc.data() } as BookTypes)
 						})
-						await AsyncStorage.setItem('AllBooksNoLang', JSON.stringify({ data: books })).then(() => console.log(' AllBooksNoLang saved'))
+						await AsyncStorage.setItem('AllBooksNoLang', JSON.stringify({ data: books }))
 						return { data: books }
 					}
 				} catch (error: any) {
@@ -266,11 +265,11 @@ const bookQuery = api.injectEndpoints({
 						throw new Error(I18n.t('dontHaveInternetAndSavedData'))
 					}
 					if (storedBooks && !isConnetcted.isConnected) {
-						console.log('singleBook from storage')
-						console.log(await JSON.parse(storedBooks))
+						// console.log('singleBook from storage')
+						// console.log(await JSON.parse(storedBooks))
 						return { data: await JSON.parse(storedBooks).data as BookTypes }
 					} else {
-						console.log('singleBook from firebase')
+						// console.log('singleBook from firebase')
 						const docRef = doc(db, 'books', id)
 						const snapshot = await getDoc(docRef)
 						const docUserRef = doc(db, 'userBook', id)
@@ -278,7 +277,7 @@ const bookQuery = api.injectEndpoints({
 						const CurrentSnaphot = snapshot.exists() ? snapshot : UserSnapshot
 						
 						
-						await AsyncStorage.setItem('singleBook' + id, JSON.stringify({ data: { id: id, ...CurrentSnaphot.data() } })).then(() => console.log('singleBook ' + id + ' saved'))
+						await AsyncStorage.setItem('singleBook' + id, JSON.stringify({ data: { id: id, ...CurrentSnaphot.data() } }))
 						return { data: { id: id, ...CurrentSnaphot.data() } as BookTypes }
 					}
 				} catch (error: any) {

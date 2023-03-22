@@ -106,5 +106,9 @@ export const en = {
 	'They good day for read new book!': 'They good day for read new book!',
 	'No internet connection for new content!': 'No internet connection for new content!',
 	'dontHaveInternetAndSavedData': 'It looks like you dont have internet and saved data',
-	
+	'Consider pages': 'Consider pages...',
+	'Anonim': 'Anonim',
+	'NoneAuthor': 'None Author',
+	'by': 'by',
+	'NoHaveBookInLibrary': 'We do not have any books in the library for your request'
 }
