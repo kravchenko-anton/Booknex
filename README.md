@@ -54,7 +54,7 @@ Install all library
  Check all my code  
 ## Screenshots
 
-![](video_2023-03-26_17-09-02.mp4)![](video_2023-03-26_17-09-07.mp4)![](video_2023-03-26_17-09-12.mp4)
+![](ezgif-3-0b6521d136.gif)![](ezgif-3-33cb9901cc.gif)![](ezgif-3-b4ff29f113.gif)
 ## Tech Stack
 
 **Client:** 	
