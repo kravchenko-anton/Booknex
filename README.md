@@ -54,7 +54,7 @@ Install all library
  Check all my code  
 ## Screenshots
 
-![](ezgif-3-0b6521d136.gif)![](ezgif-3-33cb9901cc.gif)![](ezgif-3-b4ff29f113.gif)
+![](ezgif-3-0b6521d136.gif | width=100)![](ezgif-3-33cb9901cc.gif | width=100)![](ezgif-3-b4ff29f113.gif | width=100)
 ## Tech Stack
 
 **Client:** 	
