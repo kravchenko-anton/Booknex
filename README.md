@@ -54,8 +54,9 @@ Install all library
  Check all my code  
 ## Screenshots
 <p float="left">
-<img src="/ezgif-3-0b6521d136.gif"  height="350"/>
-<img src="/ezgif-3-33cb9901cc.gif"  height="350"/>
+<img src="/ezgif-3-0b6521d136.gif"  height="450"/>
+<img src="/ezgif-3-33cb9901cc.gif"  height="450"/>
+<img src="/ezgif-3-adfsadsadfssasd!.gif"  height="450"/>
 </p>
 ## Tech Stack
 
