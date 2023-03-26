@@ -53,8 +53,10 @@ Install all library
 
  Check all my code  
 ## Screenshots
-
-![](video_2023-03-26_17-09-02.mp4)![](video_2023-03-26_17-09-07.mp4)![](video_2023-03-26_17-09-12.mp4)
+<p float="left">
+<img src="/ezgif-3-0b6521d136.gif"  height="350"/>
+<img src="/ezgif-3-33cb9901cc.gif"  height="350"/>
+</p>
 ## Tech Stack
 
 **Client:** 	
